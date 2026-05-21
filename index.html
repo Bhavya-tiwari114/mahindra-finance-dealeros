@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mahindra Finance | DealerOS (Dealer Operating System)</title>
+    
+    <!-- Design styling and Fonts -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Icons and Chart library from CDNs -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Seed Data Engine -->
+    <script src="data.js" defer></script>
+    
+    <!-- Application Logic Controller -->
+    <script src="app.js" defer></script>
+</head>
+<body>
+
+    <!-- Global Notification Container -->
+    <div id="notificationContainer" style="position: fixed; top: 24px; right: 24px; z-index: 10000; width: 350px; pointer-events: none;"></div>
+
+    <!-- ==========================================================================
+         CINEMATIC LOGIN SCREEN
+         ========================================================================== -->
+    <div class="login-container" id="loginScreen">
+        <!-- Floating Particles Backdrop -->
+        <div class="login-bg-particles">
+            <div class="particle" style="width: 180px; height: 180px; top: 15%; left: 10%; animation-duration: 25s;"></div>
+            <div class="particle" style="width: 250px; height: 250px; top: 50%; left: 75%; animation-duration: 35s;"></div>
+            <div class="particle" style="width: 120px; height: 120px; top: 75%; left: 20%; animation-duration: 20s;"></div>
+        </div>
+
+        <div class="glassmorphism login-card glow-border">
+            <div class="login-logo" style="margin-bottom: 24px;">
+                <svg width="240" height="55" viewBox="0 0 240 55" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(var(--text-glow-red)); margin-bottom: 12px;">
+                    <!-- Twin Peaks Symbol -->
+                    <path d="M12 40L30 8L33 16L18 40H12Z" fill="#E31837"/>
+                    <path d="M50 40L32 8L29 16L44 40H50Z" fill="#E31837"/>
+                    <!-- Wordmark -->
+                    <text x="62" y="27" fill="#FFFFFF" font-family="'Outfit', sans-serif" font-size="24" font-weight="800" letter-spacing="0.04em">mahindra</text>
+                    <text x="63" y="42" fill="#E31837" font-family="'Outfit', sans-serif" font-size="14" font-weight="700" letter-spacing="0.25em">FINANCE</text>
+                </svg>
+                <div style="font-size: 11px; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 0.15em; font-weight: 600;">DealerOS Operating System</div>
+            </div>
+
+            <div class="login-greeting" id="dynamicGreeting">System Operational - Good Afternoon</div>
+
+            <!-- Main Input Form -->
+            <form id="loginForm" onsubmit="return false;">
+                <div class="form-group">
+                    <label class="form-label">Dealer Security Key / ID</label>
+                    <div class="input-container">
+                        <i class="fas fa-fingerprint"></i>
+                        <input type="text" class="form-input" placeholder="MFL-WEST-4902" value="MFL-WEST-4902" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Operational Token Code</label>
+                    <div class="input-container">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" class="form-input" placeholder="••••••••••••••" value="••••••••••••••" required>
+                    </div>
+                </div>
+
+                <div class="login-actions">
+                    <label class="remember-me">
+                        <input type="checkbox" checked>
+                        <span>Remember credentials</span>
+                    </label>
+                    <a href="#" class="forgot-pass">Security support</a>
+                </div>
+
+                <button type="submit" class="btn-primary" id="loginSubmitBtn">
+                    <span>Validate Token & MFA</span>
+                    <i class="fas fa-shield-alt"></i>
+                </button>
+            </form>
+
+            <!-- Biometric Login Access Option -->
+            <div class="biometric-section">
+                <div class="biometric-trigger" id="biometricTrigger">
+                    <div class="biometric-icon-container">
+                        <div class="biometric-pulse"></div>
+                        <i class="fas fa-fingerprint"></i>
+                    </div>
+                    <span class="biometric-label">Quick Biometric Sign-in</span>
+                </div>
+            </div>
+
+            <!-- Multi-Factor Verification OTP Screen Overlay -->
+            <div class="otp-overlay" id="otpOverlay">
+                <div class="login-logo">
+                    <svg width="200" height="45" viewBox="0 0 200 45" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(var(--text-glow-red)); margin-bottom: 12px;">
+                        <!-- Twin Peaks Symbol -->
+                        <path d="M10 32L24 6L26 12L15 32H10Z" fill="#E31837"/>
+                        <path d="M40 32L26 6L24 12L35 32H40Z" fill="#E31837"/>
+                        <!-- Wordmark -->
+                        <text x="48" y="22" fill="#FFFFFF" font-family="'Outfit', sans-serif" font-size="18" font-weight="800" letter-spacing="0.04em">mahindra</text>
+                        <text x="49" y="34" fill="#E31837" font-family="'Outfit', sans-serif" font-size="10" font-weight="700" letter-spacing="0.25em">FINANCE</text>
+                    </svg>
+                    <h2>MFA Security Vault</h2>
+                    <p style="margin-top: 4px;">Enter secondary authentication token sent to your device</p>
+                </div>
+                
+                <div class="otp-inputs">
+                    <input type="text" class="otp-input" value="4" maxlength="1">
+                    <input type="text" class="otp-input" value="9" maxlength="1">
+                    <input type="text" class="otp-input" value="0" maxlength="1">
+                    <input type="text" class="otp-input" value="2" maxlength="1">
+                </div>
+
+                <button class="btn-primary" id="otpConfirmBtn" style="margin-top: 16px;">
+                    <span>Verify Identity</span>
+                    <i class="fas fa-check-double"></i>
+                </button>
+                
+                <div style="text-align: center; margin-top: 20px;">
+                    <a href="#" class="forgot-pass" style="font-size: 11px;" onclick="document.getElementById('otpOverlay').classList.remove('active')">Go Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ==========================================================================
+         PORTAL OPERATIONAL DASHBOARD FRAMEWORK
+         ========================================================================== -->
+    <div class="app-container">
+        <!-- Sidebar Navigation Drawer -->
+        <aside class="app-sidebar">
+            <div class="sidebar-logo" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <svg width="180" height="40" viewBox="0 0 180 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(var(--text-glow-red)); flex-shrink: 0;">
+                    <!-- Twin Peaks Symbol -->
+                    <path d="M5 30L20 5L22 11L10 30H5Z" fill="#E31837"/>
+                    <path d="M35 30L20 5L18 11L30 30H35Z" fill="#E31837"/>
+                    <!-- Wordmark -->
+                    <text x="42" y="20" fill="#FFFFFF" font-family="'Outfit', sans-serif" font-size="16" font-weight="800" letter-spacing="0.04em">mahindra</text>
+                    <text x="43" y="32" fill="#E31837" font-family="'Outfit', sans-serif" font-size="9" font-weight="700" letter-spacing="0.25em">FINANCE</text>
+                </svg>
+                <button class="sidebar-close-btn" onclick="window.dealerOSApp.toggleSidebar()" title="Close Menu">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Advanced Perspective/Role Switcher Dropdown -->
+            <div class="sidebar-role-panel">
+                <div class="role-dropdown-container">
+                    <div class="role-dropdown-btn" id="roleDropdownBtn">
+                        <div class="role-indicator">
+                            <span class="role-label">OPERATING SCOPE</span>
+                            <span class="role-value" id="currentRoleLabel">Dealer Principal</span>
+                        </div>
+                        <i class="fas fa-chevron-down" style="font-size: 10px; color: var(--text-secondary);"></i>
+                    </div>
+                    
+                    <div class="role-dropdown-list" id="roleDropdownList">
+                        <div class="role-option" data-role-select="dealer_principal">
+                            <div class="role-option-info">
+                                <span class="role-option-name">Dealer Principal</span>
+                                <span class="role-option-desc">Owner & Treasury</span>
+                            </div>
+                            <span class="role-option-badge badge red">Principal</span>
+                        </div>
+                        <div class="role-option" data-role-select="dealer_admin">
+                            <div class="role-option-info">
+                                <span class="role-option-name">Dealer Admin</span>
+                                <span class="role-option-desc">Operations & KYC</span>
+                            </div>
+                            <span class="role-option-badge badge red" style="background:rgba(255,255,255,0.05); color:#fff;">Admin</span>
+                        </div>
+                        <div class="role-option" data-role-select="risk_team">
+                            <div class="role-option-info">
+                                <span class="role-option-name">NBFC Risk Team</span>
+                                <span class="role-option-desc">Exposure & NPA Buckets</span>
+                            </div>
+                            <span class="role-option-badge badge red" style="background:rgba(255, 51, 85, 0.08); color:var(--color-electric-red);">Risk</span>
+                        </div>
+                        <div class="role-option" data-role-select="compliance_team">
+                            <div class="role-option-info">
+                                <span class="role-option-name">NBFC Auditor</span>
+                                <span class="role-option-desc">OCR Auditing & PDD</span>
+                            </div>
+                            <span class="role-option-badge badge gold">Compliance</span>
+                        </div>
+                        <div class="role-option" data-role-select="executive_leadership">
+                            <div class="role-option-info">
+                                <span class="role-option-name">Executive leadership</span>
+                                <span class="role-option-desc">National AUM Panorama</span>
+                            </div>
+                            <span class="role-option-badge badge teal">ExCo</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigable System Modules Menu Links -->
+            <nav class="sidebar-menu">
+                <span class="menu-section-header">Core Operations</span>
+                <a class="menu-item active" data-tab="dashboard">
+                    <i class="fas fa-desktop"></i>
+                    <span>Unified Dashboard</span>
+                </a>
+                <a class="menu-item" data-tab="enquiry">
+                    <i class="fas fa-funnel-dollar"></i>
+                    <span>Enquiries & Pipeline</span>
+                </a>
+                <a class="menu-item" data-tab="compliance">
+                    <i class="fas fa-stamp"></i>
+                    <span>Compliance & PDD</span>
+                </a>
+                <a class="menu-item" data-tab="stock">
+                    <i class="fas fa-landmark"></i>
+                    <span>Stock Financing (TA)</span>
+                </a>
+
+                <span class="menu-section-header">Risk & Governance</span>
+                <a class="menu-item" data-tab="portfolio">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Portfolio Risk Terminal</span>
+                </a>
+                <a class="menu-item" data-tab="performance">
+                    <i class="fas fa-trophy"></i>
+                    <span>Performance Analytics</span>
+                </a>
+
+                <span class="menu-section-header">Institutional</span>
+                <a class="menu-item" data-tab="executive">
+                    <i class="fas fa-satellite-dish"></i>
+                    <span>Command Center</span>
+                </a>
+                <a class="menu-item" data-tab="comms">
+                    <i class="fas fa-comments"></i>
+                    <span>Communication Hub</span>
+                </a>
+                <a class="menu-item" data-tab="training">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Netflix Learning Hub</span>
+                </a>
+                <a class="menu-item" data-tab="security">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Access & Security Log</span>
+                </a>
+            </nav>
+
+            <!-- Sidebar User Profile Footer Card -->
+            <div class="sidebar-footer">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=256&auto=format&fit=crop" class="user-avatar" alt="Vikramaditya Profile">
+                <div class="user-info">
+                    <span class="user-name">Vikramaditya S.</span>
+                    <span class="user-dealership" id="profileRoleText">Dealer Principal</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Shell Wrapper -->
+        <main class="main-wrapper">
+            <!-- Global Interactive Header Navbar -->
+            <header class="app-header">
+                <button class="sidebar-toggle-btn" onclick="window.dealerOSApp.toggleSidebar()" title="Toggle Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <!-- Mahindra Finance Brand Identity Block -->
+                <div class="header-brand" style="display: flex; align-items: center; gap: 12px;">
+                    <svg width="35" height="35" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 8px rgba(227, 24, 55, 0.45));">
+                        <path d="M5 38L25 5L28 12L12 38H5Z" fill="#E31837"/>
+                        <path d="M45 38L25 5L22 12L38 38H45Z" fill="#E31837"/>
+                    </svg>
+                    <div style="display: flex; flex-direction: column;">
+                        <span style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 14px; letter-spacing: 0.05em; color: #fff; line-height: 1.1; text-transform: uppercase;">mahindra</span>
+                        <span style="font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 9px; letter-spacing: 0.22em; color: #E31837; line-height: 1; text-transform: uppercase;">FINANCE</span>
+                    </div>
+                </div>
+
+                <div class="header-search" style="margin-left: 24px; flex: 1; max-width: 460px;">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Global search pipeline leads, vehicle identification keys, compliance logs...">
+                </div>
+
+                <div class="header-actions">
+                    <span class="badge teal" id="userXpBadge" style="background: rgba(0, 245, 212, 0.08) !important; color: var(--color-teal-glow) !important; border-color: rgba(0, 245, 212, 0.2) !important; margin-right: 8px;"><i class="fas fa-bolt"></i> 4,800 XP</span>
+                    <span class="badge red" id="userRoleBadge">Principal</span>
+                    
+                    <div class="header-action-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge-dot"></span>
+                    </div>
+
+                    <div class="header-action-btn" onclick="window.dealerOSApp.toggleFullscreen()" title="Toggle Cinematic Fullscreen">
+                        <i class="fas fa-expand" id="fullscreenIcon"></i>
+                    </div>
+                    
+                    <div class="header-action-btn" onclick="document.getElementById('loginScreen').classList.remove('hidden')">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Scrollable Page Module Grid Body -->
+            <div class="content-body">
+                <!-- SYSTEM STATUS TICKER TAPE -->
+                <div class="glassmorphism glow-border" style="padding: 10px 16px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; font-size: 11px; background: rgba(12, 12, 16, 0.95); border-color: rgba(227, 24, 55, 0.15); box-shadow: 0 4px 15px rgba(0,0,0,0.3); margin-bottom: 8px;">
+                    <div style="display: flex; align-items: center; gap: 8px; color: var(--color-teal-glow);">
+                        <span class="badge teal" style="padding: 2px 6px; font-size: 9px; animation: pulse 2.5s infinite; font-weight: 800;">SECURE NODE</span>
+                        <strong>MFL CONNECT: ON [9ms]</strong>
+                    </div>
+                    <div style="color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 65%; font-weight: 500;" id="tickerText">
+                        RBI REPO RATE: 6.50% [UNCHANGED] | NSDL BANK GATEWAY: ACTIVE (99.98% UPTIME) | VAHAN DIRECT LINK: CONNECTED | TODAY'S NATIONAL DISBURSEMENT TARGET: 88.4% MET
+                    </div>
+                    <div style="font-size: 10px; color: var(--text-secondary); font-family: monospace; font-weight: 600;">
+                        SYNC: <span id="tickerSyncTime">2026-05-21 14:12:10</span>
+                    </div>
+                </div>
+
+                <!-- ==========================================================================
+                     MODULE: UNIFIED COMMAND DASHBOARD
+                     ========================================================================== -->
+                <section class="module-section active" id="module-dashboard">
+                    <div class="glassmorphism glow-border welcome-banner" style="display: flex; align-items: center; justify-content: space-between; padding: 36px 40px; background: linear-gradient(135deg, rgba(16, 16, 24, 0.85) 0%, rgba(32, 12, 16, 0.85) 100%);">
+                        <div style="flex: 1; padding-right: 24px;">
+                            <span class="badge red" style="margin-bottom: 12px; letter-spacing: 0.1em; display: inline-block;">Secure Node Synced</span>
+                            <h1 style="font-size: 28px; font-weight: 800; margin-bottom: 8px; background: linear-gradient(90deg, #fff 50%, #ffc0c8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Redefining NBFC Operations, Vikramaditya</h1>
+                            <p style="color: var(--text-secondary); font-size: 13px; line-height: 1.5; max-width: 620px;">
+                                Welcome back to the official **Mahindra Finance DealerOS**. All core credit networks, regional dealer floorplans, and automated Vahan gateways are synchronized with national MFL credit endpoints. AI underwriting engine is active.
+                            </p>
+                        </div>
+                        <div class="welcome-banner-brand" style="display: flex; align-items: center; gap: 20px; padding: 10px 0 10px 32px; border-left: 1px solid rgba(255, 255, 255, 0.08); flex-shrink: 0;">
+                            <svg width="60" height="60" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 15px rgba(227, 24, 55, 0.5));">
+                                <path d="M5 38L25 5L28 12L12 38H5Z" fill="#E31837"/>
+                                <path d="M45 38L25 5L22 12L38 38H45Z" fill="#E31837"/>
+                            </svg>
+                            <div style="text-align: left;">
+                                <div style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: 0.04em; color: #fff; line-height: 1; text-transform: uppercase;">mahindra</div>
+                                <div style="font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.25em; color: #E31837; line-height: 1.4; text-transform: uppercase;">FINANCE</div>
+                                <div style="font-size: 9px; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px;">Dealer Portal</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Layout specific KPI Cards grid -->
+                    <div class="kpi-grid" id="dashboardKpis">
+                        <!-- Instantiated Dynamically via App.js -->
+                    </div>
+
+                    <!-- Interactive Bottom Grid layout -->
+                    <div class="dashboard-layout-main">
+                        <div class="glassmorphism glow-border chart-panel">
+                            <div class="panel-header-row">
+                                <span class="panel-title"><i class="fas fa-wallet"></i> Disbursement Liquidity Vector</span>
+                                <span class="badge red">YTD Overview</span>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="disbursementChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- System Level Pending Action items list -->
+                        <div class="glassmorphism glow-border chart-panel" style="overflow-y: auto;">
+                            <div class="panel-header-row">
+                                <span class="panel-title"><i class="fas fa-bell"></i> Bottlenecks needing review</span>
+                                <span class="badge gold" style="animation: pulse 1s infinite;">Urgent Alerts</span>
+                            </div>
+                            <div class="action-card-list" id="dashboardActionList">
+                                <!-- Instantiated Dynamically via App.js -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Featured Fleet Financing Campaigns -->
+                    <div style="margin-top: 24px;">
+                        <div class="panel-header-row" style="margin-bottom: 16px;">
+                            <span class="panel-title"><i class="fas fa-car-side"></i> Flagship Fleet Financing Programs</span>
+                            <span class="badge red">Active Campaigns</span>
+                        </div>
+                        <div class="fleet-grid">
+                            <div class="glassmorphism glow-border fleet-card" style="background-image: linear-gradient(180deg, rgba(6, 6, 8, 0.4) 0%, rgba(6, 6, 8, 0.95) 100%), url('https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=600&auto=format&fit=crop');">
+                                <div class="fleet-card-badge">8.75% IRR</div>
+                                <div class="fleet-card-body">
+                                    <h3>XUV700 AX7 Luxury</h3>
+                                    <p>Advanced ADAS & Dual-Screen Cockpit</p>
+                                    <div class="fleet-card-stats">
+                                        <div class="stat-item">
+                                            <span>TENURE</span>
+                                            <strong>84 Mos</strong>
+                                        </div>
+                                        <div class="stat-item">
+                                            <span>ACTIVE LEADS</span>
+                                            <strong>42 Leads</strong>
+                                        </div>
+                                    </div>
+                                    <a href="#" class="fleet-card-link" onclick="window.dealerOSApp.showNotification('Launching IRR Calculator for XUV700 AX7 Luxury', 'info'); return false;">
+                                        Configure Model Program <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="glassmorphism glow-border fleet-card" style="background-image: linear-gradient(180deg, rgba(6, 6, 8, 0.4) 0%, rgba(6, 6, 8, 0.95) 100%), url('https://images.unsplash.com/photo-1669023414166-a4cf72d882b9?q=80&w=600&auto=format&fit=crop');">
+                                <div class="fleet-card-badge">8.95% IRR</div>
+                                <div class="fleet-card-body">
+                                    <h3>Thar ROXX 4WD</h3>
+                                    <p>Rugged Off-Road Luxury Icon</p>
+                                    <div class="fleet-card-stats">
+                                        <div class="stat-item">
+                                            <span>TENURE</span>
+                                            <strong>72 Mos</strong>
+                                        </div>
+                                        <div class="stat-item">
+                                            <span>ACTIVE LEADS</span>
+                                            <strong>28 Leads</strong>
+                                        </div>
+                                    </div>
+                                    <a href="#" class="fleet-card-link" onclick="window.dealerOSApp.showNotification('Launching IRR Calculator for Thar ROXX 4WD', 'info'); return false;">
+                                        Configure Model Program <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="glassmorphism glow-border fleet-card" style="background-image: linear-gradient(180deg, rgba(6, 6, 8, 0.4) 0%, rgba(6, 6, 8, 0.95) 100%), url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=600&auto=format&fit=crop');">
+                                <div class="fleet-card-badge">9.10% IRR</div>
+                                <div class="fleet-card-body">
+                                    <h3>Scorpio-N Z8 Diesel</h3>
+                                    <p>The Big Daddy of SUVs</p>
+                                    <div class="fleet-card-stats">
+                                        <div class="stat-item">
+                                            <span>TENURE</span>
+                                            <strong>84 Mos</strong>
+                                        </div>
+                                        <div class="stat-item">
+                                            <span>ACTIVE LEADS</span>
+                                            <strong>35 Leads</strong>
+                                        </div>
+                                    </div>
+                                    <a href="#" class="fleet-card-link" onclick="window.dealerOSApp.showNotification('Launching IRR Calculator for Scorpio-N Z8 Diesel', 'info'); return false;">
+                                        Configure Model Program <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- ==========================================================================
+                     MODULE: BUSINESS & PIPELINE MANAGEMENT (Kanban Board)
+                     ========================================================================== -->
+                <section class="module-section" id="module-enquiry">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h1 style="font-size: 24px; font-weight: 800;">Business & Enquiry Pipeline</h1>
+                            <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">Predictive lead tracking integrated with credit analytics</p>
+                        </div>
+                        <span class="badge teal"><i class="fas fa-brain"></i> AI Lead Scoring Enabled</span>
+                    </div>
+
+                    <!-- Kanban Boards Pipeline Layout -->
+                    <div class="dashboard-layout-main" style="grid-template-columns: 2.2fr 1fr; align-items: start;">
+                        <!-- Pipelines Column board -->
+                        <div class="pipeline-board">
+                            <div class="pipeline-column">
+                                <div class="pipeline-column-header">
+                                    <span class="pipeline-column-title">Enquiry</span>
+                                    <span class="pipeline-column-count" id="cnt-enquiry">0</span>
+                                </div>
+                                <div class="pipeline-column-list" id="col-enquiry"></div>
+                            </div>
+                            
+                            <div class="pipeline-column">
+                                <div class="pipeline-column-header">
+                                    <span class="pipeline-column-title">Documents</span>
+                                    <span class="pipeline-column-count" id="cnt-documents">0</span>
+                                </div>
+                                <div class="pipeline-column-list" id="col-documents"></div>
+                            </div>
+
+                            <div class="pipeline-column">
+                                <div class="pipeline-column-header">
+                                    <span class="pipeline-column-title">Underwriting</span>
+                                    <span class="pipeline-column-count" id="cnt-underwriting">0</span>
+                                </div>
+                                <div class="pipeline-column-list" id="col-underwriting"></div>
+                            </div>
+
+                            <div class="pipeline-column">
+                                <div class="pipeline-column-header">
+                                    <span class="pipeline-column-title">Sanctioned</span>
+                                    <span class="pipeline-column-count" id="cnt-sanctioned">0</span>
+                                </div>
+                                <div class="pipeline-column-list" id="col-sanctioned"></div>
+                            </div>
+
+                            <div class="pipeline-column">
+                                <div class="pipeline-column-header">
+                                    <span class="pipeline-column-title">Disbursed</span>
+                                    <span class="pipeline-column-count" id="cnt-disbursed">0</span>
+                                </div>
+                                <div class="pipeline-column-list" id="col-disbursed"></div>
+                            </div>
+                        </div>
+
+                        <!-- Active selected timeline history tracker -->
+                        <div class="glassmorphism glow-border" id="leadTimelinePanel" style="padding: 24px; min-height: 480px; position: sticky; top: var(--header-height);">
+                            <!-- Instantiated Dynamically via App.js -->
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- ==========================================================================
+                     MODULE: PORTFOLIO & RISK TERMINAL (Institutional Risk)
+                     ========================================================================== -->
+                <section class="module-section" id="module-portfolio">
+                    <div>
+                        <h1 style="font-size: 24px; font-weight: 800;">Portfolio Risk Terminal</h1>
+                        <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">Macro level delinquencies tracking and NPA bucket audits</p>
+                    </div>
+
+                    <!-- Risk Aging Breakdown grids -->
+                    <div class="risk-grid">
+                        <div class="glassmorphism glow-border risk-matrix-panel">
+                            <span class="panel-title"><i class="fas fa-layer-group"></i> Delinquency Bucket Breakdown</span>
+                            <div class="chart-container" style="margin-top: 24px;">
+                                <canvas id="riskAgingChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="glassmorphism glow-border risk-matrix-panel" style="overflow-y: auto;">
+                            <span class="panel-title"><i class="fas fa-map-marked-alt"></i> Delinquency Vectors (Region Wise)</span>
+                            <div style="margin-top: 16px;" id="riskNpaNodeList">
+                                <!-- Instantiated Dynamically via App.js -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- ==========================================================================
+                     MODULE: PDD COMPLIANCE CENTER
+                     ========================================================================== -->
+                <section class="module-section" id="module-compliance">
+                    <div>
+                        <h1 style="font-size: 24px; font-weight: 800;">PDD Compliance Vault</h1>
+                        <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">OCR Auto-verification tracking and missing document registry</p>
+                    </div>
+
+                    <div class="compliance-layout">
+                        <!-- Left Side: Table of Non-Compliant Files -->
+                        <div class="glassmorphism glow-border" style="padding: 24px; overflow-x: auto;">
+                            <table class="compliance-table">
+                                <thead>
+                                    <tr>
+                                        <th>Customer & Asset</th>
+                                        <th>Valuation</th>
+                                        <th>Disbursement Date</th>
+                                        <th>Risk Score</th>
+                                        <th>RC Status</th>
+                                        <th>Insurance</th>
+                                        <th>Invoice</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="complianceTableBody">
+                                    <!-- Instantiated Dynamically via App.js -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Right Side: Digital OCR Verification simulation terminal -->
+                        <div class="glassmorphism glow-border ocr-scanner-panel" id="ocrScannerConsole">
+                            <span class="panel-title"><i class="fas fa-qrcode"></i> Digital Document OCR Auditor</span>
+                            
+                            <div style="border-bottom: 1px solid var(--border-glass); padding-bottom: 12px;">
+                                <h3 id="ocrCaseTitle" style="font-size: 16px;">Select Audit Case</h3>
+                                <p id="ocrCaseSub" style="color: var(--text-secondary); font-size: 11px;">Click 'Audit' on any case in the list to initialize scanner</p>
+                            </div>
+
+                            <!-- Dropzone File Simulator -->
+                            <div class="ocr-dropzone" id="ocrDropzone">
+                                <i class="fas fa-file-upload"></i>
+                                <p>Select or Drop Document Copy PDF</p>
+                                <small style="color: var(--text-tertiary); font-size: 10px;">Supports PDF, PNG, JPG (Max 5MB)</small>
+                                <input type="file" id="ocrFileSelector" style="display: none;" accept="image/*,application/pdf">
+                            </div>
+
+                            <!-- Interactive Sweep Scanner Animation -->
+                            <div class="ocr-preview-container" id="ocrPreviewContainer" style="display: none;">
+                                <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.4); padding: 12px;">
+                                    <div class="glassmorphism glow-border" style="width: 100%; height: 100%; background: linear-gradient(135deg, #101018 0%, #1c0e12 100%); border-radius: 8px; border-color: rgba(227, 24, 55, 0.3); padding: 12px; display: flex; flex-direction: column; justify-content: space-between; position: relative;">
+                                        <!-- Mini Chip and Vahan Emblem -->
+                                        <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
+                                            <div style="width: 24px; height: 18px; background: linear-gradient(135deg, #e5c07b 0%, #c5a059 100%); border-radius: 3px; border: 1px solid rgba(255,255,255,0.1);"></div>
+                                            <div style="font-size: 7px; font-weight: 800; color: #ff3355; text-align: right; line-height: 1.2;">GOVERNMENT OF INDIA<br><span style="color:#fff; font-size:6px;">TRANSPORT MOTOR VEHICLE DEPT</span></div>
+                                        </div>
+                                        
+                                        <!-- Card Details -->
+                                        <div style="display: flex; flex-direction: column; gap: 4px; width: 100%;">
+                                            <div style="font-size: 9px; font-weight: 800; color: #fff; letter-spacing: 0.05em;">REGD NO: <span style="color:var(--color-teal-glow);" id="rcRegNo">MH-12-XX-9901</span></div>
+                                            <div style="font-size: 7.5px; color: var(--text-secondary); line-height: 1.3; font-weight: 500;">
+                                                OWNER: <span style="color:#fff; font-weight:700;" id="rcOwnerName">ROHAN JAGTAP</span><br>
+                                                CHASSIS: <span style="color:#fff; font-weight:700;" id="rcChassis">MA3NVE456G901</span><br>
+                                                MODEL: <span style="color:#fff; font-weight:700;" id="rcModel">THAR ROXX 4WD AX7</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Barcode representation -->
+                                        <div style="display: flex; gap: 2px; height: 12px; align-items: flex-end; width: 100%; border-top: 1px solid rgba(255,255,255,0.03); padding-top: 4px;">
+                                            <div style="width: 2px; height: 8px; background:rgba(255,255,255,0.7);"></div>
+                                            <div style="width: 1px; height: 8px; background:rgba(255,255,255,0.7);"></div>
+                                            <div style="width: 3px; height: 8px; background:rgba(255,255,255,0.7);"></div>
+                                            <div style="width: 1px; height: 8px; background:rgba(255,255,255,0.7);"></div>
+                                            <div style="width: 2px; height: 8px; background:rgba(255,255,255,0.7);"></div>
+                                            <div style="width: 4px; height: 8px; background:rgba(255,255,255,0.7);"></div>
+                                            <div style="width: 1px; height: 8px; background:rgba(255,255,255,0.7);"></div>
+                                            <div style="width: 2px; height: 8px; background:rgba(255,255,255,0.7);"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- OCR Field Output lists -->
+                            <div style="font-size: 11px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700;">Status Engine</div>
+                            <div id="ocrStatusMessage" style="font-size: 13px; font-weight: 600; color: var(--color-gold-glow);">Awaiting document selection</div>
+
+                            <div style="display: flex; flex-direction: column; gap: 8px;" id="ocrFieldsContainer">
+                                <!-- Populated Dynamically on OCR complete -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- ==========================================================================
+                     MODULE: TA & STOCK FINANCING (Inventory Finance)
+                     ========================================================================== -->
+                <section class="module-section" id="module-stock">
+                    <div>
+                        <h1 style="font-size: 24px; font-weight: 800;">TA & Stock Liquidity</h1>
+                        <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">Dynamic inventory lines of credit and vehicle financing allocations</p>
+                    </div>
+
+                    <div class="stock-top-row">
+                        <!-- Total Credit Limits Utilizations -->
+                        <div class="glassmorphism glow-border stock-meter-panel">
+                            <div>
+                                <span class="panel-title"><i class="fas fa-coins"></i> Total Liquidity Limits</span>
+                                <div class="stock-gauge-wrapper">
+                                    <!-- Simple Doughnut graph inside -->
+                                    <div style="width: 140px; height: 140px;">
+                                        <canvas id="stockFinanceChart"></canvas>
+                                    </div>
+                                    <div class="stock-gauge-text">
+                                        <span style="font-size: 22px; font-weight: 800; color: #fff;" id="taTotalText">₹15.0 Cr</span>
+                                        <span style="font-size: 10px; color: var(--text-secondary);">MAX CEILING</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="border-top: 1px solid var(--border-glass); padding-top: 16px; display: flex; flex-direction: column; gap: 10px;">
+                                <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                                    <span style="color: var(--text-secondary);">Utilized Outstanding</span>
+                                    <strong id="taUtilizedText">₹11.75 Cr</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                                    <span style="color: var(--text-secondary);">Available Cushion</span>
+                                    <strong style="color: var(--color-teal-glow);" id="taAvailableText">₹3.25 Cr</strong>
+                                </div>
+                                <div style="height: 6px; background: var(--bg-surface-elevated); border-radius: 3px; overflow: hidden;">
+                                    <div id="taProgressBar" style="width: 78%; height: 100%; background: var(--color-mahindra-red);"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Funding release execution drawer -->
+                        <div class="glassmorphism glow-border" style="padding: 24px;">
+                            <span class="panel-title"><i class="fas fa-hand-holding-usd"></i> Trigger Warehouse Liquidity Request</span>
+                            
+                            <form id="stockFundingForm" onsubmit="return false;" style="margin-top: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label class="form-label">Total Vehicles Quantity</label>
+                                    <div class="input-container">
+                                        <i class="fas fa-truck-loading" style="left:16px;"></i>
+                                        <input type="number" id="fundingQty" class="form-input" placeholder="e.g. 4" style="padding-left:48px;" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label class="form-label">Funding requested (In Lakhs)</label>
+                                    <div class="input-container">
+                                        <i class="fas fa-rupee-sign" style="left:16px;"></i>
+                                        <input type="number" id="fundingAmount" class="form-input" placeholder="e.g. 68.4" style="padding-left:48px;" required>
+                                    </div>
+                                </div>
+
+                                <div style="grid-column: span 2; margin-top: 8px;">
+                                    <div style="font-size: 11px; color: var(--text-secondary); line-height: 1.4; margin-bottom: 16px;">
+                                        <i class="fas fa-info-circle"></i> Funds will be auto-transferred directly to Mahindra & Mahindra factory account against dispatch orders. Interest rate: **9.25% p.a. floating.**
+                                    </div>
+                                    <button class="btn-primary" id="submitFundingBtn" style="padding: 14px 20px;">
+                                        <span>Request Fund Release</span>
+                                        <i class="fas fa-coins"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Inventory Table listing outstanding dispatches -->
+                    <div class="glassmorphism glow-border" style="padding: 24px; overflow-x: auto;">
+                        <span class="panel-title" style="margin-bottom: 16px;"><i class="fas fa-car"></i> Financed Inventory Stock list</span>
+                        <table class="stock-inventory-table">
+                            <thead>
+                                <tr style="border-bottom: 1px solid var(--border-glass); text-align: left;">
+                                    <th style="padding: 12px 16px; font-size: 10px; color: var(--text-secondary); text-transform: uppercase;">Vehicle & Chassis</th>
+                                    <th style="padding: 12px 16px; font-size: 10px; color: var(--text-secondary); text-transform: uppercase;">Factory Valuation</th>
+                                    <th style="padding: 12px 16px; font-size: 10px; color: var(--text-secondary); text-transform: uppercase;">Stock Age</th>
+                                    <th style="padding: 12px 16px; font-size: 10px; color: var(--text-secondary); text-transform: uppercase;">Physical Location</th>
+                                    <th style="padding: 12px 16px; font-size: 10px; color: var(--text-secondary); text-transform: uppercase;">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="stockTableBody">
+                                <!-- Instantiated Dynamically via App.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+
+                <!-- ==========================================================================
+                     MODULE: DEALER PERFORMANCE INTELLIGENCE
+                     ========================================================================== -->
+                <section class="module-section" id="module-performance">
+                    <div>
+                        <h1 style="font-size: 24px; font-weight: 800;">Dealer Performance Intelligence</h1>
+                        <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">Analytical benchmark grading metrics against national averages</p>
+                    </div>
+
+                    <div class="dashboard-layout-main">
+                        <div class="glassmorphism glow-border" style="padding: 24px; height: 420px;">
+                            <span class="panel-title"><i class="fas fa-award"></i> Diagnostic Dimension Graph</span>
+                            <div class="chart-container" style="margin-top: 24px;">
+                                <canvas id="performanceRankChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="glassmorphism glow-border" style="padding: 24px; overflow-y: auto; height: 420px;">
+                            <span class="panel-title" style="margin-bottom: 16px;"><i class="fas fa-list-ol"></i> Regional Rankings Matrix</span>
+                            <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                                <tbody id="dealerPerformanceList">
+                                    <!-- Instantiated Dynamically via App.js -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- ==========================================================================
+                     MODULE: EXECUTIVE COMMAND CENTER
+                     ========================================================================== -->
+                <section class="module-section" id="module-executive">
+                    <div>
+                        <h1 style="font-size: 24px; font-weight: 800;">Executive Command Terminal</h1>
+                        <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">Cinematic national view of AUM disbursements and geo-node maps</p>
+                    </div>
+
+                    <div class="executive-national-view">
+                        <!-- Nationwide Geographic Node Map -->
+                        <div class="glassmorphism glow-border command-map-panel">
+                            <span class="panel-title" style="margin-bottom: 16px;"><i class="fas fa-globe-asia"></i> National Network Active Nodes</span>
+                            <div class="command-map-canvas" id="executiveMapCanvas">
+                                <!-- Dynamic map nodes populated via App.js -->
+                            </div>
+                        </div>
+
+                        <!-- Macro scale charts, AI forecasting, and Telemetry details -->
+                        <div style="display: flex; flex-direction: column; gap: 20px;">
+                            <div class="glassmorphism glow-border" style="padding: 24px; display: flex; flex-direction: column; justify-content: space-between;">
+                                <div>
+                                    <span class="panel-title"><i class="fas fa-chart-line"></i> National AUM Acceleration Trend</span>
+                                    <div class="chart-container" style="height: 160px; margin-top: 16px;">
+                                        <canvas id="executiveNationalChart"></canvas>
+                                    </div>
+                                </div>
+
+                                <div style="border-top: 1px solid var(--border-glass); padding-top: 12px; margin-top: 12px;">
+                                    <div style="font-size: 11px; text-transform: uppercase; color: var(--color-teal-glow); font-weight: 700; margin-bottom: 4px;">
+                                        <i class="fas fa-brain"></i> AI Executive Summary
+                                    </div>
+                                    <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.4;">
+                                        National portfolios continue robust scaling with weighted LTV parameters capped at 74.8%. The underwriting engines are clearing loans at an average TAT of 2.8 Hours. Delinquencies remain stable.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <!-- Dynamic Regional Node Telemetry Dashboard Card -->
+                            <div class="glassmorphism glow-border" id="executiveNodeTelemetry" style="padding: 20px; display: none; flex-direction: column; gap: 12px; border-color: var(--color-mahindra-red);">
+                                <!-- Loaded dynamically via app.js -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- ==========================================================================
+                     MODULE: COMMUNICATION HUB
+                     ========================================================================== -->
+                <section class="module-section" id="module-comms">
+                    <div>
+                        <h1 style="font-size: 24px; font-weight: 800;">Operations Communication Hub</h1>
+                        <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">Institutional messaging channels and AI-generated MOM systems</p>
+                    </div>
+
+                    <div class="dashboard-layout-main" style="grid-template-columns: 2fr 1.1fr;">
+                        <div class="glassmorphism glow-border" style="padding: 24px; display: flex; flex-direction: column; gap: 20px;">
+                            <span class="panel-title"><i class="fas fa-envelope-open-text"></i> Network Announcements</span>
+                            
+                            <div id="commsAnnouncementList" style="display: flex; flex-direction: column; gap: 16px; max-height: 350px; overflow-y: auto;">
+                                <!-- Rendered dynamically in app.js -->
+                            </div>
+
+                            <div style="margin-top: 10px; border-top: 1px solid var(--border-glass); padding-top: 16px;">
+                                <div style="font-size: 11px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; margin-bottom: 8px;">Post Operation Discussion</div>
+                                <form onsubmit="return false;" style="display: flex; gap: 8px;">
+                                    <input type="text" id="commsPostInput" class="form-input" placeholder="Type dealership message, broadcast query..." style="flex: 1; padding: 10px; background: rgba(0,0,0,0.2); font-size: 12px; margin-bottom: 0;">
+                                    <button type="submit" class="btn-primary" id="commsPostBtn" style="padding: 10px 16px; font-size: 12px; width: auto; margin-bottom: 0;"><i class="fas fa-paper-plane"></i></button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- MOM generator drawer -->
+                        <div class="glassmorphism glow-border" style="padding: 24px; display: flex; flex-direction: column; gap: 20px;">
+                            <span class="panel-title"><i class="fas fa-brain"></i> AI MOM Meeting Summarizer</span>
+                            
+                            <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.5;">
+                                Upload a meeting audio snippet or raw voice transcript to instantly structure actionable tasks.
+                            </div>
+
+                            <button class="btn-primary" id="momTranscriptionBtn" style="padding: 12px 16px; display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="window.dealerOSApp.triggerMomTranscription()">
+                                <i class="fas fa-microphone" id="momMicIcon"></i> <span id="momBtnText">Start Transcription</span>
+                            </button>
+
+                            <div style="border-top: 1px solid var(--border-glass); padding-top: 16px; margin-top: 12px;">
+                                <div style="font-size: 11px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; margin-bottom: 8px;">Recent AI Summaries</div>
+                                <div id="recentMomSummaries" style="font-size: 12px; color: var(--text-secondary); line-height: 1.4;">
+                                    None generated in last 24 Hours.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- ==========================================================================
+                     MODULE: TRAINING & LEARNING
+                     ========================================================================== -->
+                <section class="module-section" id="module-training">
+                    <div>
+                        <h1 style="font-size: 24px; font-weight: 800;">Mahindra Academy Learning Hub</h1>
+                        <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">Gamified learning paths, certifications, and compliance course modules</p>
+                    </div>
+
+                    <div id="trainingModulesGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px;">
+                        <!-- Rendered dynamically in app.js -->
+                    </div>
+                </section>
+
+
+                <!-- ==========================================================================
+                     MODULE: ACCESS CONTROL & SECURITY LOGS
+                     ========================================================================== -->
+                <section class="module-section" id="module-security">
+                    <div>
+                        <h1 style="font-size: 24px; font-weight: 800;">Access and Security Analytics</h1>
+                        <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">Real-time cyber security logs, MFA health, and suspicious attempt trackers</p>
+                    </div>
+
+                    <div class="glassmorphism glow-border" style="padding: 24px; overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; text-align: left;" class="compliance-table">
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>Operating User</th>
+                                    <th>IP Address</th>
+                                    <th>Client Software / Device</th>
+                                    <th>Trigger Action</th>
+                                    <th>Status Verification</th>
+                                </tr>
+                            </thead>
+                            <tbody id="securityLogList">
+                                <!-- Instantiated Dynamically via App.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- ==========================================================================
+                     CORPORATE BRAND FOOTER
+                     ========================================================================== -->
+                <footer style="margin-top: 48px; border-top: 1px solid var(--border-glass); padding-top: 24px; padding-bottom: 24px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-tertiary);">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <svg width="22" height="22" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 6px rgba(227, 24, 55, 0.35));">
+                            <path d="M5 38L25 5L28 12L12 38H5Z" fill="#E31837"/>
+                            <path d="M45 38L25 5L22 12L38 38H45Z" fill="#E31837"/>
+                        </svg>
+                        <div>
+                            <span style="font-family: 'Outfit', sans-serif; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 0.05em;">mahindra</span>
+                            <span style="font-family: 'Outfit', sans-serif; font-weight: 700; color: #E31837; text-transform: uppercase; letter-spacing: 0.15em; margin-left: 2px;">FINANCE</span>
+                        </div>
+                    </div>
+                    <div style="font-weight: 500;">
+                        &copy; 2026 Mahindra & Mahindra Financial Services Limited. All rights reserved.
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="width: 6px; height: 6px; background-color: var(--color-mahindra-red); border-radius: 50%; display: inline-block; box-shadow: var(--text-glow-red); animation: bio-scan-radar 2s infinite;"></span>
+                        <strong style="color: var(--color-mahindra-red); letter-spacing: 0.05em;">INTERNAL OPERATIONS USE ONLY</strong>
+                    </div>
+                </footer>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- ==========================================================================
+         FLOATING COGNITIVE AI COPILOT PANEL
+         ========================================================================== -->
+    <!-- Closed Floating Button trigger -->
+    <div class="ai-copilot-trigger" id="copilotTrigger">
+        <i class="fas fa-brain"></i>
+    </div>
+
+    <!-- Active Open Chat Drawer Panel -->
+    <div class="glassmorphism ai-copilot-panel glow-border" id="copilotPanel">
+        <div class="ai-copilot-header">
+            <div class="ai-copilot-logo" style="display: flex; align-items: center; gap: 8px;">
+                <svg width="22" height="22" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 6px rgba(227, 24, 55, 0.45));">
+                    <path d="M5 38L25 5L28 12L12 38H5Z" fill="#E31837"/>
+                    <path d="M45 38L25 5L22 12L38 38H45Z" fill="#E31837"/>
+                </svg>
+                <h3 style="font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 700; color: #fff; letter-spacing: 0.05em; margin: 0;">DealerOS Copilot</h3>
+            </div>
+            <i class="fas fa-times" id="copilotClose" style="color: var(--text-secondary); cursor: pointer;"></i>
+        </div>
+
+        <!-- Scrollable chat bubble dialogs -->
+        <div class="ai-copilot-body" id="copilotBody">
+            <div class="chat-bubble assistant">
+                Welcome Vikramaditya! I am your DealerOS Intelligence Copilot. How can I help you manage operations today?
+            </div>
+        </div>
+
+        <!-- Natural language suggestion shortcuts -->
+        <div class="ai-prompt-shortcuts">
+            <span class="prompt-chip">Show dealers with rising NPA trend</span>
+            <span class="prompt-chip">Summarize pending PDD issues</span>
+            <span class="prompt-chip">Predict high-risk accounts</span>
+            <span class="prompt-chip">Generate regional business report</span>
+        </div>
+
+        <!-- Input console panel -->
+        <div class="ai-copilot-footer">
+            <div class="ai-input-wrapper">
+                <input type="text" id="aiInput" placeholder="Ask DealerOS AI anything...">
+            </div>
+            <button class="ai-send-btn" id="aiSendBtn">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+         GLASSMORPHIC GRADUATION CERTIFICATE VAULT OVERLAY
+         ========================================================================== -->
+    <div class="certificate-modal-overlay" id="certificateModal" style="display: none; position: fixed; inset: 0; background: rgba(6, 6, 8, 0.9); z-index: 20000; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);">
+        <div class="glassmorphism glow-border gold-certificate-card" style="width: 700px; max-width: 90vw; background: linear-gradient(135deg, #0e1217 0%, #170e10 100%); border-color: rgba(227, 24, 55, 0.4); padding: 48px; border-radius: 12px; position: relative; box-shadow: var(--shadow-cinematic); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 24px; overflow: hidden;">
+            <!-- Certificate Background Watermark Twin Peaks -->
+            <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; opacity: 0.03; z-index: 1;">
+                <svg width="400" height="400" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 38L25 5L28 12L12 38H5Z" fill="#FFFFFF"/>
+                    <path d="M45 38L25 5L22 12L38 38H45Z" fill="#FFFFFF"/>
+                </svg>
+            </div>
+            
+            <div style="z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 16px; width: 100%;">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                    <svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 10px rgba(227, 24, 55, 0.5));">
+                        <path d="M5 38L25 5L28 12L12 38H5Z" fill="#E31837"/>
+                        <path d="M45 38L25 5L22 12L38 38H45Z" fill="#E31837"/>
+                    </svg>
+                </div>
+                
+                <h4 style="font-family: 'Outfit', sans-serif; font-size: 11px; letter-spacing: 0.3em; color: var(--color-teal-glow); text-transform: uppercase; font-weight: 700; margin: 0;">Mahindra Finance Academy</h4>
+                <h1 style="font-family: 'Outfit', sans-serif; font-size: 26px; font-weight: 800; color: #fff; margin: 0; background: linear-gradient(90deg, #fff 40%, #ffc5cc 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">CERTIFICATE OF OPERATIONAL COMPLIANCE</h1>
+                <p style="font-size: 11px; text-transform: uppercase; color: var(--text-tertiary); letter-spacing: 0.1em; margin-top: -6px;">Awarded under regulatory mandate</p>
+                
+                <div style="width: 80px; height: 1px; background: rgba(255, 255, 255, 0.1); margin: 8px 0;"></div>
+                
+                <p style="font-size: 14px; color: var(--text-secondary); max-width: 520px; line-height: 1.6; font-weight: 500;">
+                    This document certifies that the designated dealership executive <strong style="color: #fff; font-size:15px;" id="certUser">Vikramaditya Singh</strong> has successfully demonstrated competency in:
+                </p>
+                
+                <h3 style="font-size: 18px; font-weight: 700; color: #fff; margin: 8px 0;" id="certCourseTitle">Retail Finance Compliance Standards</h3>
+                
+                <p style="font-size: 13px; color: var(--text-secondary); max-width: 500px; line-height: 1.5; font-style: italic;">
+                    "Demonstrating verified proficiency in trade floorplan optimizations, NSDL automated audits, risk mitigation models, and KYC integrity controls."
+                </p>
+                
+                <div style="display: flex; justify-content: space-around; width: 100%; margin-top: 32px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 24px;">
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                        <span style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 10px; color: var(--text-tertiary);">REGISTRATION NO</span>
+                        <strong style="font-family: monospace; font-size: 12px; color: #fff;" id="certRegNo">MFL-ACAD-99082</strong>
+                    </div>
+                    
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                        <span style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 10px; color: var(--text-tertiary);">ACCREDITED BY</span>
+                        <strong style="font-size: 11px; color: var(--color-teal-glow);"><i class="fas fa-check-double"></i> MFL ExCo Board</strong>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn-primary" style="padding: 12px 24px; font-size: 12px; margin-top: 12px; width: auto; z-index: 2;" onclick="window.dealerOSApp.closeCertificateModal()">
+                Dismiss Credentials
+            </button>
+        </div>
+    </div>
+
+</body>
+</html>
