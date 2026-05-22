@@ -6,33 +6,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-    /* Color Palette Design Tokens */
-    --bg-base: #060608;
-    --bg-surface: #0c0c10;
-    --bg-surface-elevated: #14141c;
-    --bg-glass: rgba(12, 12, 16, 0.65);
-    --border-glass: rgba(255, 255, 255, 0.05);
-    --border-glass-glow: rgba(227, 24, 55, 0.15);
+    /* Premium Red & White Minimalist Design Tokens */
+    --bg-base: #f5f6fa;
+    --bg-surface: #ffffff;
+    --bg-surface-elevated: #f1f3f7;
+    --bg-glass: rgba(255, 255, 255, 0.85);
+    --border-glass: rgba(0, 0, 0, 0.06);
+    --border-glass-glow: rgba(227, 24, 55, 0.12);
     
-    /* Branding Accent Colors */
+    /* Branding Accent Colors - Strict Red & White Accent System */
     --color-mahindra-red: #E31837;
-    --color-mahindra-red-hover: #ff2a4a;
-    --color-electric-red: #ff3355;
-    --color-teal-glow: #00F5D4;
-    --color-cyan-glow: #00E5FF;
-    --color-gold-glow: #FFAA00;
+    --color-mahindra-red-hover: #b50e27;
+    --color-electric-red: #d3102c;
+    --color-teal-glow: #E31837; /* Strict red accent replaces teal */
+    --color-cyan-glow: #b50e27;
+    --color-gold-glow: #e31837;
     
     /* Typography */
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
-    --text-tertiary: #64748b;
-    --text-glow-red: 0 0 10px rgba(227, 24, 55, 0.35);
-    --text-glow-teal: 0 0 10px rgba(0, 245, 212, 0.35);
+    --text-primary: #1e293b;     /* High contrast slate for supreme legibility */
+    --text-secondary: #576574;   /* Sleek, soft charcoal */
+    --text-tertiary: #8395a7;    /* Slate silver */
+    --text-glow-red: 0 0 4px rgba(227, 24, 55, 0.1);
+    --text-glow-teal: 0 0 4px rgba(227, 24, 55, 0.1);
     
     /* Shadows and Motion */
-    --shadow-cinematic: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
-    --shadow-red-glow: 0 0 30px rgba(227, 24, 55, 0.15);
-    --shadow-teal-glow: 0 0 30px rgba(0, 245, 212, 0.15);
+    --shadow-cinematic: 0 10px 30px rgba(15, 23, 42, 0.04), 0 1px 8px rgba(15, 23, 42, 0.02);
+    --shadow-red-glow: 0 4px 20px rgba(227, 24, 55, 0.06);
+    --shadow-teal-glow: 0 4px 20px rgba(227, 24, 55, 0.06);
     --transition-premium: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     --transition-snappy: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     
@@ -2186,6 +2186,332 @@ h1, h2, h3, h4, h5, h6 {
 
 .pipeline-card.dragging {
     pointer-events: none;
+}
+
+/* ==========================================================================
+   PREMIUM RED & WHITE MINIMALIST LIGHT THEME OVERRIDES
+   ========================================================================== */
+
+/* Hardcoded White Text Color Overrides */
+.sidebar-logo h2,
+.sidebar-role-panel .role-dropdown-btn span,
+.sidebar-role-panel .role-dropdown-btn i,
+.nav-menu ul li a,
+.nav-menu ul li a i,
+.header-title h1,
+.header-actions button,
+.kpi-value,
+.pipeline-card-name,
+.pipeline-card-amount,
+.stock-limit-amount,
+.fleet-status-row strong,
+.telemetry-node-info h4,
+.chat-bubble.agent,
+.training-card h3,
+.security-console-header h3,
+.mfa-instructions,
+.certificate-modal-overlay h1,
+.gold-certificate-card h1,
+.gold-certificate-card strong,
+.gold-certificate-card td,
+.gold-certificate-card th,
+.clean-table th,
+.clean-table td strong {
+    color: var(--text-primary) !important;
+}
+
+.kpi-card h3,
+.pipeline-card-footer span,
+.stock-limit-label,
+.fleet-status-row span,
+.telemetry-node-info div,
+.course-meta span,
+.training-progress-info span,
+.clean-table td,
+.clean-table td small {
+    color: var(--text-secondary) !important;
+}
+
+/* Sidebar Toggle Buttons and Controls */
+.sidebar-toggle-btn {
+    color: var(--text-primary) !important;
+    border-color: var(--border-glass) !important;
+}
+.sidebar-toggle-btn:hover {
+    background: var(--bg-surface-elevated) !important;
+    color: var(--color-mahindra-red) !important;
+}
+.sidebar-close-btn:hover {
+    color: var(--color-mahindra-red) !important;
+    background: var(--bg-surface-elevated) !important;
+}
+
+/* Sidebar Navigation Items */
+.nav-menu ul li a {
+    background: transparent;
+    border-left: 3px solid transparent;
+}
+.nav-menu ul li a:hover {
+    background: rgba(227, 24, 55, 0.04) !important;
+    color: var(--color-mahindra-red) !important;
+    border-left-color: rgba(227, 24, 55, 0.3) !important;
+}
+.nav-menu ul li a.active {
+    background: rgba(227, 24, 55, 0.08) !important;
+    color: var(--color-mahindra-red) !important;
+    border-left-color: var(--color-mahindra-red) !important;
+    font-weight: 700 !important;
+}
+
+/* Welcome Banner Red & White Overrides */
+.welcome-banner {
+    background: linear-gradient(135deg, #ffffff 0%, #fff5f6 100%) !important;
+    border: 1.5px solid rgba(227, 24, 55, 0.12) !important;
+    box-shadow: 0 10px 30px rgba(227, 24, 55, 0.04) !important;
+}
+.welcome-banner h1 {
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    -webkit-text-fill-color: var(--text-primary) !important;
+    color: var(--text-primary) !important;
+}
+.welcome-banner-brand {
+    border-left: 1.5px solid rgba(227, 24, 55, 0.12) !important;
+}
+.welcome-banner-brand div {
+    color: var(--text-primary) !important;
+}
+
+/* KPI Cards overrides */
+.kpi-card {
+    background: var(--bg-surface) !important;
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Pipeline Columns Overrides */
+.pipeline-column {
+    background: rgba(0, 0, 0, 0.015) !important;
+    border: 1.5px solid rgba(0, 0, 0, 0.04) !important;
+}
+.pipeline-column-title {
+    color: var(--text-primary) !important;
+}
+.pipeline-card {
+    background: var(--bg-surface) !important;
+    border: 1.5px solid rgba(0, 0, 0, 0.05) !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.015) !important;
+}
+.pipeline-card:hover {
+    border-color: rgba(227, 24, 55, 0.25) !important;
+    box-shadow: 0 8px 20px rgba(227, 24, 55, 0.05) !important;
+}
+.pipeline-card-actions {
+    border-top: 1.5px solid rgba(0, 0, 0, 0.04) !important;
+}
+.pipeline-card-footer {
+    border-top: 1.5px solid rgba(0, 0, 0, 0.04) !important;
+}
+.pipeline-card-score {
+    background: rgba(227, 24, 55, 0.08) !important;
+    color: var(--color-mahindra-red) !important;
+}
+
+/* Compliance Document Thumbnails & OCR Scanner */
+.compliance-doc-card {
+    background: var(--bg-surface) !important;
+    border: 1.5px solid rgba(0, 0, 0, 0.05) !important;
+}
+.compliance-doc-card.scanned {
+    border-color: var(--color-mahindra-red) !important;
+}
+.compliance-doc-card td, 
+.compliance-doc-card th {
+    color: var(--text-primary) !important;
+}
+.ocr-video-feed {
+    background: #f1f3f6 !important;
+    border-color: rgba(227, 24, 55, 0.15) !important;
+}
+.compliance-table td,
+.stock-inventory-table td {
+    color: var(--text-primary) !important;
+    border-bottom: 1.5px solid rgba(0, 0, 0, 0.04) !important;
+}
+.compliance-table th,
+.stock-inventory-table th {
+    border-bottom: 1.5px solid rgba(0, 0, 0, 0.06) !important;
+}
+.compliance-table tr:hover td,
+.stock-inventory-table tr:hover td {
+    background: rgba(227, 24, 55, 0.02) !important;
+}
+
+/* Executive map canvas style */
+.command-map-canvas {
+    background: radial-gradient(circle, #ffffff 0%, #f5f6fa 100%) !important;
+    border: 1.5px solid rgba(0, 0, 0, 0.05) !important;
+}
+.map-radar-circle {
+    border: 1px dashed rgba(227, 24, 55, 0.15) !important;
+}
+.map-radar-sweep {
+    background: conic-gradient(from 0deg at 50% 50%, rgba(227, 24, 55, 0.08) 0deg, rgba(227, 24, 55, 0.02) 90deg, transparent 180deg) !important;
+}
+.map-hud-legend {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+    color: var(--text-primary) !important;
+}
+.command-node-tooltip {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid rgba(227, 24, 55, 0.2) !important;
+    color: var(--text-primary) !important;
+    box-shadow: 0 10px 25px rgba(227, 24, 55, 0.08) !important;
+}
+.command-node-tooltip strong {
+    color: var(--color-mahindra-red) !important;
+}
+
+/* Security Console Overrides */
+.security-console-hud {
+    background: var(--bg-surface-elevated) !important;
+    border: 1.5px solid rgba(0, 0, 0, 0.04) !important;
+}
+.security-terminal {
+    background: #1e1e24 !important; /* keep terminal dark for code contrast */
+    color: #a6accd !important;
+}
+
+/* Chat bubble styling for light mode */
+.chat-window {
+    background: var(--bg-surface) !important;
+    border: 1.5px solid rgba(0, 0, 0, 0.05) !important;
+}
+.chat-bubble.user {
+    background: var(--color-mahindra-red) !important;
+    color: #ffffff !important;
+}
+.chat-bubble.agent {
+    background: #f1f3f6 !important;
+    color: var(--text-primary) !important;
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+.chat-footer {
+    border-top: 1.5px solid rgba(0, 0, 0, 0.05) !important;
+}
+.chat-footer input {
+    background: #f1f3f6 !important;
+    color: var(--text-primary) !important;
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+.chat-footer input::placeholder {
+    color: var(--text-tertiary) !important;
+}
+
+/* Inputs and Forms Overrides */
+.form-input,
+.role-dropdown-btn,
+.search-bar input,
+.filter-btn {
+    background: #ffffff !important;
+    border: 1.5px solid rgba(0, 0, 0, 0.08) !important;
+    color: var(--text-primary) !important;
+}
+.form-input::placeholder,
+.search-bar input::placeholder {
+    color: var(--text-tertiary) !important;
+}
+.form-input:focus,
+.role-dropdown-btn:focus,
+.search-bar input:focus {
+    border-color: var(--color-mahindra-red) !important;
+    box-shadow: 0 0 0 3px rgba(227, 24, 55, 0.1) !important;
+}
+.btn-primary:not(.chat-footer button) {
+    box-shadow: 0 4px 15px rgba(227, 24, 55, 0.2) !important;
+}
+.btn-primary:hover:not(.chat-footer button) {
+    box-shadow: 0 6px 20px rgba(227, 24, 55, 0.3) !important;
+}
+.btn-secondary {
+    background: #f1f3f6 !important;
+    color: var(--text-primary) !important;
+    border: 1.5px solid rgba(0, 0, 0, 0.08) !important;
+}
+.btn-secondary:hover {
+    background: #e2e8f0 !important;
+}
+
+/* Header Telemetry Ticker Override */
+.telemetry-ticker-wrapper {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+.telemetry-ticker-label {
+    background: var(--color-mahindra-red) !important;
+    color: #ffffff !important;
+}
+.ticker-item {
+    color: var(--text-secondary) !important;
+}
+.ticker-item span {
+    color: var(--color-mahindra-red) !important;
+}
+
+/* Grid layout overrides */
+.grid-bg-pattern {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.015) 1px, transparent 1px), 
+                      linear-gradient(90deg, rgba(0, 0, 0, 0.015) 1px, transparent 1px) !important;
+}
+
+/* OTP Code Focus Input */
+.otp-input {
+    background: #ffffff !important;
+    border: 1.5px solid rgba(0, 0, 0, 0.1) !important;
+    color: var(--text-primary) !important;
+}
+.otp-input:focus {
+    border-color: var(--color-mahindra-red) !important;
+    box-shadow: 0 0 0 3px rgba(227, 24, 55, 0.1) !important;
+}
+
+/* Cinematic Fullscreen Button */
+.fullscreen-toggle-btn {
+    border-color: rgba(0, 0, 0, 0.08) !important;
+    color: var(--text-primary) !important;
+}
+.fullscreen-toggle-btn:hover {
+    background: rgba(227, 24, 55, 0.05) !important;
+    color: var(--color-mahindra-red) !important;
+}
+
+/* Badges adjustments */
+.badge.teal {
+    background: rgba(227, 24, 55, 0.08) !important;
+    color: var(--color-mahindra-red) !important;
+    border-color: rgba(227, 24, 55, 0.2) !important;
+}
+
+/* Gold Certificate Card for White Theme */
+.gold-certificate-card {
+    background: linear-gradient(135deg, #ffffff 0%, #fff8f8 100%) !important;
+    border: 2px solid rgba(227, 24, 55, 0.3) !important;
+    box-shadow: 0 25px 60px rgba(227, 24, 55, 0.12) !important;
+}
+.gold-certificate-card::after {
+    background: linear-gradient(135deg, rgba(227, 24, 55, 0.1), transparent, rgba(227, 24, 55, 0.05)) !important;
+}
+.gold-certificate-card p {
+    color: var(--text-secondary) !important;
+}
+.gold-certificate-card .sign-block small {
+    color: var(--text-tertiary) !important;
+}
+
+/* Logo SVG text fill overrides for light theme */
+.sidebar-logo svg text[fill="#FFFFFF"],
+.sidebar-logo svg text[fill="#ffffff"] {
+    fill: var(--text-primary) !important;
 }
 
 

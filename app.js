@@ -1120,8 +1120,8 @@ class DealerOSApp {
                 labels: ['Utilized Limit', 'Available Limit'],
                 datasets: [{
                     data: [utilized, available],
-                    backgroundColor: ['#E31837', '#14141c'],
-                    borderColor: 'rgba(255, 255, 255, 0.05)',
+                    backgroundColor: ['#E31837', '#f1f3f7'],
+                    borderColor: 'rgba(0, 0, 0, 0.05)',
                     borderWidth: 1
                 }]
             },
@@ -1183,8 +1183,8 @@ class DealerOSApp {
                 datasets: [{
                     label: 'Portfolio aging proportion',
                     data: [96.48, 1.82, 0.82, 0.58, 0.30],
-                    backgroundColor: ['rgba(0, 245, 212, 0.35)', 'rgba(255, 170, 0, 0.35)', 'rgba(255, 170, 0, 0.55)', 'rgba(255, 51, 85, 0.55)', 'rgba(227, 24, 55, 0.8)'],
-                    borderColor: 'rgba(255,255,255,0.05)',
+                    backgroundColor: ['rgba(227, 24, 55, 0.2)', 'rgba(227, 24, 55, 0.4)', 'rgba(227, 24, 55, 0.6)', 'rgba(227, 24, 55, 0.75)', 'rgba(227, 24, 55, 0.95)'],
+                    borderColor: 'rgba(0, 0, 0, 0.05)',
                     borderWidth: 1
                 }]
             },
@@ -1225,14 +1225,14 @@ class DealerOSApp {
                 datasets: [{
                     label: 'Mahindra Landmark (My Store)',
                     data: [94, 98.92, 85, 78, 92, 89.2],
-                    backgroundColor: 'rgba(227, 24, 55, 0.2)',
+                    backgroundColor: 'rgba(227, 24, 55, 0.15)',
                     borderColor: '#E31837',
                     pointBackgroundColor: '#fff'
                 }, {
                     label: 'National Benchmark Avg',
                     data: [80, 94.0, 75, 70, 85, 82.0],
-                    backgroundColor: 'rgba(0, 245, 212, 0.1)',
-                    borderColor: '#00F5D4',
+                    backgroundColor: 'rgba(71, 85, 105, 0.1)',
+                    borderColor: '#475569',
                     pointBackgroundColor: '#fff'
                 }]
             },
@@ -1241,10 +1241,10 @@ class DealerOSApp {
                 maintainAspectRatio: false,
                 scales: {
                     r: {
-                        angleLines: { color: 'rgba(255,255,255,0.05)' },
-                        grid: { color: 'rgba(255,255,255,0.05)' },
-                        pointLabels: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans', size: 10 } },
-                        ticks: { color: '#94a3b8', backdropColor: 'transparent' }
+                        angleLines: { color: 'rgba(0, 0, 0, 0.06)' },
+                        grid: { color: 'rgba(0, 0, 0, 0.06)' },
+                        pointLabels: { color: '#475569', font: { family: 'Plus Jakarta Sans', size: 10 } },
+                        ticks: { color: '#475569', backdropColor: 'transparent' }
                     }
                 },
                 plugins: {
@@ -1333,7 +1333,7 @@ class DealerOSApp {
                 datasets: [{
                     label: 'National AUM (₹ Cr)',
                     data: [1840, 2020, 2210, 2380, 2485.6],
-                    borderColor: '#00F5D4',
+                    borderColor: '#E31837',
                     borderWidth: 2,
                     pointBackgroundColor: '#fff',
                     fill: false,
@@ -1481,12 +1481,12 @@ class DealerOSApp {
             maintainAspectRatio: false,
             scales: {
                 x: {
-                    grid: { color: 'rgba(255, 255, 255, 0.04)' },
-                    ticks: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans', size: 10 } }
+                    grid: { color: 'rgba(0, 0, 0, 0.06)' },
+                    ticks: { color: '#576574', font: { family: 'Plus Jakarta Sans', size: 10 } }
                 },
                 y: {
-                    grid: { color: 'rgba(255, 255, 255, 0.04)' },
-                    ticks: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans', size: 10 } }
+                    grid: { color: 'rgba(0, 0, 0, 0.06)' },
+                    ticks: { color: '#576574', font: { family: 'Plus Jakarta Sans', size: 10 } }
                 }
             },
             plugins: {
