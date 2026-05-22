@@ -278,16 +278,18 @@
 
                 <div class="header-search" style="margin-left: 24px; flex: 1; max-width: 460px;">
                     <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Global search pipeline leads, vehicle identification keys, compliance logs...">
+                    <input type="text" id="globalSearchInput" placeholder="Global search pipeline leads, vehicle identification keys, compliance logs...">
+                    <div id="globalSearchResults" class="glassmorphism glow-border" style="display: none; position: absolute; top: calc(100% + 8px); left: 0; width: 100%; max-height: 380px; overflow-y: auto; z-index: 1010; border-radius: 12px; background: var(--bg-surface); border: 1.5px solid rgba(227, 24, 55, 0.15); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); padding: 8px;"></div>
                 </div>
 
                 <div class="header-actions">
                     <span class="badge teal" id="userXpBadge" style="background: rgba(0, 245, 212, 0.08) !important; color: var(--color-teal-glow) !important; border-color: rgba(0, 245, 212, 0.2) !important; margin-right: 8px;"><i class="fas fa-bolt"></i> 4,800 XP</span>
                     <span class="badge red" id="userRoleBadge">Owner</span>
                     
-                    <div class="header-action-btn">
+                    <div class="header-action-btn" id="notificationBellBtn">
                         <i class="fas fa-bell"></i>
-                        <span class="badge-dot"></span>
+                        <span class="badge-dot" id="bellBadgeDot"></span>
+                        <div id="notificationsDropdown" class="glassmorphism glow-border" style="display: none; position: absolute; top: calc(100% + 8px); right: 0; width: 340px; max-height: 420px; overflow-y: auto; z-index: 1010; border-radius: 12px; background: var(--bg-surface); border: 1.5px solid rgba(227, 24, 55, 0.15); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); padding: 12px; cursor: default;"></div>
                     </div>
 
                     <div class="header-action-btn" onclick="window.dealerOSApp.toggleFullscreen()" title="Toggle Cinematic Fullscreen">

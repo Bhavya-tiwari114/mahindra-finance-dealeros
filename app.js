@@ -20,7 +20,41 @@ class DealerOSApp {
                 }
             ],
             selectedLeadId: 'lead_101',
-            charts: {}
+            charts: {},
+            notifications: [
+                {
+                    id: "notif_1",
+                    text: "Indore Showroom (Sterling) stock loan payment delayed - ₹11.20L outstanding.",
+                    time: "10 mins ago",
+                    unread: true,
+                    type: "stock",
+                    targetId: "Sterling Automobiles (Flagged Node)"
+                },
+                {
+                    id: "notif_2",
+                    text: "New Lead Rajesh Kumar - Mahindra XUV700 auto-approved for loan.",
+                    time: "30 mins ago",
+                    unread: true,
+                    type: "loan",
+                    targetId: "lead_101"
+                },
+                {
+                    id: "notif_3",
+                    text: "Priyanka Sharma PAN/Aadhar verified. Pending final document check.",
+                    time: "1 hour ago",
+                    unread: true,
+                    type: "compliance",
+                    targetId: "lead_102"
+                },
+                {
+                    id: "notif_4",
+                    text: "New course available: 'Showroom Stock Loan & Limits' (150 XP)",
+                    time: "2 hours ago",
+                    unread: false,
+                    type: "training",
+                    targetId: "tr_2"
+                }
+            ]
         };
         
         this.init();
@@ -41,6 +75,7 @@ class DealerOSApp {
         this.renderSecurityAdmin();
         this.renderTrainingHub();
         this.renderComms();
+        this.updateNotificationBadge();
     }
 
     bindEvents() {
@@ -195,6 +230,359 @@ class DealerOSApp {
                 });
             }
         });
+
+        // Global Search Bar Functionality
+        const searchInput = document.getElementById('globalSearchInput');
+        const searchResults = document.getElementById('globalSearchResults');
+        
+        if (searchInput && searchResults) {
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.trim().toLowerCase();
+                this.handleSearch(query, searchResults);
+            });
+            
+            searchInput.addEventListener('focus', (e) => {
+                const query = e.target.value.trim().toLowerCase();
+                if (query.length > 0) {
+                    searchResults.style.display = 'block';
+                }
+            });
+            
+            // Stop propagation on clicks inside the dropdown to prevent auto-closing
+            searchResults.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+        }
+
+        // Notification Bell Functionality
+        const bellBtn = document.getElementById('notificationBellBtn');
+        const notificationsDropdown = document.getElementById('notificationsDropdown');
+        
+        if (bellBtn && notificationsDropdown) {
+            bellBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                
+                // Toggle notifications panel
+                const isVisible = notificationsDropdown.style.display === 'block';
+                
+                // Close search dropdown if open
+                if (searchResults) searchResults.style.display = 'none';
+                
+                if (isVisible) {
+                    notificationsDropdown.style.display = 'none';
+                } else {
+                    this.renderNotificationsList(notificationsDropdown);
+                    notificationsDropdown.style.display = 'block';
+                }
+            });
+
+            // Stop click propagation inside notifications dropdown to allow item selection
+            notificationsDropdown.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+        }
+
+        // Dismiss both popups when clicking outside
+        document.addEventListener('click', (e) => {
+            if (searchResults && !e.target.closest('#globalSearchInput')) {
+                searchResults.style.display = 'none';
+            }
+            if (notificationsDropdown && !e.target.closest('#notificationBellBtn')) {
+                notificationsDropdown.style.display = 'none';
+            }
+        });
+    }
+
+    handleSearch(query, container) {
+        if (!container) return;
+        if (!query) {
+            container.innerHTML = '';
+            container.style.display = 'none';
+            return;
+        }
+
+        const leads = this.state.pipelineLeads || [];
+        const showrooms = window.DealerOSData.dealerPerformance || [];
+        const courses = this.state.trainingModules || [];
+
+        // Match Query
+        const matchingLeads = leads.filter(l => 
+            (l.name && l.name.toLowerCase().includes(query)) ||
+            (l.vehicle && l.vehicle.toLowerCase().includes(query)) ||
+            (l.phone && l.phone.toLowerCase().includes(query))
+        );
+
+        const matchingShowrooms = showrooms.filter(s => 
+            (s.name && s.name.toLowerCase().includes(query)) ||
+            (s.region && s.region.toLowerCase().includes(query))
+        );
+
+        const matchingCourses = courses.filter(c => 
+            (c.title && c.title.toLowerCase().includes(query))
+        );
+
+        const totalMatches = matchingLeads.length + matchingShowrooms.length + matchingCourses.length;
+
+        if (totalMatches === 0) {
+            container.innerHTML = `<div class="search-no-results"><i class="fas fa-search-minus" style="margin-right: 8px;"></i>No items match "${query}"</div>`;
+            container.style.display = 'block';
+            return;
+        }
+
+        let html = '';
+
+        // 1. Leads
+        if (matchingLeads.length > 0) {
+            html += `<div class="search-section-header"><i class="fas fa-user-friends"></i> Showroom Leads & Loan Pipeline</div>`;
+            matchingLeads.forEach(lead => {
+                html += `
+                    <div class="search-result-item" data-type="lead" data-id="${lead.id}">
+                        <div class="item-details">
+                            <div class="item-title">${lead.name}</div>
+                            <div class="item-subtitle">${lead.vehicle} | Stage: ${lead.stage.toUpperCase()}</div>
+                        </div>
+                        <span class="item-badge">${lead.amount}</span>
+                    </div>
+                `;
+            });
+        }
+
+        // 2. Showrooms
+        if (matchingShowrooms.length > 0) {
+            html += `<div class="search-section-header"><i class="fas fa-store"></i> Showrooms & Dealership Performance</div>`;
+            matchingShowrooms.forEach(s => {
+                html += `
+                    <div class="search-result-item" data-type="showroom" data-id="${s.name}">
+                        <div class="item-details">
+                            <div class="item-title">${s.name}</div>
+                            <div class="item-subtitle">Region: ${s.region} | Rank: #${s.rank}</div>
+                        </div>
+                        <span class="item-badge">${s.disbursement}</span>
+                    </div>
+                `;
+            });
+        }
+
+        // 3. Courses
+        if (matchingCourses.length > 0) {
+            html += `<div class="search-section-header"><i class="fas fa-graduation-cap"></i> Training Academy</div>`;
+            matchingCourses.forEach(c => {
+                html += `
+                    <div class="search-result-item" data-type="course" data-id="${c.id}">
+                        <div class="item-details">
+                            <div class="item-title">${c.title}</div>
+                            <div class="item-subtitle">Length: ${c.length} | Progress: ${c.progress}%</div>
+                        </div>
+                        <span class="item-badge">+${c.xp} XP</span>
+                    </div>
+                `;
+            });
+        }
+
+        container.innerHTML = html;
+        container.style.display = 'block';
+
+        // Add Click listeners
+        container.querySelectorAll('.search-result-item').forEach(el => {
+            el.addEventListener('click', () => {
+                const type = el.getAttribute('data-type');
+                const id = el.getAttribute('data-id');
+                this.handleSearchResultSelect(type, id);
+                container.style.display = 'none';
+                const searchInput = document.getElementById('globalSearchInput');
+                if (searchInput) searchInput.value = '';
+            });
+        });
+    }
+
+    handleSearchResultSelect(type, id) {
+        if (type === 'lead' || type === 'loan') {
+            this.switchTab('enquiry');
+            const targetLead = this.state.pipelineLeads.find(l => l.id === id);
+            if (targetLead) {
+                this.showLeadTimeline(targetLead);
+                // Scroll & highlight
+                setTimeout(() => {
+                    const el = document.getElementById('lead-card-' + id);
+                    if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        el.classList.add('search-highlight');
+                        setTimeout(() => el.classList.remove('search-highlight'), 2500);
+                    }
+                }, 100);
+                this.showNotification(`Found Lead: ${targetLead.name} (${targetLead.vehicle})`, 'success');
+            }
+        } else if (type === 'showroom') {
+            this.switchTab('performance');
+            // Scroll & highlight showroom row
+            setTimeout(() => {
+                const elId = 'showroom-row-' + id.replace(/[^a-zA-Z0-9]/g, '-');
+                const el = document.getElementById(elId);
+                if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    el.classList.add('search-highlight');
+                    setTimeout(() => el.classList.remove('search-highlight'), 2500);
+                }
+            }, 100);
+            this.showNotification(`Showroom: ${id}`, 'success');
+        } else if (type === 'course') {
+            this.switchTab('training');
+            const mod = this.state.trainingModules.find(m => m.id === id);
+            if (mod) {
+                // Scroll & highlight
+                setTimeout(() => {
+                    const el = document.getElementById('course-card-' + id);
+                    if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        el.classList.add('search-highlight');
+                        setTimeout(() => el.classList.remove('search-highlight'), 2500);
+                    }
+                }, 100);
+                this.showNotification(`Course: ${mod.title}`, 'success');
+            }
+        } else if (type === 'compliance') {
+            // Find compliance case or fallback to lead pipeline
+            const targetCase = this.state.complianceCases.find(c => c.id === id);
+            if (targetCase) {
+                this.switchTab('compliance');
+                this.selectForOcrScan(id);
+                setTimeout(() => {
+                    const el = document.getElementById('compliance-row-' + id);
+                    if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        el.classList.add('search-highlight');
+                        setTimeout(() => el.classList.remove('search-highlight'), 2500);
+                    }
+                }, 100);
+            } else {
+                // Fallback to enquiry/leads pipeline
+                this.switchTab('enquiry');
+                const targetLead = this.state.pipelineLeads.find(l => l.id === id);
+                if (targetLead) {
+                    this.showLeadTimeline(targetLead);
+                    setTimeout(() => {
+                        const el = document.getElementById('lead-card-' + id);
+                        if (el) {
+                            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            el.classList.add('search-highlight');
+                            setTimeout(() => el.classList.remove('search-highlight'), 2500);
+                        }
+                    }, 100);
+                    this.showNotification(`Found Lead: ${targetLead.name} (${targetLead.vehicle})`, 'success');
+                }
+            }
+        } else if (type === 'stock') {
+            // Check if id matches any outstanding vehicle
+            const isVehicle = this.state.stockFinance.outstandingVehicles.some(v => v.id === id || v.chassis === id);
+            if (isVehicle) {
+                this.switchTab('stock');
+                setTimeout(() => {
+                    const el = document.getElementById('stock-row-' + id);
+                    if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        el.classList.add('search-highlight');
+                        setTimeout(() => el.classList.remove('search-highlight'), 2500);
+                    }
+                }, 100);
+                this.showNotification(`Stock Item: ${id}`, 'success');
+            } else {
+                // Otherwise navigate to portfolio risk page where delayed showroom payments reside
+                this.switchTab('portfolio');
+                this.showNotification(`Risk Alert: ${id}`, 'warning');
+            }
+        }
+    }
+
+    renderNotificationsList(container) {
+        if (!container) return;
+        
+        const unreadCount = this.state.notifications.filter(n => n.unread).length;
+        
+        let html = `
+            <div class="notification-header">
+                <h4>Showroom Notifications</h4>
+                ${unreadCount > 0 ? `<button class="mark-all-btn" id="notifMarkAllBtn">Mark all read</button>` : ''}
+            </div>
+            <div class="notification-list">
+        `;
+        
+        if (this.state.notifications.length === 0) {
+            html += `<div class="notification-empty">No alerts today</div>`;
+        } else {
+            this.state.notifications.forEach(n => {
+                let iconClass = 'fa-bell';
+                if (n.type === 'stock') iconClass = 'fa-warehouse';
+                else if (n.type === 'loan') iconClass = 'fa-file-invoice-dollar';
+                else if (n.type === 'compliance') iconClass = 'fa-shield-alt';
+                else if (n.type === 'training') iconClass = 'fa-graduation-cap';
+                
+                html += `
+                    <div class="notification-item ${n.unread ? 'unread' : ''}" data-id="${n.id}">
+                        <div class="notif-icon">
+                            <i class="fas ${iconClass}"></i>
+                        </div>
+                        <div class="notif-content">
+                            <div class="notif-text">${n.text}</div>
+                            <div class="notif-time">${n.time}</div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+        
+        html += `</div>`;
+        container.innerHTML = html;
+        
+        // Add Event Listeners
+        const markAllBtn = container.querySelector('#notifMarkAllBtn');
+        if (markAllBtn) {
+            markAllBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.state.notifications.forEach(n => n.unread = false);
+                this.updateNotificationBadge();
+                this.renderNotificationsList(container);
+                this.showNotification('All notifications marked as read', 'success');
+            });
+        }
+        
+        container.querySelectorAll('.notification-item').forEach(el => {
+            el.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = el.getAttribute('data-id');
+                const notif = this.state.notifications.find(n => n.id === id);
+                if (notif) {
+                    notif.unread = false;
+                    this.updateNotificationBadge();
+                    container.style.display = 'none';
+                    this.handleSearchResultSelect(notif.type, notif.targetId);
+                }
+            });
+        });
+    }
+
+    updateNotificationBadge() {
+        const badge = document.getElementById('bellBadgeDot');
+        if (!badge) return;
+        const unreadCount = this.state.notifications.filter(n => n.unread).length;
+        if (unreadCount > 0) {
+            badge.style.display = 'flex';
+            badge.style.alignItems = 'center';
+            badge.style.justifyContent = 'center';
+            badge.style.position = 'absolute';
+            badge.style.top = '2px';
+            badge.style.right = '2px';
+            badge.style.width = '14px';
+            badge.style.height = '14px';
+            badge.style.borderRadius = '50%';
+            badge.style.background = 'var(--color-mahindra-red)';
+            badge.style.color = '#ffffff';
+            badge.style.fontSize = '8px';
+            badge.style.fontWeight = '800';
+            badge.style.border = '1px solid var(--bg-surface)';
+            badge.textContent = unreadCount;
+        } else {
+            badge.style.display = 'none';
+        }
     }
 
     startTicker() {
@@ -666,6 +1054,8 @@ class DealerOSApp {
             if (!col) return;
 
             const card = document.createElement('div');
+            card.id = 'lead-card-' + lead.id;
+            card.setAttribute('data-lead-id', lead.id);
             card.className = 'pipeline-card';
             card.setAttribute('draggable', 'true');
             card.innerHTML = `
@@ -875,7 +1265,12 @@ class DealerOSApp {
             else if (c.score === 'Fully Compliant') badgeClass = 'teal';
 
             const row = document.createElement('tr');
+            row.id = 'compliance-row-' + c.id;
             row.style.cursor = 'pointer';
+            row.addEventListener('click', (e) => {
+                if (e.target.closest('button')) return;
+                this.selectForOcrScan(c.id);
+            });
             row.innerHTML = `
                 <td><strong>${c.customerName}</strong><br><small style="color: var(--text-secondary);">${c.vehicle}</small></td>
                 <td>${c.loanAmount}</td>
@@ -1040,6 +1435,7 @@ class DealerOSApp {
             else if (v.status === 'PENDING_RELEASE') statusBadge = '<span class="badge blue">Pending Release</span>';
 
             const row = document.createElement('tr');
+            row.id = 'stock-row-' + v.id;
             row.innerHTML = `
                 <td><strong>${v.model}</strong><br><small style="color: var(--text-secondary);">${v.chassis}</small></td>
                 <td>${v.cost}</td>
@@ -1199,6 +1595,7 @@ class DealerOSApp {
         list.innerHTML = '';
         window.DealerOSData.dealerPerformance.forEach(item => {
             const row = document.createElement('tr');
+            row.id = 'showroom-row-' + item.name.replace(/[^a-zA-Z0-9]/g, '-');
             row.innerHTML = `
                 <td><strong>#${item.rank}</strong></td>
                 <td><strong>${item.name}</strong><br><small style="color: var(--text-secondary);">${item.region} Zone</small></td>
@@ -1504,6 +1901,7 @@ class DealerOSApp {
         grid.innerHTML = '';
         this.state.trainingModules.forEach(mod => {
             const card = document.createElement('div');
+            card.id = 'course-card-' + mod.id;
             card.className = 'glassmorphism glow-border';
             card.style.padding = '24px';
             card.style.display = 'flex';
