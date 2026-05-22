@@ -15,7 +15,7 @@ class DealerOSApp {
             chatMessages: [
                 {
                     sender: 'assistant',
-                    text: 'Welcome, Vikramaditya! I am your DealerOS Intelligence Copilot. How can I help you manage operations today?',
+                    text: 'Welcome, Vikramaditya! I am your DealerOS Showroom AI Assistant. How can I help you manage your showroom and loans today?',
                     time: 'Just now'
                 }
             ],
@@ -68,7 +68,7 @@ class DealerOSApp {
                 const sidebar = document.querySelector('.app-sidebar');
                 if (sidebar && sidebar.classList.contains('open')) {
                     sidebar.classList.remove('open');
-                    this.showNotification("Mobile Command Console Closed", "info");
+                    this.showNotification("Mobile Menu Closed", "info");
                 }
             });
         }
@@ -254,7 +254,7 @@ class DealerOSApp {
                         icon.classList.remove('fa-expand');
                         icon.classList.add('fa-compress');
                     }
-                    this.showNotification("Cinematic Fullscreen Mode Enabled", "info");
+                    this.showNotification("Fullscreen Mode Enabled", "info");
                 })
                 .catch((err) => {
                     this.showNotification("Fullscreen mode is blocked by browser policies.", "warning");
@@ -266,7 +266,7 @@ class DealerOSApp {
                         icon.classList.remove('fa-compress');
                         icon.classList.add('fa-expand');
                     }
-                    this.showNotification("Cinematic Fullscreen Mode Disabled", "info");
+                    this.showNotification("Fullscreen Mode Disabled", "info");
                 })
                 .catch(() => {});
         }
@@ -277,7 +277,7 @@ class DealerOSApp {
         if (sidebar) {
             sidebar.classList.toggle('open');
             const isOpen = sidebar.classList.contains('open');
-            this.showNotification(isOpen ? "Mobile Command Console Opened" : "Mobile Command Console Closed", "info");
+            this.showNotification(isOpen ? "Mobile Menu Opened" : "Mobile Menu Closed", "info");
         }
     }
 
@@ -367,7 +367,7 @@ class DealerOSApp {
         // Confirm OTP triggers dashboard enter
         if (otpConfirmBtn && loginScreen) {
             otpConfirmBtn.addEventListener('click', () => {
-                this.showNotification("MFA Token approved. Authenticated.", "success");
+                this.showNotification("Security code approved. Welcome!", "success");
                 loginScreen.classList.add('hidden');
                 this.switchTab('dashboard');
             });
@@ -442,7 +442,7 @@ class DealerOSApp {
         document.getElementById('profileRoleText').textContent = currentPersona.title;
 
         // Show Notification of persona update
-        this.showNotification(`Switched environment perspective: ${currentPersona.title}`, "success");
+        this.showNotification(`Switched view to: ${currentPersona.title}`, "success");
 
         // Re-calculate menu lists based on new permissions
         this.renderMenuByRole();
@@ -501,7 +501,7 @@ class DealerOSApp {
 
         el.innerHTML = `
             <i class="fas ${iconClass}" style="color: ${iconColor}; font-size: 16px;"></i>
-            <span style="font-size: 12px; font-weight: 600; color: #fff;">${msg}</span>
+            <span style="font-size: 12px; font-weight: 600; color: var(--text-primary);">${msg}</span>
         `;
 
         notifyContainer.appendChild(el);
@@ -627,7 +627,7 @@ class DealerOSApp {
             data: {
                 labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May (YTD)'],
                 datasets: [{
-                    label: 'Disbursement Volume (₹ Cr)',
+                    label: 'Total Loans Given (₹ Cr)',
                     data: [15.2, 18.5, 22.4, 21.0, 24.85],
                     borderColor: '#E31837',
                     borderWidth: 2,
@@ -747,20 +747,20 @@ class DealerOSApp {
             <span class="badge red" style="margin-bottom: 24px; display: inline-block;">${lead.vehicle}</span>
             
             <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 32px;">
-                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 8px;">
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.06); padding-bottom: 8px;">
                     <span style="font-size: 12px; color: var(--text-secondary);">Phone</span>
-                    <span style="font-size: 12px; color: #fff; font-weight: 600;">${lead.phone}</span>
+                    <span style="font-size: 12px; color: var(--text-primary); font-weight: 600;">${lead.phone}</span>
                 </div>
-                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 8px;">
-                    <span style="font-size: 12px; color: var(--text-secondary);">AI Eligiblity</span>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.06); padding-bottom: 8px;">
+                    <span style="font-size: 12px; color: var(--text-secondary);">Showroom Loan Check</span>
                     <span style="font-size: 12px; color: var(--color-teal-glow); font-weight: 600;">${lead.score} Profile</span>
                 </div>
-                <div style="font-size: 12px; color: var(--text-secondary); line-height: 1.4; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 8px; border-left: 2px solid var(--color-teal-glow);">
+                <div style="font-size: 12px; color: var(--text-secondary); line-height: 1.4; padding: 12px; background: rgba(0,0,0,0.02); border-radius: 8px; border-left: 2px solid var(--color-teal-glow);">
                     <i class="fas fa-brain" style="margin-right: 6px;"></i> ${lead.eligibility}
                 </div>
             </div>
 
-            <h4 style="font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); margin-bottom: 16px;">Application Audit Log</h4>
+            <h4 style="font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); margin-bottom: 16px;">Lead Actions History</h4>
             <div style="max-height: 240px; overflow-y: auto;">
                 ${timelineHtml}
             </div>
@@ -793,10 +793,10 @@ class DealerOSApp {
             lead.probability = probs[nextStage] || 50;
             lead.timeline.unshift({
                 date: new Date().toISOString().slice(0, 16).replace('T', ' '),
-                title: `Pushed to ${nextStage.toUpperCase()}`,
-                text: `Application moved forward through automated platform workflow router.`
+                title: `Moved to ${nextStage.toUpperCase()}`,
+                text: `Loan application moved forward.`
             });
-            this.showNotification(`Lead ${lead.name} advanced to ${nextStage.toUpperCase()}`, "success");
+            this.showNotification(`Lead ${lead.name} moved to ${nextStage.toUpperCase()}`, "success");
             this.renderPipeline();
         } else {
             this.showNotification(`Lead is already in Disbursed stage. Payout complete.`, "warning");
@@ -823,10 +823,10 @@ class DealerOSApp {
             lead.probability = probs[prevStage] || 25;
             lead.timeline.unshift({
                 date: new Date().toISOString().slice(0, 16).replace('T', ' '),
-                title: `Demoted to ${prevStage.toUpperCase()}`,
-                text: `Application moved backward through workflow router.`
+                title: `Moved back to ${prevStage.toUpperCase()}`,
+                text: `Loan application moved back a stage.`
             });
-            this.showNotification(`Lead ${lead.name} demoted to ${prevStage.toUpperCase()}`, "info");
+            this.showNotification(`Lead ${lead.name} moved back to ${prevStage.toUpperCase()}`, "info");
             this.renderPipeline();
         } else {
             this.showNotification(`Lead is already in first stage.`, "warning");
@@ -853,7 +853,7 @@ class DealerOSApp {
         lead.timeline.unshift({
             date: new Date().toISOString().slice(0, 16).replace('T', ' '),
             title: `Dragged & Dropped to ${newStage.toUpperCase()}`,
-            text: `Manual pipeline override: Card moved to ${newStage.toUpperCase()} column.`
+            text: `Card moved to ${newStage.toUpperCase()} column.`
         });
 
         this.showNotification(`Moved ${lead.name} to ${newStage.toUpperCase()}`, "success");
@@ -886,7 +886,7 @@ class DealerOSApp {
                 <td>${invStatus}</td>
                 <td>
                     <button class="btn-primary" style="padding: 6px 12px; font-size: 11px; width: auto;" onclick="window.dealerOSApp.selectForOcrScan('${c.id}')">
-                        <i class="fas fa-qrcode"></i> Audit
+                        <i class="fas fa-search"></i> Check Docs
                     </button>
                 </td>
             `;
@@ -922,7 +922,7 @@ class DealerOSApp {
 
         if (ocrCaseTitle) ocrCaseTitle.textContent = targetCase.customerName;
         if (ocrCaseSub) ocrCaseSub.textContent = `${targetCase.vehicle} (${targetCase.loanAmount})`;
-        if (ocrStatusMessage) ocrStatusMessage.textContent = 'Awaiting Aadhar / RC / Insurance Copy PDF upload';
+        if (ocrStatusMessage) ocrStatusMessage.textContent = 'Waiting for Aadhaar / RC / Insurance copy upload';
         if (ocrFieldsContainer) ocrFieldsContainer.innerHTML = '';
         
         // Inject the registration card data directly into the DOM mockup safely
@@ -936,7 +936,7 @@ class DealerOSApp {
         if (rcChassisEl) rcChassisEl.textContent = meta.chassis;
         if (rcModelEl) rcModelEl.textContent = meta.model;
 
-        this.showNotification(`Selected ${targetCase.customerName} for digital document audit.`, "info");
+        this.showNotification(`Selected ${targetCase.customerName} for document checks.`, "info");
     }
 
     handleFileScanSimulation(e) {
@@ -979,21 +979,21 @@ class DealerOSApp {
 
         setTimeout(() => {
             if (previewContainer) previewContainer.classList.remove('scanning');
-            if (statusMessage) statusMessage.textContent = 'OCR Sweep Complete - Matched with Vahan Registry!';
+            if (statusMessage) statusMessage.textContent = 'Document check complete - Matched with Govt Vahan Portal!';
             
             // Render verified mock fields with custom-colored match highlights
             if (fieldsContainer) {
                 fieldsContainer.innerHTML = `
                     <div class="ocr-extracted-field">
-                        <span>Chassis Match Rate</span>
+                        <span>Chassis Number Match</span>
                         <strong style="color: var(--color-teal-glow);">100% (${meta.chassis})</strong>
                     </div>
                     <div class="ocr-extracted-field">
-                        <span>Ownership Name Match</span>
+                        <span>Owner Name Match</span>
                         <strong style="color: var(--color-teal-glow);">99.8% (${meta.owner})</strong>
                     </div>
                     <div class="ocr-extracted-field">
-                        <span>Vahan Status</span>
+                        <span>Govt Vahan Status</span>
                         <strong style="color: var(--color-teal-glow);">Active - Tax Paid Upto 2041</strong>
                     </div>
                 `;
@@ -1023,7 +1023,7 @@ class DealerOSApp {
                 }
             }
 
-            this.showNotification("OCR matching passed. Vault locked.", "success");
+            this.showNotification("Document check passed. Saved successfully.", "success");
             this.renderCompliance();
         }, 2200);
     }
@@ -1034,9 +1034,9 @@ class DealerOSApp {
 
         tableBody.innerHTML = '';
         this.state.stockFinance.outstandingVehicles.forEach(v => {
-            let statusBadge = '<span class="badge teal">Funded</span>';
-            if (v.status === 'WARNING') statusBadge = '<span class="badge gold">Age Alert</span>';
-            else if (v.status === 'CRITICAL') statusBadge = '<span class="badge red">Critical Age</span>';
+            let statusBadge = '<span class="badge teal">Loan Approved</span>';
+            if (v.status === 'WARNING') statusBadge = '<span class="badge gold">Stock Yard Alert</span>';
+            else if (v.status === 'CRITICAL') statusBadge = '<span class="badge red">Yard Alert (Critical)</span>';
             else if (v.status === 'PENDING_RELEASE') statusBadge = '<span class="badge blue">Pending Release</span>';
 
             const row = document.createElement('tr');
@@ -1074,14 +1074,14 @@ class DealerOSApp {
         const amt = parseFloat(amtInput.value) * 100000; // Conversion from Lakhs to Rupees
 
         if (isNaN(qty) || qty <= 0 || isNaN(amt) || amt <= 0) {
-            this.showNotification("Please enter valid quantities and funding valuations.", "warning");
+            this.showNotification("Please enter valid vehicle count and loan amount.", "warning");
             return;
         }
 
         const currentAvailable = this.state.stockFinance.totalLimit - this.state.stockFinance.utilizedAmount;
 
         if (amt > currentAvailable) {
-            this.showNotification("Requested amount exceeds remaining available limit. Request rejected.", "danger");
+            this.showNotification("Loan amount is more than your available limit. Request rejected.", "danger");
             return;
         }
 
@@ -1097,7 +1097,7 @@ class DealerOSApp {
             location: "Transit (Plant Gate)"
         });
 
-        this.showNotification(`Liquidity request successful. Transferred ₹${(amt / 100000).toFixed(2)} Lakhs into Factory Pool.`, "success");
+        this.showNotification(`Stock loan request successful. Released ₹${(amt / 100000).toFixed(2)} Lakhs for factory purchase.`, "success");
         qtyInput.value = '';
         amtInput.value = '';
 
@@ -1117,7 +1117,7 @@ class DealerOSApp {
         this.state.charts.stock = new Chart(ctxStock.getContext('2d'), {
             type: 'doughnut',
             data: {
-                labels: ['Utilized Limit', 'Available Limit'],
+                labels: ['Used Stock Loan', 'Available Stock Loan'],
                 datasets: [{
                     data: [utilized, available],
                     backgroundColor: ['#E31837', '#f1f3f7'],
@@ -1152,7 +1152,7 @@ class DealerOSApp {
             row.style.display = 'flex';
             row.style.justifyContent = 'space-between';
             row.style.padding = '12px 0';
-            row.style.borderBottom = '1px solid rgba(255,255,255,0.02)';
+            row.style.borderBottom = '1px solid rgba(0,0,0,0.06)';
             
             let trendIcon = '<i class="fas fa-arrow-right" style="color: var(--text-secondary);"></i>';
             if (item.trend === 'INCREASING') trendIcon = '<i class="fas fa-arrow-up" style="color: var(--color-electric-red); animation: pulse 1s infinite;"></i>';
@@ -1160,12 +1160,12 @@ class DealerOSApp {
 
             row.innerHTML = `
                 <div>
-                    <span style="font-size: 13px; font-weight: 600; color: #fff;">${item.state} Region</span><br>
-                    <small style="color: var(--text-secondary);">${item.nodes} Financed Dealerships</small>
+                    <span style="font-size: 13px; font-weight: 600; color: var(--text-primary);">${item.state} Region</span><br>
+                    <small style="color: var(--text-secondary);">${item.nodes} Financed Showrooms</small>
                 </div>
                 <div style="text-align: right;">
-                    <span style="font-size: 13px; font-weight: 700; color: #fff;">NPA: ${item.npa}</span><br>
-                    <small style="color: var(--text-secondary);">${item.activeAum} AUM ${trendIcon}</small>
+                    <span style="font-size: 13px; font-weight: 700; color: var(--text-primary);">Unpaid Dues (NPA): ${item.npa}</span><br>
+                    <small style="color: var(--text-secondary);">${item.activeAum} Active Loans ${trendIcon}</small>
                 </div>
             `;
             npaList.appendChild(row);
@@ -1179,9 +1179,9 @@ class DealerOSApp {
         this.state.charts.risk = new Chart(ctxRisk.getContext('2d'), {
             type: 'bar',
             data: {
-                labels: ['Standard', 'Bucket 1 (1-30d)', 'Bucket 2 (31-60d)', 'Bucket 3 (61-90d)', 'Gross NPA (>90d)'],
+                labels: ['On Time', '1-30 Days Late', '31-60 Days Late', '61-90 Days Late', 'Unpaid Dues (>90d)'],
                 datasets: [{
-                    label: 'Portfolio aging proportion',
+                    label: 'Loan Dues Aging',
                     data: [96.48, 1.82, 0.82, 0.58, 0.30],
                     backgroundColor: ['rgba(227, 24, 55, 0.2)', 'rgba(227, 24, 55, 0.4)', 'rgba(227, 24, 55, 0.6)', 'rgba(227, 24, 55, 0.75)', 'rgba(227, 24, 55, 0.95)'],
                     borderColor: 'rgba(0, 0, 0, 0.05)',
@@ -1202,7 +1202,7 @@ class DealerOSApp {
             row.innerHTML = `
                 <td><strong>#${item.rank}</strong></td>
                 <td><strong>${item.name}</strong><br><small style="color: var(--text-secondary);">${item.region} Zone</small></td>
-                <td><span style="font-size: 13px; font-weight: 700; color: var(--color-teal-glow);">${item.score} INDEX</span></td>
+                <td><span style="font-size: 13px; font-weight: 700; color: var(--color-teal-glow);">${item.score} Score</span></td>
                 <td><strong>${item.disbursement}</strong></td>
                 <td>
                     <div style="width: 100px; height: 6px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden;">
@@ -1221,7 +1221,7 @@ class DealerOSApp {
         this.state.charts.performance = new Chart(ctxPerf.getContext('2d'), {
             type: 'radar',
             data: {
-                labels: ['Sales Target', 'Collection Efficiency', 'PDD Turnaround', 'Inventory Aging', 'Customer Index', 'Auto-Approve Match'],
+                labels: ['Sales Target', 'On-Time Collections', 'Document Check Speed', 'Stock Yard Age', 'Customer Happy Index', 'Auto Document Match'],
                 datasets: [{
                     label: 'Mahindra Landmark (My Store)',
                     data: [94, 98.92, 85, 78, 92, 89.2],
@@ -1261,9 +1261,9 @@ class DealerOSApp {
 
     renderExecutiveView() {
         const nodes = [
-            { id: 'node_mumbai', name: 'West Regional Hub - Mumbai', top: '55%', left: '35%', val: '₹82.4 Cr AUM' },
-            { id: 'node_delhi', name: 'North Cluster Hub - Delhi NCR', top: '25%', left: '48%', val: '₹64.8 Cr AUM' },
-            { id: 'node_bengaluru', name: 'South Cluster Hub - Bengaluru', top: '78%', left: '42%', val: '₹59.2 Cr AUM' }
+            { id: 'node_mumbai', name: 'West Regional Hub - Mumbai', top: '55%', left: '35%', val: '₹82.4 Cr Active Loans' },
+            { id: 'node_delhi', name: 'North Cluster Hub - Delhi NCR', top: '25%', left: '48%', val: '₹64.8 Cr Active Loans' },
+            { id: 'node_bengaluru', name: 'South Cluster Hub - Bengaluru', top: '78%', left: '42%', val: '₹59.2 Cr Active Loans' }
         ];
 
         const mapCanvas = document.getElementById('executiveMapCanvas');
@@ -1281,7 +1281,7 @@ class DealerOSApp {
                 <div class="map-hud-legend">
                     <div class="hud-item">
                         <span class="hud-dot red"></span>
-                        <span>Regional Hubs</span>
+                        <span>Regional Offices</span>
                     </div>
                     <div class="hud-item">
                         <span class="hud-dot teal"></span>
@@ -1309,12 +1309,12 @@ class DealerOSApp {
             tooltipEl.innerHTML = `
                 <strong>${n.name}</strong>
                 <span class="exposure">${n.val}</span>
-                <span class="telemetry"><i class="fas fa-satellite-dish"></i> 256-Bit Cryptographic Link</span>
+                <span class="telemetry"><i class="fas fa-satellite-dish"></i> Secure Link</span>
             `;
             nodeEl.appendChild(tooltipEl);
             
             nodeEl.addEventListener('click', () => {
-                this.showNotification(`Inspecting ${n.name}: active outstanding portfolio exposure of ${n.val}.`, "info");
+                this.showNotification(`Inspecting ${n.name}: active outstanding loans of ${n.val}.`, "info");
                 this.selectTelemetryNode(n.id);
             });
 
@@ -1331,7 +1331,7 @@ class DealerOSApp {
             data: {
                 labels: ['Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026 (Pro)'],
                 datasets: [{
-                    label: 'National AUM (₹ Cr)',
+                    label: 'All India Active Loans (₹ Cr)',
                     data: [1840, 2020, 2210, 2380, 2485.6],
                     borderColor: '#E31837',
                     borderWidth: 2,
@@ -1350,7 +1350,7 @@ class DealerOSApp {
 
         secList.innerHTML = '';
         window.DealerOSData.securityLogs.forEach(log => {
-            const badge = log.status === 'SAFE' ? '<span class="badge teal">Verified Safe</span>' : '<span class="badge red" style="animation: pulse 1s infinite;">Suspicious Attempt</span>';
+            const badge = log.status === 'SAFE' ? '<span class="badge teal">Secure</span>' : '<span class="badge red" style="animation: pulse 1s infinite;">Alert (Review Required)</span>';
             const item = document.createElement('tr');
             item.innerHTML = `
                 <td><small style="color: var(--text-secondary);">${log.timestamp}</small></td>
@@ -1402,11 +1402,11 @@ class DealerOSApp {
         
         if (query.includes('npa') || query.includes('risk')) {
             return `
-                <div style="font-size: 13px; line-height: 1.5; color: #fff;">
-                    <strong style="color: var(--color-teal-glow);"><i class="fas fa-shield-alt"></i> Risk Engine Portfolio Report:</strong><br><br>
-                    Weighted Average NPA across all dealers is outstandingly low at **1.48%**. However, Indore region has slipped with a critical risk tag.<br><br>
+                <div style="font-size: 13px; line-height: 1.5; color: var(--text-primary);">
+                    <strong style="color: var(--color-mahindra-red);"><i class="fas fa-shield-alt"></i> Loan Risk & Dues Report:</strong><br><br>
+                    Average unpaid dues (NPA) across all showrooms is very low at **1.48%**. However, Indore region has slipped with a high warning tag.<br><br>
                     <button class="btn-primary" style="padding: 6px 12px; font-size: 11px; width: auto;" onclick="window.dealerOSApp.switchTab('portfolio')">
-                        <i class="fas fa-chart-bar"></i> Open Portfolio Risk Center
+                        <i class="fas fa-chart-bar"></i> Open Customer Dues Center
                     </button>
                 </div>
             `;
@@ -1414,11 +1414,11 @@ class DealerOSApp {
         
         if (query.includes('pdd') || query.includes('compliance')) {
             return `
-                <div style="font-size: 13px; line-height: 1.5; color: #fff;">
-                    <strong style="color: var(--color-teal-glow);"><i class="fas fa-balance-scale"></i> Compliance & PDD Backlog:</strong><br><br>
-                    We currently have **18 PDD pending cases**. 12 items are overdue by more than 30 Days. Top bottlenecks are matching RC Books with NSDL database.<br><br>
+                <div style="font-size: 13px; line-height: 1.5; color: var(--text-primary);">
+                    <strong style="color: var(--color-mahindra-red);"><i class="fas fa-balance-scale"></i> Pending Document Checks:</strong><br><br>
+                    We currently have **18 pending document checks**. 12 items are late by more than 30 Days. Top delay is matching vehicle registration numbers with the database.<br><br>
                     <button class="btn-primary" style="padding: 6px 12px; font-size: 11px; width: auto;" onclick="window.dealerOSApp.switchTab('compliance')">
-                        <i class="fas fa-file-signature"></i> Go to Compliance Center
+                        <i class="fas fa-file-signature"></i> Go to Document Checks
                     </button>
                 </div>
             `;
@@ -1426,11 +1426,11 @@ class DealerOSApp {
 
         if (query.includes('high-risk') || query.includes('accounts')) {
             return `
-                <div style="font-size: 13px; line-height: 1.5; color: #fff;">
-                    <strong style="color: var(--color-teal-glow);"><i class="fas fa-radiation"></i> Anomaly Risk Prediction:</strong><br><br>
-                    **Sterling Automobiles (Indore)** is identified as a flagged node. Score slipped to 62.5 due to high stock aging and unpaid floorplan margins.<br><br>
+                <div style="font-size: 13px; line-height: 1.5; color: var(--text-primary);">
+                    <strong style="color: var(--color-mahindra-red);"><i class="fas fa-radiation"></i> Showroom Alert Profile:</strong><br><br>
+                    **Sterling Automobiles (Indore)** has a warning flag. Showroom score fell to 62.5 due to unsold vehicles (high stock aging) and unpaid showroom margins.<br><br>
                     <button class="btn-primary" style="padding: 6px 12px; font-size: 11px; width: auto;" onclick="window.dealerOSApp.switchTab('stock')">
-                        <i class="fas fa-coins"></i> Inspect Floorplan Audit Sheets
+                        <i class="fas fa-coins"></i> Inspect Vehicle Stock Loans
                     </button>
                 </div>
             `;
@@ -1438,23 +1438,23 @@ class DealerOSApp {
 
         if (query.includes('report') || query.includes('regional')) {
             return `
-                <div style="font-size: 13px; line-height: 1.5; color: #fff;">
-                    <strong style="color: var(--color-teal-glow);"><i class="fas fa-chart-line"></i> Regional Market Analytics:</strong><br><br>
-                    West Division holds the largest disbursement at **₹24.85 Cr**. Central India represents the fastest growth vector (+18.2% MoM) led by SUV700 AX7 demand.<br><br>
+                <div style="font-size: 13px; line-height: 1.5; color: var(--text-primary);">
+                    <strong style="color: var(--color-mahindra-red);"><i class="fas fa-chart-line"></i> Regional Showroom Analytics:</strong><br><br>
+                    West Division has the highest total loans given at **₹24.85 Cr**. Central India shows the fastest growth (+18.2% monthly) led by high demand for Bolero, Thar, and SUV700.<br><br>
                     <button class="btn-primary" style="padding: 6px 12px; font-size: 11px; width: auto;" onclick="window.dealerOSApp.switchTab('performance')">
-                        <i class="fas fa-award"></i> Open Performance Dashboard
+                        <i class="fas fa-award"></i> Open Showroom Performance Rank
                     </button>
                 </div>
             `;
         }
 
         return `
-            <div style="font-size: 13px; line-height: 1.5;">
+            <div style="font-size: 13px; line-height: 1.5; color: var(--text-primary);">
                 I parsed your prompt: "<em>${text}</em>".<br><br>
-                As your platform Assistant, I can instantly inspect portfolio heatmaps, scan loan pipelines, audit missing RC files via OCR, and unlock Trade Advance liquidity lines.<br><br>
+                As your showroom assistant, I can instantly check customer dues, view loan pipelines, scan missing vehicle registration files, and release showroom stock loan funds.<br><br>
                 Try commands like:<br>
-                - <strong>"Show dealers with rising NPA trend"</strong><br>
-                - <strong>"Summarize pending PDD issues"</strong>
+                - <strong>"Show showrooms with rising unpaid dues"</strong><br>
+                - <strong>"Show pending document checks"</strong>
             </div>
         `;
     }
@@ -1548,14 +1548,14 @@ class DealerOSApp {
                     <span class="badge ${mod.status === 'COMPLETED' ? 'teal' : 'red'}" style="font-size: 9px;">${mod.status.replace('_', ' ')}</span>
                     <span style="font-size: 10px; color: var(--text-tertiary);"><i class="far fa-clock"></i> ${mod.length}</span>
                 </div>
-                <h3 style="font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 700; color: #fff; margin: 0; min-height: 48px; line-height: 1.4; z-index: 2;">${mod.title}</h3>
+                <h3 style="font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 700; color: var(--text-primary); margin: 0; min-height: 48px; line-height: 1.4; z-index: 2;">${mod.title}</h3>
                 
                 <div style="z-index: 2; margin-top: auto;">
                     <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-secondary); margin-bottom: 6px;">
                         <span>Progress</span>
                         <span>${mod.progress}%</span>
                     </div>
-                    <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.04); border-radius: 3px; overflow: hidden; margin-bottom: 16px;">
+                    <div style="width: 100%; height: 6px; background: rgba(0, 0, 0, 0.06); border-radius: 3px; overflow: hidden; margin-bottom: 16px;">
                         <div class="progress-bar-fill" style="width: ${mod.progress}%; height: 100%; background: ${mod.status === 'COMPLETED' ? 'var(--color-teal-glow)' : 'var(--color-mahindra-red)'}; transition: width 0.4s ease; border-radius: 3px;"></div>
                     </div>
                     
@@ -1658,9 +1658,9 @@ class DealerOSApp {
             const item = document.createElement('div');
             item.className = 'glassmorphism glow-border';
             item.style.padding = '16px';
-            item.style.background = 'rgba(255, 255, 255, 0.01)';
+            item.style.background = 'var(--bg-surface-elevated)';
             item.style.borderWidth = '1px';
-            item.style.borderColor = 'rgba(255, 255, 255, 0.04)';
+            item.style.borderColor = 'rgba(0, 0, 0, 0.06)';
             item.style.borderRadius = '8px';
             item.style.display = 'flex';
             item.style.gap = '12px';
@@ -1669,7 +1669,7 @@ class DealerOSApp {
                 <img src="${comm.avatar}" alt="${comm.author}" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border-glass);">
                 <div style="flex: 1;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                        <strong style="color: #fff; font-size: 13px;">${comm.author}</strong>
+                        <strong style="color: var(--text-primary); font-size: 13px;">${comm.author}</strong>
                         <span style="font-size: 10px; color: var(--text-tertiary);">${comm.time}</span>
                     </div>
                     <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.5; margin: 0;">${comm.message}</p>
@@ -1723,7 +1723,7 @@ class DealerOSApp {
         btn.classList.add('mic-recording-active');
         btnText.textContent = "Listening & Analyzing...";
         micIcon.className = "fas fa-circle-notch fa-spin";
-        this.showNotification("AI transcription engine initialized. Recording voice stream...", "info");
+        this.showNotification("AI voice recorder started. Listening to meeting...", "info");
 
         setTimeout(() => {
             btn.classList.remove('mic-recording-active');
@@ -1732,30 +1732,30 @@ class DealerOSApp {
             
             summaryContainer.innerHTML = `
                 <div style="background: rgba(227, 24, 55, 0.05); border: 1px solid rgba(227, 24, 55, 0.15); padding: 12px; border-radius: 6px; margin-bottom: 12px; border-left: 3px solid var(--color-mahindra-red);">
-                    <div style="font-weight: 700; color: #fff; font-size: 11px; text-transform: uppercase; margin-bottom: 4px;">Meeting Transcript Summary</div>
+                    <div style="font-weight: 700; color: var(--color-mahindra-red); font-size: 11px; text-transform: uppercase; margin-bottom: 4px;">Meeting Transcript Summary</div>
                     <div style="font-size: 11px; color: var(--text-secondary); line-height: 1.4;">
-                        "Discussed Indore stock floorplan limits. Auto limit increases activated for compliance ratings above 96%. Need to verify 12 pending KYC documents and audit Mahindra Bolero Neo stock at Yard A."
+                        "Discussed Indore showroom vehicle stock loan limits. Automatic limit increases started for showroom check scores above 96%. Need to check 12 pending customer ID documents and inspect Mahindra Bolero Neo stock at Yard A."
                     </div>
                 </div>
-                <div style="font-weight: 700; color: #fff; font-size: 11px; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 4px;">
-                    <i class="fas fa-tasks text-teal"></i> Actionable Compliance Tasks
+                <div style="font-weight: 700; color: var(--text-primary); font-size: 11px; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 4px;">
+                    <i class="fas fa-tasks text-red" style="color: var(--color-mahindra-red);"></i> Showroom Tasks to Do
                 </div>
                 <div style="display: flex; flex-direction: column; gap: 8px;">
                     <label style="display: flex; align-items: flex-start; gap: 8px; cursor: pointer; font-size: 11px; color: var(--text-secondary);">
                         <input type="checkbox" style="margin-top: 2px;" onchange="window.dealerOSApp.completeMomTask('task_1', this)">
-                        <span>Audit Bolero Neo at Stockyard A (Flagged Aging: 65 Days)</span>
+                        <span>Inspect Bolero Neo at Yard A (Unsold for 65 Days)</span>
                     </label>
                     <label style="display: flex; align-items: flex-start; gap: 8px; cursor: pointer; font-size: 11px; color: var(--text-secondary);">
                         <input type="checkbox" style="margin-top: 2px;" onchange="window.dealerOSApp.completeMomTask('task_2', this)">
-                        <span>Approve 12 pending KYC files for Fast-Track Compliance</span>
+                        <span>Check 12 pending customer ID files for quick approval</span>
                     </label>
                     <label style="display: flex; align-items: flex-start; gap: 8px; cursor: pointer; font-size: 11px; color: var(--text-secondary);">
                         <input type="checkbox" style="margin-top: 2px;" onchange="window.dealerOSApp.completeMomTask('task_3', this)">
-                        <span>Submit Indore Floorplan buffer disbursement approval</span>
+                        <span>Approve extra showroom stock loan funds for Indore</span>
                     </label>
                 </div>
             `;
-            this.showNotification("MOM analysis parsed. 3 new actionable compliance tasks loaded.", "success");
+            this.showNotification("Meeting summary created. 3 new showroom tasks to do.", "success");
         }, 2500);
     }
 
@@ -1764,7 +1764,7 @@ class DealerOSApp {
             checkboxEl.parentElement.style.textDecoration = 'line-through';
             checkboxEl.parentElement.style.opacity = '0.5';
             checkboxEl.disabled = true;
-            this.showNotification("Actionable compliance task marked completed.", "success");
+            this.showNotification("Showroom task marked completed.", "success");
             
             // Persist the state in the core KPI dataset so it doesn't get wiped on tab switch!
             const activeKpis = window.DealerOSData.kpis[this.state.currentRole] || window.DealerOSData.kpis['dealer_principal'];
@@ -1773,11 +1773,11 @@ class DealerOSApp {
             
             if (healthMetric && healthMetric.value.includes('94.2')) {
                 healthMetric.value = 'A+ / 95.8';
-                this.showNotification("Dealer Health Index updated to 95.8 (+1.6)", "success");
+                this.showNotification("Showroom Score updated to 95.8 (+1.6)", "success");
             }
             if (compMetric && compMetric.value.includes('97.4')) {
                 compMetric.value = '98.5%';
-                this.showNotification("Compliance Scorecard updated to 98.5%", "success");
+                this.showNotification("Showroom Check Score updated to 98.5%", "success");
             }
 
             // Immediately update DOM elements if they exist
@@ -1801,87 +1801,87 @@ class DealerOSApp {
         let data = {};
         if (nodeId === 'node_mumbai') {
             data = {
-                title: "West Regional Hub - Mumbai",
+                title: "West Region Showroom Hub - Mumbai",
                 aum: "₹82.40 Cr",
-                dealers: "42 Funded Nodes",
+                dealers: "42 Active Showrooms",
                 npa: "0.22% (Stable)",
                 npaColor: "var(--color-teal-glow)",
-                compliance: "98.4% Rating",
-                auditStatus: "Last audit completed: 4 days ago"
+                compliance: "98.4% Score",
+                auditStatus: "Last document check: 4 days ago"
             };
         } else if (nodeId === 'node_delhi') {
             data = {
-                title: "North Cluster Hub - Delhi NCR",
+                title: "North Region Showroom Hub - Delhi NCR",
                 aum: "₹64.80 Cr",
-                dealers: "28 Funded Nodes",
+                dealers: "28 Active Showrooms",
                 npa: "0.18% (Decreasing)",
                 npaColor: "var(--color-teal-glow)",
-                compliance: "96.2% Rating",
-                auditStatus: "Last audit completed: 12 days ago"
+                compliance: "96.2% Score",
+                auditStatus: "Last document check: 12 days ago"
             };
         } else {
             data = {
-                title: "South Cluster Hub - Bengaluru",
+                title: "South Region Showroom Hub - Bengaluru",
                 aum: "₹59.20 Cr",
-                dealers: "31 Funded Nodes",
+                dealers: "31 Active Showrooms",
                 npa: "0.42% (Stable)",
                 npaColor: "var(--color-teal-glow)",
-                compliance: "94.8% Rating",
-                auditStatus: "Last audit completed: 18 days ago"
+                compliance: "94.8% Score",
+                auditStatus: "Last document check: 18 days ago"
             };
         }
         
         hud.innerHTML = `
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 10px;">
-                <strong style="color: #fff; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em;">${data.title}</strong>
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0, 0, 0, 0.06); padding-bottom: 10px;">
+                <strong style="color: var(--text-primary); font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em;">${data.title}</strong>
                 <span class="badge red" style="font-size: 9px; cursor: pointer; border: none; padding: 2px 6px;" onclick="document.getElementById('executiveNodeTelemetry').style.display='none'"><i class="fas fa-times"></i></span>
             </div>
             
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px;">
                 <div>
-                    <div style="font-size: 9px; text-transform: uppercase; color: var(--text-tertiary);">Active AUM</div>
-                    <div style="font-size: 16px; font-weight: 700; color: #fff; font-family: 'Outfit', sans-serif;">${data.aum}</div>
+                    <div style="font-size: 9px; text-transform: uppercase; color: var(--text-tertiary);">Active Loans</div>
+                    <div style="font-size: 16px; font-weight: 700; color: var(--text-primary); font-family: 'Outfit', sans-serif;">${data.aum}</div>
                 </div>
                 <div>
-                    <div style="font-size: 9px; text-transform: uppercase; color: var(--text-tertiary);">Dealers Network</div>
-                    <div style="font-size: 13px; font-weight: 600; color: #fff; margin-top: 2px;">${data.dealers}</div>
+                    <div style="font-size: 9px; text-transform: uppercase; color: var(--text-tertiary);">Showrooms</div>
+                    <div style="font-size: 13px; font-weight: 600; color: var(--text-primary); margin-top: 2px;">${data.dealers}</div>
                 </div>
                 <div>
-                    <div style="font-size: 9px; text-transform: uppercase; color: var(--text-tertiary);">Gross NPA %</div>
+                    <div style="font-size: 9px; text-transform: uppercase; color: var(--text-tertiary);">Unpaid Dues % (NPA)</div>
                     <div style="font-size: 13px; font-weight: 700; color: ${data.npaColor}; font-family: 'Outfit', sans-serif;">${data.npa}</div>
                 </div>
                 <div>
-                    <div style="font-size: 9px; text-transform: uppercase; color: var(--text-tertiary);">Compliance Index</div>
+                    <div style="font-size: 9px; text-transform: uppercase; color: var(--text-tertiary);">Showroom Check Score</div>
                     <div style="font-size: 13px; font-weight: 700; color: var(--color-teal-glow); font-family: 'Outfit', sans-serif;">${data.compliance}</div>
                 </div>
             </div>
             
-            <div style="font-size: 10px; color: var(--text-secondary); background: rgba(255,255,255,0.02); padding: 8px; border-radius: 4px; border-left: 2px solid rgba(255, 255, 255, 0.1); margin-top: 8px;">
+            <div style="font-size: 10px; color: var(--text-secondary); background: rgba(0, 0, 0, 0.02); padding: 8px; border-radius: 4px; border-left: 2px solid rgba(0, 0, 0, 0.1); margin-top: 8px;">
                 <i class="fas fa-history" style="margin-right: 4px;"></i> ${data.auditStatus}
             </div>
             
             <div style="display: flex; gap: 8px; margin-top: 12px;">
-                <button class="btn-primary" style="flex: 1; padding: 8px; font-size: 10px; border-color: rgba(0, 245, 212, 0.3); width: auto;" onclick="window.dealerOSApp.triggerRegionalAudit('${nodeId}')">
-                    <i class="fas fa-binoculars"></i> Audit Sweep
+                <button class="btn-primary" style="flex: 1; padding: 8px; font-size: 10px; border-color: rgba(227, 24, 55, 0.3); width: auto;" onclick="window.dealerOSApp.triggerRegionalAudit('${nodeId}')">
+                    <i class="fas fa-binoculars"></i> Check Documents
                 </button>
-                <button class="btn-primary" style="flex: 1; padding: 8px; font-size: 10px; background: rgba(255,255,255,0.02); color: #fff; border-color: rgba(255,255,255,0.08); width: auto;" onclick="window.dealerOSApp.disburseRegionalBuffer('${nodeId}')">
-                    <i class="fas fa-coins"></i> Disburse Buffer
+                <button class="btn-primary" style="flex: 1; padding: 8px; font-size: 10px; background: transparent; color: var(--text-primary); border: 1px solid rgba(0, 0, 0, 0.15); width: auto;" onclick="window.dealerOSApp.disburseRegionalBuffer('${nodeId}')">
+                    <i class="fas fa-coins"></i> Release Funds
                 </button>
             </div>
         `;
     }
 
     triggerRegionalAudit(nodeId) {
-        this.showNotification(`Initializing deep cryptographic audit sweep on ${nodeId.replace('node_', '').toUpperCase()} regional hub...`, "info");
+        this.showNotification(`Running document verification check on ${nodeId.replace('node_', '').toUpperCase()} showrooms...`, "info");
         setTimeout(() => {
-            this.showNotification(`Audit sweep completed for ${nodeId.replace('node_', '').toUpperCase()}! Compliance status: 100% SECURE.`, "success");
+            this.showNotification(`Showroom check completed for ${nodeId.replace('node_', '').toUpperCase()}! Status: 100% SECURE.`, "success");
         }, 1500);
     }
     
     disburseRegionalBuffer(nodeId) {
-        this.showNotification(`Requesting emergency liquidity buffer release for ${nodeId.replace('node_', '').toUpperCase()}...`, "info");
+        this.showNotification(`Requesting showroom stock loan funds release for ${nodeId.replace('node_', '').toUpperCase()}...`, "info");
         setTimeout(() => {
-            this.showNotification(`ExCo liquidity approved. ₹15.0 Cr buffer disbursed to pool.`, "success");
+            this.showNotification(`Showroom stock loan approved. ₹15.0 Cr released to showroom pool.`, "success");
         }, 1500);
     }
 }

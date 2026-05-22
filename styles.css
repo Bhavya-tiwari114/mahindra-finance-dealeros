@@ -2671,4 +2671,74 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--text-secondary) !important;
 }
 
+/* Visibility Overrides for Hardcoded White Text */
+.header-brand span[style*="color: #fff"],
+.header-brand span[style*="color:#fff"] {
+    color: var(--text-primary) !important;
+}
+.stock-gauge-text span[style*="color: #fff"],
+.stock-gauge-text span[style*="color:#fff"] {
+    color: var(--text-primary) !important;
+}
+.welcome-banner-brand span[style*="color: #fff"],
+.welcome-banner-brand span[style*="color:#fff"] {
+    color: var(--text-primary) !important;
+}
+
+/* Premium Light Theme Red & White overrides for AI Copilot */
+.ai-copilot-panel {
+    background: var(--bg-surface) !important;
+    border: 1.5px solid rgba(227, 24, 55, 0.15) !important;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08) !important;
+}
+.ai-copilot-header {
+    background: var(--bg-surface-elevated) !important;
+    border-bottom: 1.5px solid rgba(227, 24, 55, 0.1) !important;
+}
+.ai-copilot-header h3 {
+    color: var(--text-primary) !important;
+}
+.ai-copilot-body {
+    background: var(--bg-surface) !important;
+}
+.chat-bubble.assistant {
+    background: var(--bg-surface-elevated) !important;
+    border: 1px solid rgba(0, 0, 0, 0.04) !important;
+    color: var(--text-primary) !important;
+}
+.ai-prompt-shortcuts {
+    background: var(--bg-surface) !important;
+    border-top: 1.5px solid rgba(227, 24, 55, 0.06) !important;
+}
+.prompt-chip {
+    background: rgba(227, 24, 55, 0.04) !important;
+    color: var(--color-mahindra-red) !important;
+    border: 1px solid rgba(227, 24, 55, 0.12) !important;
+}
+.prompt-chip:hover {
+    background: var(--color-mahindra-red) !important;
+    color: #ffffff !important;
+    border-color: var(--color-mahindra-red) !important;
+}
+.ai-copilot-footer {
+    background: var(--bg-surface-elevated) !important;
+    border-top: 1.5px solid rgba(0, 0, 0, 0.04) !important;
+}
+.ai-input-wrapper input {
+    background: var(--bg-surface) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+.ai-input-wrapper input::placeholder {
+    color: var(--text-tertiary) !important;
+}
+.ai-send-btn {
+    background: var(--color-mahindra-red) !important;
+    color: #ffffff !important;
+}
+.ai-send-btn:hover {
+    background: var(--color-mahindra-red-hover) !important;
+}
+
+
 

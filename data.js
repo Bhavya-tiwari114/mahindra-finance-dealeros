@@ -1,6 +1,7 @@
 /**
  * Mahindra Finance DealerOS - Enterprise Core Seed Data
  * Designed for rich information density, high fidelity, and realistic operations.
+ * Simplified for rural and semi-rural dealership networks.
  */
 
 const DealerOSData = {
@@ -16,38 +17,38 @@ const DealerOSData = {
     // Available User Persona Configurations
     personas: {
         dealer_principal: {
-            title: "Dealer Principal",
-            description: "Owner-level access focused on capital efficiency, sales pipelines, regional ranks, and treasury liquidity.",
+            title: "Showroom Owner",
+            description: "Showroom Owner view: Check cash flow, daily sales, regional ranking, and vehicle stock loans.",
             allowedModules: ["dashboard", "enquiry", "loan", "portfolio", "compliance", "stock", "performance", "training", "comms", "security"],
-            badge: "Principal",
+            badge: "Owner",
             themeAccent: "#E31837"
         },
         dealer_admin: {
-            title: "Dealer Administrator",
-            description: "Operational focus on documentation, RC uploads, fast application processing, and training completion.",
+            title: "Showroom Manager",
+            description: "Showroom Manager view: Upload customer documents (RC, Bill, Insurance) and track customer loan approvals.",
             allowedModules: ["dashboard", "enquiry", "loan", "compliance", "training", "comms"],
-            badge: "Admin",
+            badge: "Manager",
             themeAccent: "#E31837"
         },
         risk_team: {
-            title: "NBFC Risk Officer",
-            description: "Institutional oversight, NPA heatmaps, predictive default curves, bucket migration, and geo-risk auditing.",
+            title: "Loan Checker (MFL)",
+            description: "Mahindra Finance Checker view: Track customer dues, delay trends, and loan risks across areas.",
             allowedModules: ["dashboard", "portfolio", "performance", "security", "reports"],
-            badge: "Risk Control",
+            badge: "Loan Risk Checker",
             themeAccent: "#FF3366"
         },
         compliance_team: {
-            title: "NBFC Auditor",
-            description: "OCR matching validation, insurance renewals, compliance scorecards, audit histories, and PDD approvals.",
+            title: "Document Checker (MFL)",
+            description: "Mahindra Finance Auditor view: Verify customer documents, check insurance status, and approve pending loans.",
             allowedModules: ["dashboard", "loan", "compliance", "reports", "security"],
-            badge: "Compliance",
+            badge: "Doc Checker",
             themeAccent: "#FFAA00"
         },
         executive_leadership: {
-            title: "Executive Committee (ExCo)",
-            description: "Cinematic macroeconomic command view across 450+ nodes in India, performance models, and AI forecasts.",
+            title: "Senior Leader (MFL)",
+            description: "Senior Leadership view: Get a broad map of vehicle loan sales, dealer health, and smart forecasts across India.",
             allowedModules: ["executive", "dashboard", "portfolio", "performance", "reports", "security"],
-            badge: "ExCo",
+            badge: "Senior Leader",
             themeAccent: "#00F5D4"
         }
     },
@@ -55,36 +56,36 @@ const DealerOSData = {
     // KPI Matrix mapped by Persona
     kpis: {
         dealer_principal: [
-            { id: "disbursement", label: "Total Disbursement", value: "₹24.85 Cr", change: "+14.2% MoM", status: "up", graph: [20, 22, 21, 23, 24.85] },
-            { id: "active_cases", label: "Active Applications", value: "142 Cases", change: "42 in final sanction", status: "neutral", graph: [110, 125, 130, 138, 142] },
-            { id: "tat", label: "Avg Approval TAT", value: "3.4 Hours", change: "-22 min vs last week", status: "up", graph: [4.2, 4.0, 3.8, 3.6, 3.4] },
-            { id: "ta_utilization", label: "Stock Finance Utilization", value: "78.4%", change: "₹11.75 Cr outstanding", status: "neutral", graph: [60, 65, 70, 75, 78.4] },
-            { id: "pdd_pending", label: "PDD Pending Docs", value: "18 cases", change: "12 overdue > 30 days", status: "down", graph: [30, 26, 22, 20, 18] },
-            { id: "health_score", label: "Dealer Health Index", value: "A+ / 94.2", change: "Top 5% nationwide", status: "up", graph: [90, 92, 92, 93, 94.2] }
+            { id: "disbursement", label: "Total Loans Given", value: "₹24.85 Cr", change: "+14.2% MoM", status: "up", graph: [20, 22, 21, 23, 24.85] },
+            { id: "active_cases", label: "Ongoing Loan Applications", value: "142 Cases", change: "42 in final sanction", status: "neutral", graph: [110, 125, 130, 138, 142] },
+            { id: "tat", label: "Average Approval Time", value: "3.4 Hours", change: "-22 min vs last week", status: "up", graph: [4.2, 4.0, 3.8, 3.6, 3.4] },
+            { id: "ta_utilization", label: "Stock Loan Limit Used", value: "78.4%", change: "₹11.75 Cr outstanding", status: "neutral", graph: [60, 65, 70, 75, 78.4] },
+            { id: "pdd_pending", label: "Pending Customer Documents", value: "18 cases", change: "12 overdue > 30 days", status: "down", graph: [30, 26, 22, 20, 18] },
+            { id: "health_score", label: "Showroom Health Score", value: "A+ / 94.2", change: "Top 5% nationwide", status: "up", graph: [90, 92, 92, 93, 94.2] }
         ],
         risk_team: [
-            { id: "exposure", label: "Total Portfolio Exposure", value: "₹4,285.50 Cr", change: "West Region accounts for 32%", status: "neutral", graph: [4100, 4150, 4200, 4250, 4285.5] },
-            { id: "npa", label: "Gross NPA %", value: "1.48%", change: "-0.12% vs last Qtr", status: "up", graph: [1.65, 1.60, 1.55, 1.50, 1.48] },
-            { id: "collection", label: "Collection Efficiency", value: "98.92%", change: "Industry beating", status: "up", graph: [98.1, 98.3, 98.5, 98.7, 98.92] },
-            { id: "high_risk", label: "Critical Risk Dealers", value: "3 Nodes", change: "Flagged for floorplan audits", status: "down", graph: [6, 5, 4, 3, 3] },
-            { id: "bucket_mig", label: "Bucket 1 to 2 Migration", value: "0.82%", change: "Low delinquency slip", status: "up", graph: [1.1, 1.0, 0.95, 0.88, 0.82] },
-            { id: "fraud_risk", label: "Anomalous Applications", value: "2 flagged", change: "Under forensic screening", status: "neutral", graph: [4, 3, 1, 0, 2] }
+            { id: "exposure", label: "Total Active Loans", value: "₹4,285.50 Cr", change: "West Region accounts for 32%", status: "neutral", graph: [4100, 4150, 4200, 4250, 4285.5] },
+            { id: "npa", label: "Unpaid Dues % (NPA)", value: "1.48%", change: "-0.12% vs last Qtr", status: "up", graph: [1.65, 1.60, 1.55, 1.50, 1.48] },
+            { id: "collection", label: "Monthly Collections %", value: "98.92%", change: "Industry beating", status: "up", graph: [98.1, 98.3, 98.5, 98.7, 98.92] },
+            { id: "high_risk", label: "High Risk Showrooms", value: "3 Nodes", change: "Flagged for floorplan audits", status: "down", graph: [6, 5, 4, 3, 3] },
+            { id: "bucket_mig", label: "Dues Delay Rate (30+ Days)", value: "0.82%", change: "Low delinquency slip", status: "up", graph: [1.1, 1.0, 0.95, 0.88, 0.82] },
+            { id: "fraud_risk", label: "Suspicious Applications", value: "2 flagged", change: "Under forensic screening", status: "neutral", graph: [4, 3, 1, 0, 2] }
         ],
         compliance_team: [
-            { id: "comp_score", label: "Compliance Scorecard", value: "97.4%", change: "Standard target 95%", status: "up", graph: [95, 95.8, 96.2, 97.0, 97.4] },
-            { id: "rc_pending", label: "Pending RC Uploads", value: "24 Files", change: "14 matching OCR rules", status: "neutral", graph: [35, 30, 29, 26, 24] },
-            { id: "ins_pending", label: "Insurance Renewals Due", value: "8 Cases", change: "Auto SMS reminders sent", status: "up", graph: [15, 12, 10, 9, 8] },
-            { id: "inv_missing", label: "Invoice Discrepancies", value: "1 Case", change: "Mismatch in ex-showroom tax", status: "up", graph: [5, 3, 2, 1, 1] },
-            { id: "ocr_acc", label: "AI OCR Auto-Approve Rate", value: "89.2%", change: "System average is 85%", status: "up", graph: [82, 84, 86, 88, 89.2] },
-            { id: "audit_backlog", label: "Unassigned Audits", value: "0 Cases", change: "Clear queue", status: "up", graph: [4, 2, 1, 0, 0] }
+            { id: "comp_score", label: "Document Check Score", value: "97.4%", change: "Standard target 95%", status: "up", graph: [95, 95.8, 96.2, 97.0, 97.4] },
+            { id: "rc_pending", label: "Pending Vehicle Registration (RC)", value: "24 Files", change: "14 matching OCR rules", status: "neutral", graph: [35, 30, 29, 26, 24] },
+            { id: "ins_pending", label: "Pending Insurance Updates", value: "8 Cases", change: "Auto SMS reminders sent", status: "up", graph: [15, 12, 10, 9, 8] },
+            { id: "inv_missing", label: "Bill Mismatches", value: "1 Case", change: "Mismatch in ex-showroom tax", status: "up", graph: [5, 3, 2, 1, 1] },
+            { id: "ocr_acc", label: "Auto-Document Check Success %", value: "89.2%", change: "System average is 85%", status: "up", graph: [82, 84, 86, 88, 89.2] },
+            { id: "audit_backlog", label: "Unfinished Document Checks", value: "0 Cases", change: "Clear queue", status: "up", graph: [4, 2, 1, 0, 0] }
         ],
         executive_leadership: [
-            { id: "exec_disburse", label: "National Disbursements", value: "₹2,485.60 Cr", change: "+18.9% YoY", status: "up", graph: [2000, 2150, 2300, 2400, 2485.6] },
-            { id: "net_interest", label: "Net Interest Margin (NIM)", value: "8.12%", change: "Steady spreads", status: "neutral", graph: [8.0, 8.05, 8.1, 8.12, 8.12] },
-            { id: "total_npa", label: "Weighted Average NPA", value: "1.68%", change: "Target threshold < 2.0%", status: "up", graph: [1.88, 1.82, 1.76, 1.72, 1.68] },
-            { id: "active_dealers", label: "Active Financed Nodes", value: "1,142 Dealers", change: "42 newly onboarded", status: "up", graph: [1100, 1115, 1125, 1135, 1142] },
-            { id: "tat_national", label: "National Avg Loan TAT", value: "2.8 Hours", change: "Digital workflow impact", status: "up", graph: [3.5, 3.2, 3.0, 2.9, 2.8] },
-            { id: "roi", label: "Return on Assets (RoA)", value: "3.24%", change: "Top quartile performance", status: "up", graph: [2.9, 3.05, 3.12, 3.2, 3.24] }
+            { id: "exec_disburse", label: "All India Loans Given", value: "₹2,485.60 Cr", change: "+18.9% YoY", status: "up", graph: [2000, 2150, 2300, 2400, 2485.6] },
+            { id: "net_interest", label: "Average Interest Earnings", value: "8.12%", change: "Steady spreads", status: "neutral", graph: [8.0, 8.05, 8.1, 8.12, 8.12] },
+            { id: "total_npa", label: "All India Unpaid Dues %", value: "1.68%", change: "Target threshold < 2.0%", status: "up", graph: [1.88, 1.82, 1.76, 1.72, 1.68] },
+            { id: "active_dealers", label: "Active Showrooms Financed", value: "1,142 Dealers", change: "42 newly onboarded", status: "up", graph: [1100, 1115, 1125, 1135, 1142] },
+            { id: "tat_national", label: "All India Approval Time", value: "2.8 Hours", change: "Digital workflow impact", status: "up", graph: [3.5, 3.2, 3.0, 2.9, 2.8] },
+            { id: "roi", label: "Earning Power of Assets (RoA)", value: "3.24%", change: "Top quartile performance", status: "up", graph: [2.9, 3.05, 3.12, 3.2, 3.24] }
         ]
     },
 
@@ -100,10 +101,10 @@ const DealerOSData = {
             score: "A+",
             stage: "enquiry",
             phone: "+91 98765 43210",
-            eligibility: "Pre-approved - High credit strength",
+            eligibility: "Auto-Approved - Clean Credit Record",
             timeline: [
                 { date: "2026-05-21 10:15", title: "Enquiry Registered", text: "Walk-in enquiry logged by Executive Amit Patel." },
-                { date: "2026-05-21 11:30", title: "Credit Score Match", text: "CIBIL Score pulled successfully: 792. AI Pre-approval generated." }
+                { date: "2026-05-21 11:30", title: "Credit Score Match", text: "Credit check passed. Easy auto-approval ready." }
             ]
         },
         {
@@ -116,7 +117,7 @@ const DealerOSData = {
             score: "B",
             stage: "documents",
             phone: "+91 91234 56789",
-            eligibility: "Under review - Aadhar verified, waiting bank statement",
+            eligibility: "Checking Documents - Aadhar ok, checking bank details",
             timeline: [
                 { date: "2026-05-20 14:20", title: "Web Inquiry Recieved", text: "Source: Mahindra Finance Official Customizer portal." },
                 { date: "2026-05-21 09:00", title: "KYC Uploaded", text: "Aadhar & PAN verified successfully via NSDL gateway integration." }
@@ -132,7 +133,7 @@ const DealerOSData = {
             score: "A",
             stage: "underwriting",
             phone: "+91 88888 77777",
-            eligibility: "High Match - Income checks passing automated risk bands",
+            eligibility: "High Match - Monthly income checks look great",
             timeline: [
                 { date: "2026-05-19 11:00", title: "WhatsApp Chat Initialized", text: "Interactive chat bot captured base parameters." },
                 { date: "2026-05-20 16:30", title: "Income Verification", text: "Perfios Bank Analyzer verified stable income cashflow." }
@@ -148,7 +149,7 @@ const DealerOSData = {
             score: "A++",
             stage: "sanctioned",
             phone: "+91 99000 88888",
-            eligibility: "Corporate Sanction Approved - Signed by Risk Head",
+            eligibility: "Bulk Order Approved - Safe for delivery",
             timeline: [
                 { date: "2026-05-18 10:00", title: "Commercial Lead Received", text: "Referral from Regional Commercial Vehicle Hub." },
                 { date: "2026-05-20 12:00", title: "Sanction Letter Issued", text: "Approved at 8.75% IRR with corporate guarantee." }
@@ -164,7 +165,7 @@ const DealerOSData = {
             score: "B+",
             stage: "disbursed",
             phone: "+91 97777 66666",
-            eligibility: "Disbursed - Delivery completed, registration active",
+            eligibility: "Money Sent - Delivery done, vehicle registered",
             timeline: [
                 { date: "2026-05-15 09:30", title: "Booking Received", text: "Customer completed downpayment of ₹2.5L." },
                 { date: "2026-05-19 14:00", title: "Payout Triggered", text: "Dealer pool account credited with ₹8.7L loan amount." }
@@ -281,9 +282,9 @@ const DealerOSData = {
 
     // Training Modules and Gamification
     trainingModules: [
-        { id: "tr_1", title: "Mahindra Retail Finance Fast-Track Compliance", length: "45 mins", progress: 100, status: "COMPLETED", xp: 120 },
-        { id: "tr_2", title: "Trade Advance Floorplan and Liquidity Optimization", length: "60 mins", progress: 65, status: "IN_PROGRESS", xp: 150 },
-        { id: "tr_3", title: "Digital KYC and OCR Verification Standards", length: "30 mins", progress: 0, status: "NOT_STARTED", xp: 80 }
+        { id: "tr_1", title: "Mahindra Customer Loan Approval Training", length: "45 mins", progress: 100, status: "COMPLETED", xp: 120 },
+        { id: "tr_2", title: "Showroom Stock Loan & Limits Training", length: "60 mins", progress: 65, status: "IN_PROGRESS", xp: 150 },
+        { id: "tr_3", title: "Customer ID Check & Auto-Document Matching", length: "30 mins", progress: 0, status: "NOT_STARTED", xp: 80 }
     ],
 
     // Institutional Discussions & MOM System
@@ -292,7 +293,7 @@ const DealerOSData = {
             id: "chat_001",
             author: "NBFC Operations Manager",
             avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=256&auto=format&fit=crop",
-            message: "Team, we have updated the automated Trade Advance limit triggers. If your compliance score stays >96% for 3 consecutive months, your TA limit will automatically scale up by 15% with zero extra paperwork.",
+            message: "Team, we have updated the automatic stock loan limit system. If your document check score stays above 96% for 3 months in a row, your stock loan limit will automatically increase by 15% without any extra paperwork.",
             time: "2 Hours ago",
             threadCount: 4
         },
@@ -300,7 +301,7 @@ const DealerOSData = {
             id: "chat_002",
             author: "Risk Control Head",
             avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=256&auto=format&fit=crop",
-            message: "We are seeing a high volume of RC book pending cases in Indore region. Madhya Pradesh cluster heads, please coordinate with dealers. Outstanding bucket penalties will kick off next week.",
+            message: "We are seeing many pending RC (Registration) uploads in the Indore region. Showroom managers, please upload outstanding RCs to avoid loan release delays.",
             time: "Yesterday at 15:40",
             threadCount: 12
         }
