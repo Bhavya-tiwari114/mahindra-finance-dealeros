@@ -2510,8 +2510,165 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Logo SVG text fill overrides for light theme */
 .sidebar-logo svg text[fill="#FFFFFF"],
-.sidebar-logo svg text[fill="#ffffff"] {
+.sidebar-logo svg text[fill="#ffffff"],
+.login-logo svg text[fill="#FFFFFF"],
+.login-logo svg text[fill="#ffffff"] {
     fill: var(--text-primary) !important;
+}
+
+/* Premium Sidebar & Header Light Red/White Theme Overrides */
+.app-sidebar {
+    background: var(--bg-surface) !important;
+    border-right: 1.5px solid rgba(0, 0, 0, 0.05) !important;
+}
+.app-header {
+    background: var(--bg-surface) !important;
+    border-bottom: 1.5px solid rgba(0, 0, 0, 0.05) !important;
+}
+.role-dropdown-btn {
+    background: var(--bg-surface-elevated) !important;
+    border: 1.5px solid rgba(0, 0, 0, 0.05) !important;
+    color: var(--text-primary) !important;
+}
+.role-dropdown-btn:hover {
+    background: rgba(227, 24, 55, 0.04) !important;
+    border-color: rgba(227, 24, 55, 0.2) !important;
+}
+.role-value {
+    color: var(--text-primary) !important;
+}
+.role-dropdown-list {
+    background: #ffffff !important;
+    border: 1.5px solid rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05) !important;
+}
+.role-option {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04) !important;
+}
+.role-option:hover {
+    background: rgba(227, 24, 55, 0.04) !important;
+}
+.role-option-name {
+    color: var(--text-primary) !important;
+}
+.role-option-desc {
+    color: var(--text-secondary) !important;
+}
+.menu-item {
+    color: var(--text-secondary) !important;
+}
+.menu-item:hover {
+    color: var(--color-mahindra-red) !important;
+    background: rgba(227, 24, 55, 0.04) !important;
+}
+.menu-item.active {
+    color: var(--color-mahindra-red) !important;
+    background: rgba(227, 24, 55, 0.08) !important;
+    border-color: rgba(227, 24, 55, 0.15) !important;
+    font-weight: 700 !important;
+    text-shadow: none !important;
+}
+.menu-item.active i {
+    color: var(--color-mahindra-red) !important;
+    filter: none !important;
+}
+.sidebar-footer {
+    border-top: 1.5px solid rgba(0, 0, 0, 0.05) !important;
+}
+.user-name {
+    color: var(--text-primary) !important;
+}
+.sidebar-logo {
+    border-bottom: 1.5px solid rgba(0, 0, 0, 0.05) !important;
+}
+
+/* App Header Search and Actions overrides */
+.header-search input {
+    background: #ffffff !important;
+    border: 1.5px solid rgba(0, 0, 0, 0.08) !important;
+    color: var(--text-primary) !important;
+}
+.header-action-btn {
+    background: #ffffff !important;
+    border: 1.5px solid rgba(0, 0, 0, 0.08) !important;
+    color: var(--text-secondary) !important;
+}
+.header-action-btn:hover {
+    color: var(--color-mahindra-red) !important;
+    background: var(--bg-surface-elevated) !important;
+    border-color: rgba(227, 24, 55, 0.2) !important;
+}
+
+/* Premium Login Screen Red & White Theme Overrides */
+.login-container {
+    background: radial-gradient(circle at 70% 30%, #fff5f6 0%, var(--bg-base) 100%) !important;
+}
+.login-card {
+    background: var(--bg-glass) !important;
+    border: 1px solid rgba(227, 24, 55, 0.12) !important;
+    box-shadow: 0 15px 40px rgba(227, 24, 55, 0.08), 0 1px 8px rgba(0, 0, 0, 0.02) !important;
+}
+.login-logo h1 {
+    background: none !important;
+    -webkit-text-fill-color: var(--text-primary) !important;
+    color: var(--text-primary) !important;
+}
+.form-input {
+    background: #ffffff !important;
+    border: 1.5px solid rgba(0, 0, 0, 0.08) !important;
+    color: var(--text-primary) !important;
+}
+.form-input:focus {
+    border-color: var(--color-mahindra-red) !important;
+    box-shadow: 0 0 0 3px rgba(227, 24, 55, 0.1) !important;
+    background: #ffffff !important;
+}
+.forgot-pass {
+    color: var(--text-secondary) !important;
+}
+.forgot-pass:hover {
+    color: var(--color-mahindra-red) !important;
+}
+.remember-me span {
+    color: var(--text-secondary) !important;
+}
+.biometric-icon-container {
+    background: rgba(227, 24, 55, 0.04) !important;
+    border: 1px solid rgba(227, 24, 55, 0.12) !important;
+}
+.biometric-label {
+    color: var(--text-secondary) !important;
+}
+.otp-overlay {
+    background: #ffffff !important;
+    border: 1px solid rgba(227, 24, 55, 0.12) !important;
+}
+
+/* Certificate Vault Modal Light Theme overrides */
+.certificate-modal-overlay {
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(16px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+}
+.gold-certificate-card h1 {
+    background: none !important;
+    -webkit-text-fill-color: var(--text-primary) !important;
+    color: var(--text-primary) !important;
+}
+.gold-certificate-card h3 {
+    color: var(--text-primary) !important;
+}
+.gold-certificate-card strong {
+    color: var(--text-primary) !important;
+}
+.gold-certificate-card p {
+    color: var(--text-secondary) !important;
+}
+.gold-certificate-card div {
+    border-top-color: rgba(0, 0, 0, 0.08) !important;
+}
+.gold-certificate-card span {
+    color: var(--text-secondary) !important;
 }
 
 
