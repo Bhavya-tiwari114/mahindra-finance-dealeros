@@ -54,6 +54,32 @@ class DealerOSApp {
                     type: "training",
                     targetId: "tr_2"
                 }
+            ],
+            supportTickets: [
+                { id: "TCK-8902", category: "payouts", subject: "Commission payout delay for lead Rajesh Kumar", status: "In Progress", date: "2026-05-21 14:30", description: "The loan was disbursed on May 20, but the commission of 0.5% is not yet reflecting in our payouts dashboard." },
+                { id: "TCK-8903", category: "kyc", subject: "Aadhaar verification error - Ramesh Patil", status: "Resolved", date: "2026-05-20 11:15", description: "Customer Aadhaar has mismatched middle name. Resolved after uploading land records manual override." }
+            ],
+            schemes: [
+                { id: "SCH-001", title: "Thar Roxx Rural Farmer Premium", category: "suv", rate: "8.75%", fee: "Waived", script: "Pitch 100% on-road funding for certified farmers with land records. No pre-payment penalty after 12 months.", image: "https://images.unsplash.com/photo-1609521263047-f8f205293f24?q=80&w=350&auto=format&fit=crop" },
+                { id: "SCH-002", title: "Bolero Neo Festival Zero-Fee", category: "commercial", rate: "9.25%", fee: "Waived", script: "Highlight ₹15,000 exchange bonus and zero processing charges. Ideal for local travel agency expansion.", image: "https://images.unsplash.com/photo-1616422285623-13ff0162193c?q=80&w=350&auto=format&fit=crop" },
+                { id: "SCH-003", title: "XUV400 EV Eco-Drive Boost", category: "ev", rate: "7.99%", fee: "₹1,999", script: "Leverage state government subsidy + lowest 7.99% green interest rate. Pitch 5-year battery warranty coverage.", image: "https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=350&auto=format&fit=crop" }
+            ],
+            productKb: [
+                { id: "DOC-901", title: "Mahindra SUV Loan Policy Handbook Q2-2026", category: "suv", type: "PDF Circular", date: "2026-05-15", size: "2.4 MB", description: "Official LTV grid, interest rates, and co-applicant rules for Scorpio-N, XUV700, and Thar ROXX." },
+                { id: "DOC-902", title: "Tractor Commercial Funding Scheme Grid v4", category: "tractor", type: "PDF Circular", date: "2026-05-10", size: "1.8 MB", description: "Special crop-cycle EMI frequencies, seasonal moratorium rules, and rural agriculture documentation checklists." },
+                { id: "DOC-903", title: "Aadhaar Card OTP Verification Manual v2", category: "kyc", type: "PDF Guide", date: "2026-05-01", size: "950 KB", description: "Step-by-step instructions for dealing with biometric mismatch and utilizing local Sarpanch declarations." },
+                { id: "DOC-904", title: "Quick Reference EMI Rate Chart - All Models", category: "all", type: "PDF Sheet", date: "2026-05-20", size: "1.2 MB", description: "Ready reckoner for monthly EMI estimates across varying tenures (36, 48, 60, 72 months) at standard interest rates." }
+            ],
+            videoTutorials: [
+                { id: "VID-001", title: "Lead Sourcing & CRM Input Guide", duration: "4 mins 20 secs", category: "sourcing", desc: "Learn how to capture customer enquiry details and auto-calculate eligibility parameters on the fly.", cover: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=350&auto=format&fit=crop" },
+                { id: "VID-002", title: "AI Document Scanner & OCR Scanning Rules", duration: "6 mins 45 secs", category: "scanning", desc: "Tutorial on how to scan files, handle blurry uploads, and correct OCR auto-captured values manually.", cover: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=350&auto=format&fit=crop" },
+                { id: "VID-003", title: "Vehicle Stock Finance (TA) Limit Management", duration: "5 mins 10 secs", category: "funding", desc: "Understanding stock yard outstanding limits, requesting temporary limit hikes, and tracing transaction logs.", cover: "https://images.unsplash.com/photo-1542838132-92c53300491e0?q=80&w=350&auto=format&fit=crop" }
+            ],
+            auditLogs: [
+                { timestamp: "2026-05-22 14:10:02", operator: "Vikramaditya Singh", area: "Security / KYC", action: "Bypassed biometric verification using local OTP override", reason: "MFA scanner malfunction in rural showroom", signature: "0x8F2D...9A4E" },
+                { timestamp: "2026-05-22 11:22:45", operator: "Amitesh Mishra (RM)", area: "Stock Financing", action: "Approved temporary ₹50L stock finance limit extension", reason: "Bolero Neo transit stock arrival", signature: "0x3C9A...41BF" },
+                { timestamp: "2026-05-21 16:45:12", operator: "Vikramaditya Singh", area: "Customer 360", action: "Updated bank repayment record for Rohan Jagtap", reason: "Manual check clearing verification", signature: "0x7B1E...88C2" },
+                { timestamp: "2026-05-21 10:05:30", operator: "System Core", area: "Security Admin", action: "Generated new digital signature credentials certificate", reason: "Quarterly security standard rotation", signature: "0x5E3F...77D1" }
             ]
         };
         
@@ -62,6 +88,7 @@ class DealerOSApp {
 
     init() {
         this.bindEvents();
+        this.bindNewModuleEvents();
         this.initLoginScreen();
         this.startTicker();
         this.renderMenuByRole();
@@ -75,6 +102,17 @@ class DealerOSApp {
         this.renderSecurityAdmin();
         this.renderTrainingHub();
         this.renderComms();
+        
+        this.renderLoanTracking();
+        this.renderSupport();
+        this.renderSchemes('all');
+        this.renderCustomer360();
+        this.renderEmiCalc();
+        this.renderKycVault();
+        this.renderAuditTrail();
+        this.renderProductKb('all');
+        this.renderVideoTutorials();
+        
         this.updateNotificationBadge();
     }
 
@@ -613,7 +651,7 @@ class DealerOSApp {
             let floorplanLiquidity = 145.2;
             let dispatchRate = 4.2;
 
-            setInterval(() => {
+            const updateTicker = () => {
                 // Fluctuating figures slightly
                 disbursementPercent = Math.min(100, Math.max(80, parseFloat(disbursementPercent) + (Math.random() - 0.5) * 0.4)).toFixed(1);
                 floorplanLiquidity = Math.max(100, parseFloat(floorplanLiquidity) + (Math.random() - 0.5) * 1.5).toFixed(1);
@@ -628,8 +666,12 @@ class DealerOSApp {
                     `INTRADAY DISPATCH VELOCITY: ₹${dispatchRate} Cr/hr`
                 ];
 
-                tickerTextEl.textContent = feeds.join(' | ');
-            }, 5000);
+                const prefix = "Hello Vikramaditya Singh! | Today is " + new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) + " | ";
+                tickerTextEl.textContent = prefix + feeds.join(' | ');
+            };
+
+            updateTicker();
+            setInterval(updateTicker, 5000);
         }
     }
 
@@ -812,6 +854,24 @@ class DealerOSApp {
             this.renderTrainingHub();
         } else if (tabId === 'comms') {
             this.renderComms();
+        } else if (tabId === 'loan') {
+            this.renderLoanTracking();
+        } else if (tabId === 'support') {
+            this.renderSupport();
+        } else if (tabId === 'schemes') {
+            this.renderSchemes('all');
+        } else if (tabId === 'customer360') {
+            this.renderCustomer360();
+        } else if (tabId === 'emicalc') {
+            this.renderEmiCalc();
+        } else if (tabId === 'kycvault') {
+            this.renderKycVault();
+        } else if (tabId === 'audit') {
+            this.renderAuditTrail();
+        } else if (tabId === 'productkb') {
+            this.renderProductKb('all');
+        } else if (tabId === 'videotutorials') {
+            this.renderVideoTutorials();
         }
     }
 
@@ -989,20 +1049,83 @@ class DealerOSApp {
             if (!container) return;
             container.innerHTML = '';
             
+            const width = 60;
+            const height = 24;
+            
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            canvas.style.width = width + 'px';
+            canvas.style.height = height + 'px';
+            container.appendChild(canvas);
+            
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return;
+            
+            if (!data || data.length === 0) return;
+            
             const max = Math.max(...data);
             const min = Math.min(...data);
             const range = max - min === 0 ? 1 : max - min;
             
-            data.forEach(val => {
-                const bar = document.createElement('div');
-                bar.className = 'kpi-bar';
-                const heightPercent = ((val - min) / range) * 80 + 20;
-                bar.style.height = `${heightPercent}%`;
-                if (status === 'up') bar.style.backgroundColor = 'rgba(0, 245, 212, 0.4)';
-                else if (status === 'down') bar.style.backgroundColor = 'rgba(255, 51, 85, 0.4)';
-                else bar.style.backgroundColor = 'rgba(255, 255, 255, 0.15)';
-                container.appendChild(bar);
+            const points = data.map((val, idx) => {
+                const x = (idx / (data.length - 1)) * (width - 6) + 3; // Keep a little margin for endpoint dot
+                const y = height - 4 - ((val - min) / range) * (height - 8); // Margin at top/bottom
+                return { x, y };
             });
+            
+            // Set colors
+            let strokeColor = '#a4b0be'; // Neutral
+            let gradientColorStart = 'rgba(164, 176, 190, 0.4)';
+            let gradientColorEnd = 'rgba(164, 176, 190, 0)';
+            
+            if (status === 'up') {
+                strokeColor = '#00f5d4';
+                gradientColorStart = 'rgba(0, 245, 212, 0.4)';
+                gradientColorEnd = 'rgba(0, 245, 212, 0)';
+            } else if (status === 'down') {
+                strokeColor = '#E31837';
+                gradientColorStart = 'rgba(227, 24, 55, 0.4)';
+                gradientColorEnd = 'rgba(227, 24, 55, 0)';
+            }
+            
+            // Create fading linear gradient
+            const gradient = ctx.createLinearGradient(0, 0, 0, height);
+            gradient.addColorStop(0, gradientColorStart);
+            gradient.addColorStop(1, gradientColorEnd);
+            
+            // Draw area under the line
+            ctx.beginPath();
+            ctx.moveTo(points[0].x, height);
+            points.forEach(pt => {
+                ctx.lineTo(pt.x, pt.y);
+            });
+            ctx.lineTo(points[points.length - 1].x, height);
+            ctx.closePath();
+            ctx.fillStyle = gradient;
+            ctx.fill();
+            
+            // Draw line
+            ctx.beginPath();
+            ctx.moveTo(points[0].x, points[0].y);
+            for (let i = 1; i < points.length; i++) {
+                ctx.lineTo(points[i].x, points[i].y);
+            }
+            ctx.strokeStyle = strokeColor;
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.stroke();
+            
+            // Draw neat endpoint dot
+            const lastPt = points[points.length - 1];
+            ctx.beginPath();
+            ctx.arc(lastPt.x, lastPt.y, 3, 0, 2 * Math.PI);
+            ctx.fillStyle = strokeColor;
+            ctx.fill();
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 1;
+            ctx.stroke();
         }, 100);
     }
 
@@ -1048,6 +1171,46 @@ class DealerOSApp {
         Object.values(columns).forEach(col => {
             if (col) col.innerHTML = '';
         });
+
+        // Compute Funnel percentages
+        const totalLeads = this.state.pipelineLeads.length;
+        const enquiryCount = this.state.pipelineLeads.filter(l => l.stage === 'enquiry').length;
+        const docsCount = this.state.pipelineLeads.filter(l => l.stage === 'documents').length;
+        const underwritingCount = this.state.pipelineLeads.filter(l => l.stage === 'underwriting').length;
+        const sanctionedCount = this.state.pipelineLeads.filter(l => l.stage === 'sanctioned').length;
+        const disbursedCount = this.state.pipelineLeads.filter(l => l.stage === 'disbursed').length;
+
+        const pctEnquiry = totalLeads > 0 ? ((enquiryCount / totalLeads) * 100).toFixed(0) : 0;
+        const pctDocs = totalLeads > 0 ? ((docsCount / totalLeads) * 100).toFixed(0) : 0;
+        const pctUnderwriting = totalLeads > 0 ? ((underwritingCount / totalLeads) * 100).toFixed(0) : 0;
+        const pctSanctioned = totalLeads > 0 ? ((sanctionedCount / totalLeads) * 100).toFixed(0) : 0;
+        const pctDisbursed = totalLeads > 0 ? ((disbursedCount / totalLeads) * 100).toFixed(0) : 0;
+
+        const funnelBar = document.getElementById('pipelineFunnelBar');
+        if (funnelBar) {
+            funnelBar.innerHTML = `
+                <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; box-shadow: var(--shadow-sm);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <span style="font-size: 12px; font-weight: 700; color: var(--text-primary);">Showroom Conversion Funnel</span>
+                        <span style="font-size: 12px; font-weight: 700; color: var(--color-teal-glow);"><i class="fas fa-check-circle"></i> ${pctDisbursed}% Disbursed</span>
+                    </div>
+                    <div style="display: flex; height: 10px; border-radius: 5px; overflow: hidden; background: rgba(0,0,0,0.05); margin-bottom: 12px;">
+                        <div style="width: ${pctEnquiry}%; background: #a4b0be; transition: width 0.3s;" title="Enquiry: ${pctEnquiry}%"></div>
+                        <div style="width: ${pctDocs}%; background: #ffbe0b; transition: width 0.3s;" title="Docs: ${pctDocs}%"></div>
+                        <div style="width: ${pctUnderwriting}%; background: #fb5607; transition: width 0.3s;" title="Underwriting: ${pctUnderwriting}%"></div>
+                        <div style="width: ${pctSanctioned}%; background: #ff006e; transition: width 0.3s;" title="Sanctioned: ${pctSanctioned}%"></div>
+                        <div style="width: ${pctDisbursed}%; background: var(--color-teal-glow); transition: width 0.3s;" title="Disbursed: ${pctDisbursed}%"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+                        <span style="font-size: 11px; color: var(--text-secondary);"><span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#a4b0be; margin-right:4px;"></span> Enquiry: ${enquiryCount} (${pctEnquiry}%)</span>
+                        <span style="font-size: 11px; color: var(--text-secondary);"><span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#ffbe0b; margin-right:4px;"></span> Docs: ${docsCount} (${pctDocs}%)</span>
+                        <span style="font-size: 11px; color: var(--text-secondary);"><span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#fb5607; margin-right:4px;"></span> Underwriting: ${underwritingCount} (${pctUnderwriting}%)</span>
+                        <span style="font-size: 11px; color: var(--text-secondary);"><span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#ff006e; margin-right:4px;"></span> Sanctioned: ${sanctionedCount} (${pctSanctioned}%)</span>
+                        <span style="font-size: 11px; color: var(--text-secondary);"><span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--color-teal-glow); margin-right:4px;"></span> Disbursed: ${disbursedCount} (${pctDisbursed}%)</span>
+                    </div>
+                </div>
+            `;
+        }
 
         this.state.pipelineLeads.forEach(lead => {
             const col = columns[lead.stage];
@@ -1102,11 +1265,11 @@ class DealerOSApp {
         const cntSanctioned = document.getElementById('cnt-sanctioned');
         const cntDisbursed = document.getElementById('cnt-disbursed');
 
-        if (cntEnquiry) cntEnquiry.textContent = this.state.pipelineLeads.filter(l => l.stage === 'enquiry').length;
-        if (cntDocuments) cntDocuments.textContent = this.state.pipelineLeads.filter(l => l.stage === 'documents').length;
-        if (cntUnderwriting) cntUnderwriting.textContent = this.state.pipelineLeads.filter(l => l.stage === 'underwriting').length;
-        if (cntSanctioned) cntSanctioned.textContent = this.state.pipelineLeads.filter(l => l.stage === 'sanctioned').length;
-        if (cntDisbursed) cntDisbursed.textContent = this.state.pipelineLeads.filter(l => l.stage === 'disbursed').length;
+        if (cntEnquiry) cntEnquiry.textContent = enquiryCount;
+        if (cntDocuments) cntDocuments.textContent = docsCount;
+        if (cntUnderwriting) cntUnderwriting.textContent = underwritingCount;
+        if (cntSanctioned) cntSanctioned.textContent = sanctionedCount;
+        if (cntDisbursed) cntDisbursed.textContent = disbursedCount;
 
         // Auto load first lead timeline
         if (this.state.pipelineLeads.length > 0) {
@@ -1418,8 +1581,24 @@ class DealerOSApp {
                 }
             }
 
+            // Decrement pdd_pending in dealer_principal and dealer_admin kpis
+            ['dealer_principal', 'dealer_admin'].forEach(role => {
+                const kpis = window.DealerOSData.kpis[role];
+                if (kpis) {
+                    const pddKpi = kpis.find(k => k.id === 'pdd_pending');
+                    if (pddKpi && pddKpi.value.includes('cases')) {
+                        let casesCount = parseInt(pddKpi.value) || 18;
+                        if (casesCount > 0) {
+                            pddKpi.value = `${casesCount - 1} cases`;
+                        }
+                    }
+                }
+            });
+
             this.showNotification("Document check passed. Saved successfully.", "success");
             this.renderCompliance();
+            this.renderKycVault();
+            this.renderDashboard();
         }, 2200);
     }
 
@@ -1845,11 +2024,25 @@ class DealerOSApp {
             `;
         }
 
+        if (query.includes('commission')) {
+            return `
+                <div style="font-size: 13px; line-height: 1.5; color: var(--text-primary);">
+                    <strong style="color: var(--color-mahindra-red);"><i class="fas fa-wallet"></i> Monthly Showroom Commission Progress:</strong><br><br>
+                    You have earned **₹6.82 Lakhs** in commissions this month, direct-credited to your showroom account. 
+                    Payout status: **94% processed successfully**.<br><br>
+                    <button class="btn-primary" style="padding: 6px 12px; font-size: 11px; width: auto;" onclick="window.dealerOSApp.switchTab('support')">
+                        <i class="fas fa-headset"></i> Contact Support Center
+                    </button>
+                </div>
+            `;
+        }
+
         return `
             <div style="font-size: 13px; line-height: 1.5; color: var(--text-primary);">
                 I parsed your prompt: "<em>${text}</em>".<br><br>
                 As your showroom assistant, I can instantly check customer dues, view loan pipelines, scan missing vehicle registration files, and release showroom stock loan funds.<br><br>
                 Try commands like:<br>
+                - <strong>"What commission is due this month?"</strong><br>
                 - <strong>"Show showrooms with rising unpaid dues"</strong><br>
                 - <strong>"Show pending document checks"</strong>
             </div>
@@ -2015,36 +2208,27 @@ class DealerOSApp {
     }
 
     viewCredentials(courseTitle) {
-        let regNo = "MFL-ACAD-" + Math.floor(10000 + Math.random() * 90000);
-        this.openCertificateModal(courseTitle, window.DealerOSData.currentUser.name, regNo);
+        const regNo = "MFL-ACAD-" + Math.floor(10000 + Math.random() * 90000);
+        this.showNotification(`Verification Certificate Generated: ${courseTitle} (${regNo})`, "success");
+        
+        this.state.auditLogs.unshift({
+            timestamp: new Date().toISOString().replace('T', ' ').substring(0, 19),
+            operator: "Vikramaditya Singh",
+            area: "Training / Credentials",
+            action: `Generated digital certificate for course: ${courseTitle}`,
+            reason: `Course completion verification (Reg: ${regNo})`,
+            signature: `0x${Math.floor(16777215 + Math.random() * 251658240).toString(16).toUpperCase()}...${Math.floor(4096 + Math.random() * 61439).toString(16).toUpperCase()}`
+        });
+        
+        this.renderAuditTrail();
     }
 
     openCertificateModal(courseTitle, userName = "Vikramaditya Singh", regNo = "MFL-ACAD-99082") {
-        const modal = document.getElementById('certificateModal');
-        if (!modal) return;
-        
-        const certUser = document.getElementById('certUser');
-        const certCourseTitle = document.getElementById('certCourseTitle');
-        const certRegNo = document.getElementById('certRegNo');
-        
-        if (certUser) certUser.textContent = userName;
-        if (certCourseTitle) certCourseTitle.textContent = courseTitle;
-        if (certRegNo) certRegNo.textContent = regNo;
-        
-        modal.style.display = 'flex';
-        // force reflow
-        modal.offsetHeight;
-        modal.style.opacity = '1';
+        this.viewCredentials(courseTitle);
     }
 
     closeCertificateModal() {
-        const modal = document.getElementById('certificateModal');
-        if (!modal) return;
-        
-        modal.style.opacity = '0';
-        setTimeout(() => {
-            modal.style.display = 'none';
-        }, 400);
+        // Safe placeholder after removing modal structure
     }
 
     renderComms() {
@@ -2282,7 +2466,705 @@ class DealerOSApp {
             this.showNotification(`Showroom stock loan approved. ₹15.0 Cr released to showroom pool.`, "success");
         }, 1500);
     }
+
+    /* ==========================================================================
+       NEW COMPREHENSIVE INTERACTIVE MODULES & EVENT BINDINGS
+       ========================================================================== */
+
+    bindNewModuleEvents() {
+        // Loan Tracking filters
+        const loanSearch = document.getElementById('loanSearchInput');
+        if (loanSearch) {
+            loanSearch.addEventListener('input', () => this.renderLoanTracking());
+        }
+        const loanFilter = document.getElementById('loanStatusFilter');
+        if (loanFilter) {
+            loanFilter.addEventListener('change', () => this.renderLoanTracking());
+        }
+
+        // Support Center ticket submission
+        const supportForm = document.getElementById('raiseTicketForm');
+        if (supportForm) {
+            supportForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const category = document.getElementById('ticketCategory').value;
+                const subject = document.getElementById('ticketSubject').value;
+                const description = document.getElementById('ticketDescription').value;
+                const ticketId = "TCK-" + Math.floor(10000 + Math.random() * 90000);
+                const date = new Date().toISOString().replace('T', ' ').substring(0, 16);
+                
+                this.state.supportTickets.unshift({
+                    id: ticketId,
+                    category: category,
+                    subject: subject,
+                    status: 'In Progress',
+                    date: date,
+                    description: description
+                });
+                
+                this.showNotification(`Support Ticket ${ticketId} raised successfully!`, "success");
+                supportForm.reset();
+                this.renderSupport();
+
+                // Add log to immutable Audit Trail
+                this.state.auditLogs.unshift({
+                    timestamp: new Date().toISOString().replace('T', ' ').substring(0, 19),
+                    operator: "Vikramaditya Singh",
+                    area: "Support Center",
+                    action: `Raised support ticket ${ticketId}`,
+                    reason: `Customer issue: ${subject}`,
+                    signature: `0x${Math.floor(16777215 + Math.random() * 251658240).toString(16).toUpperCase()}...${Math.floor(4096 + Math.random() * 61439).toString(16).toUpperCase()}`
+                });
+                this.renderAuditTrail();
+            });
+        }
+
+        // Schemes & Offers filters
+        document.querySelectorAll('#schemesFilterGroup button').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const category = e.currentTarget.getAttribute('data-scheme-filter');
+                this.renderSchemes(category);
+            });
+        });
+
+        // Customer 360 search
+        const c360Btn = document.getElementById('c360SearchBtn');
+        if (c360Btn) {
+            c360Btn.addEventListener('click', () => this.renderCustomer360());
+        }
+        const c360Input = document.getElementById('c360SearchInput');
+        if (c360Input) {
+            c360Input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') this.renderCustomer360();
+            });
+        }
+
+        // EMI Calculator parameters sliders
+        ['emiAmtSlider', 'emiTenureSlider', 'emiRateSlider'].forEach(sliderId => {
+            const slider = document.getElementById(sliderId);
+            if (slider) {
+                slider.addEventListener('input', () => this.renderEmiCalc());
+            }
+        });
+
+        // Knowledge Base search & category directories
+        const kbSearch = document.getElementById('kbSearchInput');
+        if (kbSearch) {
+            kbSearch.addEventListener('input', () => this.renderProductKb(document.querySelector('#kbFolderGroup a.active')?.getAttribute('data-kb-folder') || 'all'));
+        }
+        document.querySelectorAll('#kbFolderGroup a').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const folder = e.currentTarget.getAttribute('data-kb-folder');
+                this.renderProductKb(folder);
+            });
+        });
+    }
+
+    renderLoanTracking() {
+        const listContainer = document.getElementById('loanTrackingList');
+        if (!listContainer) return;
+        
+        listContainer.innerHTML = '';
+        
+        const searchQuery = (document.getElementById('loanSearchInput')?.value || '').toLowerCase();
+        const stageFilter = document.getElementById('loanStatusFilter')?.value || 'all';
+        
+        let filtered = this.state.pipelineLeads.filter(lead => {
+            const matchesSearch = lead.name.toLowerCase().includes(searchQuery) || lead.vehicle.toLowerCase().includes(searchQuery) || lead.id.toLowerCase().includes(searchQuery);
+            const matchesStage = stageFilter === 'all' ? (lead.stage !== 'enquiry') : (lead.stage === stageFilter);
+            return matchesSearch && matchesStage;
+        });
+        
+        if (filtered.length === 0) {
+            listContainer.innerHTML = '<div style="text-align: center; color: var(--text-tertiary); font-size: 12px; padding: 24px;">No active applications found.</div>';
+            const detailPanel = document.getElementById('loanTrackerDetailPanel');
+            if (detailPanel) detailPanel.innerHTML = '<div style="text-align: center; color: var(--text-tertiary); font-size: 12px; padding: 24px;">Select an application to view timeline details.</div>';
+            return;
+        }
+        
+        // Set default selected lead if current one is not in the filtered list
+        if (!this.state.selectedLoanLeadId || !filtered.some(l => l.id === this.state.selectedLoanLeadId)) {
+            this.state.selectedLoanLeadId = filtered[0].id;
+        }
+        
+        filtered.forEach(lead => {
+            const isSelected = lead.id === this.state.selectedLoanLeadId;
+            const card = document.createElement('div');
+            card.style.cssText = `
+                padding: 16px; 
+                border-radius: 8px; 
+                border: 1.5px solid ${isSelected ? 'var(--color-mahindra-red)' : 'var(--border-glass)'}; 
+                background: ${isSelected ? 'rgba(227, 24, 55, 0.03)' : 'rgba(255, 255, 255, 0.4)'};
+                cursor: pointer;
+                transition: all 0.2s;
+            `;
+            card.onclick = () => {
+                this.state.selectedLoanLeadId = lead.id;
+                this.renderLoanTracking();
+            };
+            
+            let stageBadge = '';
+            if (lead.stage === 'documents') stageBadge = '<span class="badge gold" style="font-size: 9px; padding: 2px 6px;">Docs Pending</span>';
+            else if (lead.stage === 'underwriting') stageBadge = '<span class="badge orange" style="font-size: 9px; padding: 2px 6px;">Underwriting</span>';
+            else if (lead.stage === 'sanctioned') stageBadge = '<span class="badge red" style="font-size: 9px; padding: 2px 6px;">Sanctioned</span>';
+            else if (lead.stage === 'disbursed') stageBadge = '<span class="badge teal" style="font-size: 9px; padding: 2px 6px;">Disbursed</span>';
+            
+            card.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 8px;">
+                    <strong style="font-size: 13px; color: var(--text-primary);">${lead.name}</strong>
+                    ${stageBadge}
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-secondary);">
+                    <span><i class="fas fa-car" style="margin-right: 4px;"></i> ${lead.vehicle}</span>
+                    <strong style="color: var(--text-primary);">${lead.amount}</strong>
+                </div>
+            `;
+            listContainer.appendChild(card);
+        });
+        
+        // Render selected lead details on the right panel
+        this.renderLoanTrackingDetail();
+    }
+
+    renderLoanTrackingDetail() {
+        const panel = document.getElementById('loanTrackerDetailPanel');
+        if (!panel) return;
+        
+        const lead = this.state.pipelineLeads.find(l => l.id === this.state.selectedLoanLeadId);
+        if (!lead) {
+            panel.innerHTML = '<div style="text-align: center; color: var(--text-tertiary); font-size: 12px; padding: 24px;">Select an application to view timeline details.</div>';
+            return;
+        }
+        
+        let timelineHTML = lead.timeline.map((step, idx) => `
+            <div style="display: flex; gap: 12px; margin-bottom: 16px; position: relative;">
+                ${idx < lead.timeline.length - 1 ? '<div style="position: absolute; left: 6px; top: 18px; bottom: -18px; width: 2px; background: rgba(227, 24, 55, 0.15);"></div>' : ''}
+                <div style="width: 14px; height: 14px; border-radius: 50%; background: ${idx === 0 ? 'var(--color-mahindra-red)' : 'rgba(227, 24, 55, 0.2)'}; border: 3px solid #fff; display: flex; align-items: center; justify-content: center; z-index: 1;"></div>
+                <div style="flex: 1;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <strong style="font-size: 12px; color: var(--text-primary);">${step.title}</strong>
+                        <span style="font-size: 9px; color: var(--text-tertiary);">${step.date}</span>
+                    </div>
+                    <p style="font-size: 11px; color: var(--text-secondary); line-height: 1.4; margin: 0;">${step.text}</p>
+                </div>
+            </div>
+        `).join('');
+        
+        panel.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-glass); padding-bottom: 14px; margin-bottom: 16px;">
+                <span class="panel-title" style="margin-bottom: 0;"><i class="fas fa-file-invoice"></i> Application File #${lead.id}</span>
+                <span style="font-size: 10px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase;">LTV Score: <strong style="color: var(--color-mahindra-red);">${lead.score}</strong></span>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
+                <div>
+                    <span style="font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; display: block; margin-bottom: 2px;">Customer Details</span>
+                    <strong style="font-size: 14px; color: var(--text-primary); display: block;">${lead.name}</strong>
+                    <span style="font-size: 11px; color: var(--text-secondary);">${lead.phone}</span>
+                </div>
+                
+                <div>
+                    <span style="font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; display: block; margin-bottom: 2px;">Mahindra Vehicle & Loan</span>
+                    <strong style="font-size: 13px; color: var(--text-primary); display: block;">${lead.vehicle}</strong>
+                    <span style="font-size: 11px; color: var(--color-teal-glow); font-weight: 700;">Funded Amount: ${lead.amount}</span>
+                </div>
+                
+                <div>
+                    <span style="font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; display: block; margin-bottom: 4px;">System Eligibility Profile</span>
+                    <div style="background: rgba(0, 0, 0, 0.02); border: 1px solid var(--border-glass); padding: 8px 12px; border-radius: 6px; font-size: 11px; color: var(--text-secondary);">
+                        <i class="fas fa-shield-alt" style="color: var(--color-teal-glow); margin-right: 4px;"></i> ${lead.eligibility}
+                    </div>
+                </div>
+            </div>
+            
+            <div style="border-top: 1px solid var(--border-glass); padding-top: 16px;">
+                <span class="panel-title" style="margin-bottom: 12px; font-size: 12px;"><i class="fas fa-history"></i> Status Timeline Logs</span>
+                <div style="display: flex; flex-direction: column;">
+                    ${timelineHTML}
+                </div>
+            </div>
+        `;
+    }
+
+    renderSupport() {
+        const ticketList = document.getElementById('supportTicketsList');
+        if (!ticketList) return;
+        
+        ticketList.innerHTML = '';
+        this.state.supportTickets.forEach(ticket => {
+            let badgeHTML = '';
+            if (ticket.status === 'Resolved') badgeHTML = '<span class="badge teal" style="padding: 2px 6px; font-size: 9px;">Resolved</span>';
+            else badgeHTML = '<span class="badge gold" style="padding: 2px 6px; font-size: 9px;">In Progress</span>';
+            
+            const tr = document.createElement('tr');
+            tr.style.borderBottom = '1px solid var(--border-glass)';
+            tr.innerHTML = `
+                <td style="padding: 10px 8px; font-size: 11px; font-weight: 700; color: var(--text-primary);">${ticket.id}</td>
+                <td style="padding: 10px 8px; font-size: 11px; color: var(--text-secondary);">
+                    <strong style="color: var(--text-primary); display:block;">${ticket.subject}</strong>
+                    <span style="font-size: 9px; color: var(--text-tertiary); display:block; margin-top:2px;">${ticket.description}</span>
+                </td>
+                <td style="padding: 10px 8px;">${badgeHTML}</td>
+                <td style="padding: 10px 8px; font-size: 10px; color: var(--text-tertiary); white-space: nowrap;">${ticket.date}</td>
+            `;
+            ticketList.appendChild(tr);
+        });
+    }
+
+    renderSchemes(filterType) {
+        const grid = document.getElementById('schemesGrid');
+        if (!grid) return;
+        
+        grid.innerHTML = '';
+        
+        // Update visual button active state in schemesFilterGroup
+        const filterButtons = document.querySelectorAll('#schemesFilterGroup button');
+        filterButtons.forEach(btn => {
+            if (btn.getAttribute('data-scheme-filter') === filterType) {
+                btn.classList.add('active');
+                btn.style.background = 'var(--color-mahindra-red)';
+                btn.style.borderColor = 'var(--color-mahindra-red)';
+                btn.style.color = '#fff';
+            } else {
+                btn.classList.remove('active');
+                btn.style.background = 'var(--bg-surface-elevated)';
+                btn.style.borderColor = 'var(--border-glass)';
+                btn.style.color = 'var(--text-primary)';
+            }
+        });
+        
+        const filtered = filterType === 'all' ? this.state.schemes : this.state.schemes.filter(s => s.category === filterType);
+        
+        filtered.forEach(scheme => {
+            const card = document.createElement('div');
+            card.className = 'glassmorphism glow-border';
+            card.style.cssText = `
+                padding: 20px; 
+                display: flex; 
+                flex-direction: column; 
+                gap: 12px;
+                transition: transform 0.2s, box-shadow 0.2s;
+            `;
+            card.onmouseover = () => {
+                card.style.transform = 'translateY(-2px)';
+                card.style.boxShadow = '0 8px 24px rgba(227, 24, 55, 0.06)';
+            };
+            card.onmouseout = () => {
+                card.style.transform = 'translateY(0)';
+                card.style.boxShadow = 'none';
+            };
+            
+            card.innerHTML = `
+                <div style="position: relative; height: 140px; border-radius: 8px; overflow: hidden; margin-bottom: 8px;">
+                    <img src="${scheme.image}" style="width: 100%; height: 100%; object-fit: cover;">
+                    <span class="badge ${scheme.category === 'ev' ? 'teal' : 'red'}" style="position: absolute; top: 10px; left: 10px; text-transform: uppercase; font-size: 8px; font-weight: 700;">${scheme.category} Scheme</span>
+                </div>
+                <div>
+                    <h3 style="font-size: 14px; font-weight: 700; color: var(--text-primary); margin: 0 0 4px 0;">${scheme.title}</h3>
+                    <div style="display: flex; gap: 12px; font-size: 11px; margin-bottom: 8px;">
+                        <span>Interest Rate: <strong style="color: var(--color-mahindra-red);">${scheme.rate}</strong></span>
+                        <span>Processing Fee: <strong style="color: var(--color-teal-glow);">${scheme.fee}</strong></span>
+                    </div>
+                    <p style="font-size: 11px; color: var(--text-secondary); line-height: 1.4; margin: 0 0 12px 0;">${scheme.script}</p>
+                </div>
+                <button class="btn-primary" style="margin-top: auto; font-size: 11px; padding: 8px; width: 100%;" onclick="window.dealerOSApp.applySchemeToLead('${scheme.title.replace(/'/g, "\\'")}')">
+                    <i class="fas fa-file-signature"></i> Apply Scheme to Active Lead
+                </button>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    applySchemeToLead(schemeTitle) {
+        this.showNotification(`Scheme "${schemeTitle}" applied to active customer! Special rate locked.`, "success");
+        
+        // Add log to immutable Audit Trail
+        this.state.auditLogs.unshift({
+            timestamp: new Date().toISOString().replace('T', ' ').substring(0, 19),
+            operator: "Vikramaditya Singh",
+            area: "Schemes & Offers",
+            action: `Applied scheme: ${schemeTitle}`,
+            reason: "Applied discount rate lock directly from the scheme catalog",
+            signature: `0x${Math.floor(16777215 + Math.random() * 251658240).toString(16).toUpperCase()}...${Math.floor(4096 + Math.random() * 61439).toString(16).toUpperCase()}`
+        });
+        this.renderAuditTrail();
+    }
+
+    renderCustomer360() {
+        const searchInput = document.getElementById('c360SearchInput');
+        const resultContainer = document.getElementById('c360ResultContainer');
+        if (!resultContainer) return;
+        
+        const query = (searchInput?.value || '').trim().toLowerCase();
+        if (!query) {
+            resultContainer.style.display = 'none';
+            return;
+        }
+        
+        // Match from pipelineLeads
+        const lead = this.state.pipelineLeads.find(l => l.name.toLowerCase().includes(query) || l.phone.toLowerCase().includes(query) || l.id.toLowerCase().includes(query));
+        
+        if (!lead) {
+            resultContainer.style.display = 'block';
+            resultContainer.innerHTML = `
+                <div style="text-align: center; padding: 24px; color: var(--text-secondary);">
+                    <i class="fas fa-exclamation-triangle" style="font-size: 24px; color: var(--color-mahindra-red); margin-bottom: 8px;"></i>
+                    <p style="font-size: 13px; font-weight: 700; margin: 0;">No Customer profile found matching "${query}"</p>
+                    <span style="font-size: 11px; color: var(--text-tertiary);">Please try again with spelling matches.</span>
+                </div>
+            `;
+            return;
+        }
+        
+        resultContainer.style.display = 'block';
+        
+        // Repayment records mock
+        let statusColor = lead.stage === 'disbursed' ? 'var(--color-teal-glow)' : 'var(--color-mahindra-red)';
+        let behaviorLabel = lead.stage === 'disbursed' ? 'EXCELLENT (0 Overdues)' : 'PENDING APPROVAL';
+        let offerLimit = lead.stage === 'disbursed' ? '₹2.5L Pre-approved' : 'Under Assessment';
+        
+        resultContainer.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: start; border-bottom: 1px solid var(--border-glass); padding-bottom: 16px; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+                <div>
+                    <h3 style="font-size: 18px; font-weight: 800; color: var(--text-primary); margin: 0;">${lead.name}</h3>
+                    <span style="font-size: 12px; color: var(--text-secondary);"><i class="fas fa-phone-alt"></i> ${lead.phone} | KYC Status: VERIFIED</span>
+                </div>
+                <span class="badge teal" style="padding: 4px 10px; font-size: 10px; text-transform: uppercase;">Active File #${lead.id}</span>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px;">
+                <div style="background: rgba(0, 0, 0, 0.01); border: 1.5px solid var(--border-glass); padding: 12px; border-radius: 8px;">
+                    <span style="font-size: 9px; text-transform: uppercase; color: var(--text-tertiary); display: block; margin-bottom: 4px;">Loan Repayment Behavior</span>
+                    <strong style="font-size: 12px; color: ${statusColor};">${behaviorLabel}</strong>
+                </div>
+                <div style="background: rgba(0, 0, 0, 0.01); border: 1.5px solid var(--border-glass); padding: 12px; border-radius: 8px;">
+                    <span style="font-size: 9px; text-transform: uppercase; color: var(--text-tertiary); display: block; margin-bottom: 4px;">Customer Loan-to-Value (LTV)</span>
+                    <strong style="font-size: 12px; color: var(--text-primary);">78.5% rate</strong>
+                </div>
+                <div style="background: rgba(0, 0, 0, 0.01); border: 1.5px solid var(--border-glass); padding: 12px; border-radius: 8px;">
+                    <span style="font-size: 9px; text-transform: uppercase; color: var(--text-tertiary); display: block; margin-bottom: 4px;">Assessed Risk Score</span>
+                    <strong style="font-size: 12px; color: var(--color-teal-glow);">${lead.score} Low Risk</strong>
+                </div>
+                <div style="background: rgba(0, 0, 0, 0.01); border: 1.5px solid var(--border-glass); padding: 12px; border-radius: 8px;">
+                    <span style="font-size: 9px; text-transform: uppercase; color: var(--text-tertiary); display: block; margin-bottom: 4px;">Fuel Card Limit Offer</span>
+                    <strong style="font-size: 12px; color: var(--color-mahindra-red);">${offerLimit}</strong>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; align-items: start;">
+                <div>
+                    <h4 style="font-size: 12px; font-weight: 700; color: var(--text-primary); margin: 0 0 12px 0;"><i class="fas fa-file-invoice-dollar"></i> Customer Repayment Grid</h4>
+                    <table style="width: 100%; border-collapse: collapse; text-align: left;" class="compliance-table">
+                       <thead>
+                           <tr style="border-bottom: 1px solid var(--border-glass);">
+                               <th style="padding: 6px 4px; font-size: 9px; color: var(--text-secondary);">DUE DATE</th>
+                               <th style="padding: 6px 4px; font-size: 9px; color: var(--text-secondary);">EMI AMOUNT</th>
+                               <th style="padding: 6px 4px; font-size: 9px; color: var(--text-secondary);">STATUS</th>
+                               <th style="padding: 6px 4px; font-size: 9px; color: var(--text-secondary);">CLEARING</th>
+                           </tr>
+                       </thead>
+                       <tbody>
+                           <tr style="border-bottom: 1px solid var(--border-glass);">
+                               <td style="padding: 8px 4px; font-size: 10px; color: var(--text-primary);">2026-05-10</td>
+                               <td style="padding: 8px 4px; font-size: 10px; color: var(--text-primary);">₹18,450</td>
+                               <td style="padding: 8px 4px;"><span class="badge teal" style="padding: 1px 4px; font-size: 8px;">CLEARED</span></td>
+                               <td style="padding: 8px 4px; font-size: 10px; color: var(--text-tertiary);">Auto-debit (NACH)</td>
+                           </tr>
+                           <tr style="border-bottom: 1px solid var(--border-glass);">
+                               <td style="padding: 8px 4px; font-size: 10px; color: var(--text-primary);">2026-04-10</td>
+                               <td style="padding: 8px 4px; font-size: 10px; color: var(--text-primary);">₹18,450</td>
+                               <td style="padding: 8px 4px;"><span class="badge teal" style="padding: 1px 4px; font-size: 8px;">CLEARED</span></td>
+                               <td style="padding: 8px 4px; font-size: 10px; color: var(--text-tertiary);">Auto-debit (NACH)</td>
+                           </tr>
+                           <tr>
+                               <td style="padding: 8px 4px; font-size: 10px; color: var(--text-primary);">2026-03-10</td>
+                               <td style="padding: 8px 4px; font-size: 10px; color: var(--text-primary);">₹18,450</td>
+                               <td style="padding: 8px 4px;"><span class="badge teal" style="padding: 1px 4px; font-size: 8px;">CLEARED</span></td>
+                               <td style="padding: 8px 4px; font-size: 10px; color: var(--text-tertiary);">Manual Deposit</td>
+                           </tr>
+                       </tbody>
+                    </table>
+                </div>
+                
+                <div style="background: rgba(227, 24, 55, 0.03); border: 1px solid rgba(227, 24, 55, 0.12); padding: 16px; border-radius: 8px; display: flex; flex-direction: column; gap: 10px;">
+                    <strong style="font-size: 11px; color: var(--color-mahindra-red); text-transform: uppercase;"><i class="fas fa-tag"></i> Active Pre-approved Offer</strong>
+                    <span style="font-size: 11px; color: var(--text-secondary); line-height: 1.4;">Based on clean payment history, this customer is pre-selected for the **Mahindra Farmer Insurance Moratorium Scheme** with low interest buffers.</span>
+                    <button class="btn-primary" style="font-size: 11px; padding: 8px;" onclick="window.dealerOSApp.triggerPreApprovedOffer('${lead.name.replace(/'/g, "\\'")}')">
+                       <i class="fas fa-paper-plane"></i> Send Offer SMS
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+
+    triggerPreApprovedOffer(customerName) {
+        this.showNotification(`Pre-approved offer details sent to ${customerName} via SMS.`, "success");
+        
+        // Add log to immutable Audit Trail
+        this.state.auditLogs.unshift({
+            timestamp: new Date().toISOString().replace('T', ' ').substring(0, 19),
+            operator: "Vikramaditya Singh",
+            area: "Customer 360",
+            action: `Dispatched pre-approved offer SMS to ${customerName}`,
+            reason: "Customer loyalty program eligibility verification",
+            signature: `0x${Math.floor(16777215 + Math.random() * 251658240).toString(16).toUpperCase()}...${Math.floor(4096 + Math.random() * 61439).toString(16).toUpperCase()}`
+        });
+        this.renderAuditTrail();
+    }
+
+    renderEmiCalc() {
+        const loanAmount = parseFloat(document.getElementById('emiAmtSlider')?.value) || 1200000;
+        const tenureMonths = parseFloat(document.getElementById('emiTenureSlider')?.value) || 60;
+        const annualRate = parseFloat(document.getElementById('emiRateSlider')?.value) || 9.5;
+        
+        // Update UI Labels
+        const amtLabel = document.getElementById('emiAmtLabel');
+        if (amtLabel) amtLabel.textContent = `₹${(loanAmount / 100000).toFixed(1)} Lakhs`;
+        
+        const tenureLabel = document.getElementById('emiTenureLabel');
+        if (tenureLabel) tenureLabel.textContent = `${tenureMonths} Months`;
+        
+        const rateLabel = document.getElementById('emiRateLabel');
+        if (rateLabel) rateLabel.textContent = `${annualRate.toFixed(2)}% p.a.`;
+        
+        // Standard Amortization Math: Monthly EMI = [P x R x (1+R)^N]/[((1+R)^N)-1]
+        const monthlyRate = (annualRate / 12) / 100;
+        const emiResult = (loanAmount * monthlyRate * Math.pow(1 + monthlyRate, tenureMonths)) / (Math.pow(1 + monthlyRate, tenureMonths) - 1);
+        
+        const totalRepayment = emiResult * tenureMonths;
+        const interestPayable = totalRepayment - loanAmount;
+        
+        // Update Outputs
+        const formatCurrency = (val) => "₹" + Math.round(val).toLocaleString('en-IN');
+        
+        const emiResultText = document.getElementById('emiResultText');
+        if (emiResultText) emiResultText.textContent = formatCurrency(emiResult);
+        
+        const emiPrincipalOut = document.getElementById('emiPrincipalOut');
+        if (emiPrincipalOut) emiPrincipalOut.textContent = formatCurrency(loanAmount);
+        
+        const emiInterestOut = document.getElementById('emiInterestOut');
+        if (emiInterestOut) emiInterestOut.textContent = formatCurrency(interestPayable);
+        
+        const emiRepayOut = document.getElementById('emiRepayOut');
+        if (emiRepayOut) emiRepayOut.textContent = formatCurrency(totalRepayment);
+    }
+
+    renderKycVault() {
+        const body = document.getElementById('kycListBody');
+        if (!body) return;
+        
+        body.innerHTML = '';
+        this.state.complianceCases.forEach(c => {
+            const tr = document.createElement('tr');
+            tr.style.borderBottom = '1px solid var(--border-glass)';
+            
+            const getFileBadge = (status) => {
+                if (status === 'VERIFIED') return '<span class="badge teal" style="font-size: 9px; padding: 2px 6px;"><i class="fas fa-check"></i> Verified</span>';
+                return '<span class="badge red" style="font-size: 9px; padding: 2px 6px;"><i class="fas fa-exclamation-triangle"></i> Missing</span>';
+            };
+            
+            tr.innerHTML = `
+                <td style="padding: 12px; font-size: 11px;">
+                    <strong style="color: var(--text-primary); display: block;">${c.customerName}</strong>
+                    <span style="font-size: 9px; color: var(--text-tertiary);">${c.vehicle} | ${c.loanAmount}</span>
+                </td>
+                <td style="padding: 12px;">${getFileBadge(c.uploads.rc || (c.status === 'COMPLETE' ? 'VERIFIED' : null))}</td>
+                <td style="padding: 12px;">${getFileBadge(c.uploads.invoice || (c.status === 'COMPLETE' ? 'VERIFIED' : null))}</td>
+                <td style="padding: 12px;">${getFileBadge(c.uploads.insurance || (c.status === 'COMPLETE' ? 'VERIFIED' : null))}</td>
+                <td style="padding: 12px;">
+                    ${c.status === 'COMPLETE' ? '<span class="badge teal" style="font-size: 9px; padding: 2px 6px;"><i class="fas fa-check"></i> Land Verified</span>' : '<span class="badge gold" style="font-size: 9px; padding: 2px 6px;">Manual Waiver</span>'}
+                </td>
+            `;
+            body.appendChild(tr);
+        });
+    }
+
+    triggerKycUpload() {
+        this.showNotification("Opening secure digital upload cabinet...", "info");
+        setTimeout(() => {
+            // Find first RC_MISSING or incomplete case to simulate upload
+            const incomplete = this.state.complianceCases.find(c => c.status !== 'COMPLETE');
+            if (incomplete) {
+                incomplete.uploads.rc = 'VERIFIED';
+                incomplete.uploads.insurance = 'VERIFIED';
+                incomplete.uploads.invoice = 'VERIFIED';
+                incomplete.status = 'COMPLETE';
+                incomplete.statusLabel = '✅ Complete';
+                incomplete.score = 'Fully Compliant';
+                
+                // Decrement pdd_pending in dealer_principal and dealer_admin kpis
+                ['dealer_principal', 'dealer_admin'].forEach(role => {
+                    const kpis = window.DealerOSData.kpis[role];
+                    if (kpis) {
+                        const pddKpi = kpis.find(k => k.id === 'pdd_pending');
+                        if (pddKpi && pddKpi.value.includes('cases')) {
+                            let casesCount = parseInt(pddKpi.value) || 18;
+                            if (casesCount > 0) {
+                                pddKpi.value = `${casesCount - 1} cases`;
+                            }
+                        }
+                    }
+                });
+                
+                this.showNotification(`Successfully verified documents for ${incomplete.customerName}!`, "success");
+                
+                // Add log to immutable Audit Trail
+                this.state.auditLogs.unshift({
+                    timestamp: new Date().toISOString().replace('T', ' ').substring(0, 19),
+                    operator: "Vikramaditya Singh",
+                    area: "KYC Vault / OCR Scanner",
+                    action: `Auto-verified Aadhaar/PAN scanner upload for ${incomplete.customerName}`,
+                    reason: "Secure document scanning & verification system override",
+                    signature: `0x${Math.floor(16777215 + Math.random() * 251658240).toString(16).toUpperCase()}...${Math.floor(4096 + Math.random() * 61439).toString(16).toUpperCase()}`
+                });
+                
+                this.renderKycVault();
+                this.renderCompliance();
+                this.renderDashboard();
+                this.renderAuditTrail();
+            } else {
+                this.showNotification("All current files are fully uploaded & secure.", "success");
+            }
+        }, 1200);
+    }
+
+    renderAuditTrail() {
+        const body = document.getElementById('auditTrailList');
+        if (!body) return;
+        
+        body.innerHTML = '';
+        this.state.auditLogs.forEach(log => {
+            const tr = document.createElement('tr');
+            tr.style.borderBottom = '1px solid var(--border-glass)';
+            tr.innerHTML = `
+                <td style="padding: 10px 8px; font-size: 11px; font-family: monospace; color: var(--text-secondary); white-space: nowrap;">${log.timestamp}</td>
+                <td style="padding: 10px 8px; font-size: 11px; font-weight: 700; color: var(--text-primary);">${log.operator}</td>
+                <td style="padding: 10px 8px; font-size: 11px;"><span class="badge gold" style="font-size: 8px; padding: 2px 6px;">${log.area}</span></td>
+                <td style="padding: 10px 8px; font-size: 11px; color: var(--text-primary); font-weight: 600;">${log.action}</td>
+                <td style="padding: 10px 8px; font-size: 11px; color: var(--text-secondary);">${log.reason}</td>
+                <td style="padding: 10px 8px; font-size: 10px; font-family: monospace; color: var(--text-tertiary);">${log.signature}</td>
+            `;
+            body.appendChild(tr);
+        });
+    }
+
+    renderProductKb(category) {
+        const docList = document.getElementById('kbDocList');
+        if (!docList) return;
+        
+        docList.innerHTML = '';
+        
+        // Update visual button active state in kbFolderGroup
+        const folders = document.querySelectorAll('#kbFolderGroup a');
+        folders.forEach(btn => {
+            if (btn.getAttribute('data-kb-folder') === category) {
+                btn.classList.add('active');
+                btn.style.background = 'var(--color-mahindra-red)';
+                btn.style.borderColor = 'var(--color-mahindra-red)';
+                btn.style.color = '#fff';
+            } else {
+                btn.classList.remove('active');
+                btn.style.background = 'var(--bg-surface-elevated)';
+                btn.style.borderColor = 'var(--border-glass)';
+                btn.style.color = 'var(--text-primary)';
+            }
+        });
+        
+        const searchQuery = (document.getElementById('kbSearchInput')?.value || '').toLowerCase();
+        
+        let filtered = category === 'all' ? this.state.productKb : this.state.productKb.filter(doc => doc.category === category);
+        if (searchQuery) {
+            filtered = filtered.filter(doc => doc.title.toLowerCase().includes(searchQuery) || doc.description.toLowerCase().includes(searchQuery));
+        }
+        
+        if (filtered.length === 0) {
+            docList.innerHTML = '<div style="text-align: center; color: var(--text-tertiary); font-size: 12px; padding: 24px;">No brochures or circulars found.</div>';
+            return;
+        }
+        
+        filtered.forEach(doc => {
+            const card = document.createElement('div');
+            card.style.cssText = `
+                padding: 14px; 
+                border-radius: 8px; 
+                border: 1.5px solid var(--border-glass); 
+                background: #ffffff;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 16px;
+            `;
+            
+            card.innerHTML = `
+                <div style="flex: 1;">
+                    <strong style="font-size: 13px; color: var(--text-primary); display: block; margin-bottom: 2px;">${doc.title}</strong>
+                    <p style="font-size: 11px; color: var(--text-secondary); line-height: 1.4; margin: 0 0 6px 0;">${doc.description}</p>
+                    <span style="font-size: 9px; color: var(--text-tertiary); text-transform: uppercase;">Category: ${doc.category.toUpperCase()} | Size: ${doc.size} | Date: ${doc.date}</span>
+                </div>
+                <button class="btn-primary" style="width: auto; padding: 8px 12px; font-size: 11px; height: 32px;" onclick="window.dealerOSApp.downloadDoc('${doc.title.replace(/'/g, "\\'")}')">
+                    <i class="fas fa-download"></i> Download
+                </button>
+            `;
+            docList.appendChild(card);
+        });
+    }
+
+    downloadDoc(title) {
+        this.showNotification(`Started download for circular: "${title}"`, "success");
+        
+        // Add log to immutable Audit Trail
+        this.state.auditLogs.unshift({
+            timestamp: new Date().toISOString().replace('T', ' ').substring(0, 19),
+            operator: "Vikramaditya Singh",
+            area: "Product Knowledge Base",
+            action: `Downloaded product document: ${title}`,
+            reason: "Offline customer policy verification reference",
+            signature: `0x${Math.floor(16777215 + Math.random() * 251658240).toString(16).toUpperCase()}...${Math.floor(4096 + Math.random() * 61439).toString(16).toUpperCase()}`
+        });
+        this.renderAuditTrail();
+    }
+
+    renderVideoTutorials() {
+        const grid = document.getElementById('videoTutorialsGrid');
+        if (!grid) return;
+        
+        grid.innerHTML = '';
+        this.state.videoTutorials.forEach(video => {
+            const card = document.createElement('div');
+            card.className = 'glassmorphism glow-border';
+            card.style.cssText = `
+                padding: 16px; 
+                display: flex; 
+                flex-direction: column; 
+                gap: 12px;
+            `;
+            
+            card.innerHTML = `
+                <div style="position: relative; height: 160px; border-radius: 8px; overflow: hidden; background: #000;">
+                    <img src="${video.cover}" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.85;">
+                    <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.25); cursor: pointer;" onclick="window.dealerOSApp.playVideoTutorial('${video.title.replace(/'/g, "\\'")}')">
+                        <div style="width: 50px; height: 50px; border-radius: 50%; background: var(--color-mahindra-red); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(227, 24, 55, 0.6); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                            <i class="fas fa-play" style="color: #fff; font-size: 18px; margin-left: 3px;"></i>
+                        </div>
+                    </div>
+                    <span style="position: absolute; bottom: 8px; right: 8px; font-size: 9px; font-weight: 700; color: #fff; background: rgba(0,0,0,0.6); padding: 2px 6px; border-radius: 4px;">${video.duration}</span>
+                </div>
+                <div>
+                    <h3 style="font-size: 13px; font-weight: 700; color: var(--text-primary); margin: 0 0 4px 0;">${video.title}</h3>
+                    <p style="font-size: 11px; color: var(--text-secondary); line-height: 1.4; margin: 0;">${video.desc}</p>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    playVideoTutorial(title) {
+        this.showNotification(`Now streaming: "${title}" video tutorial...`, "info");
+    }
 }
+
 
 // Instantiate on load
 window.addEventListener('DOMContentLoaded', () => {

@@ -52,18 +52,18 @@
             <!-- Main Input Form -->
             <form id="loginForm" onsubmit="return false;">
                 <div class="form-group">
-                    <label class="form-label">Dealer Security Key / ID</label>
+                    <label class="form-label">Dealer ID</label>
                     <div class="input-container">
-                        <i class="fas fa-fingerprint"></i>
-                        <input type="text" class="form-input" placeholder="MFL-WEST-4902" value="MFL-WEST-4902" required>
+                        <i class="fas fa-user-tie"></i>
+                        <input type="text" class="form-input" id="dealerIdInput" placeholder="MFL-WEST-4902" value="MFL-WEST-4902" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Operational Token Code</label>
+                    <label class="form-label">Password</label>
                     <div class="input-container">
                         <i class="fas fa-lock"></i>
-                        <input type="password" class="form-input" placeholder="••••••••••••••" value="••••••••••••••" required>
+                        <input type="password" class="form-input" id="dealerPasswordInput" placeholder="••••••••••••••" value="••••••••••••••" required>
                     </div>
                 </div>
 
@@ -76,21 +76,10 @@
                 </div>
 
                 <button type="submit" class="btn-primary" id="loginSubmitBtn">
-                    <span>Validate Token & MFA</span>
-                    <i class="fas fa-shield-alt"></i>
+                    <span>Sign In</span>
+                    <i class="fas fa-sign-in-alt"></i>
                 </button>
             </form>
-
-            <!-- Biometric Login Access Option -->
-            <div class="biometric-section">
-                <div class="biometric-trigger" id="biometricTrigger">
-                    <div class="biometric-icon-container">
-                        <div class="biometric-pulse"></div>
-                        <i class="fas fa-fingerprint"></i>
-                    </div>
-                    <span class="biometric-label">Quick Biometric Sign-in</span>
-                </div>
-            </div>
 
             <!-- Multi-Factor Verification OTP Screen Overlay -->
             <div class="otp-overlay" id="otpOverlay">
@@ -161,31 +150,31 @@
                     <div class="role-dropdown-list" id="roleDropdownList">
                         <div class="role-option" data-role-select="dealer_principal">
                             <div class="role-option-info">
-                                <span class="role-option-name">Showroom Owner</span>
+                                <span class="role-option-name">Showroom Owner (Owner)</span>
                                 <span class="role-option-desc">Check cash flow, sales & stock loans</span>
                             </div>
                             <span class="role-option-badge badge red">Owner</span>
                         </div>
                         <div class="role-option" data-role-select="dealer_admin">
                             <div class="role-option-info">
-                                <span class="role-option-name">Showroom Manager</span>
+                                <span class="role-option-name">Showroom Manager (Manager)</span>
                                 <span class="role-option-desc">Upload customer KYC & RCs</span>
                             </div>
                             <span class="role-option-badge badge red" style="background:rgba(255,255,255,0.05); color:#fff;">Manager</span>
                         </div>
                         <div class="role-option" data-role-select="risk_team">
                             <div class="role-option-info">
-                                <span class="role-option-name">Loan Checker (MFL)</span>
-                                <span class="role-option-desc">Track customer dues & late payments</span>
+                                <span class="role-option-name">Sales Executive</span>
+                                <span class="role-option-desc">Check daily leads, active schemes</span>
                             </div>
-                            <span class="role-option-badge badge red" style="background:rgba(255, 51, 85, 0.08); color:var(--color-electric-red);">Risk</span>
+                            <span class="role-option-badge badge red" style="background:rgba(255, 51, 85, 0.08); color:var(--color-electric-red);">Sales Exec</span>
                         </div>
                         <div class="role-option" data-role-select="compliance_team">
                             <div class="role-option-info">
-                                <span class="role-option-name">Document Checker (MFL)</span>
-                                <span class="role-option-desc">Verify customer insurance & bills</span>
+                                <span class="role-option-name">Finance Executive</span>
+                                <span class="role-option-desc">Verify customer documents & payouts</span>
                             </div>
-                            <span class="role-option-badge badge gold">Checker</span>
+                            <span class="role-option-badge badge gold">Finance Exec</span>
                         </div>
                         <div class="role-option" data-role-select="executive_leadership">
                             <div class="role-option-info">
@@ -206,36 +195,72 @@
                     <span>Main Dashboard</span>
                 </a>
                 <a class="menu-item" data-tab="enquiry">
-                    <i class="fas fa-funnel-dollar"></i>
-                    <span>Leads & Loan Pipeline</span>
+                    <i class="fas fa-folder-open"></i>
+                    <span>Lead Management</span>
+                </a>
+                <a class="menu-item" data-tab="loan">
+                    <i class="fas fa-route"></i>
+                    <span>Loan Tracking</span>
                 </a>
                 <a class="menu-item" data-tab="compliance">
-                    <i class="fas fa-stamp"></i>
-                    <span>Document Checks</span>
+                    <i class="fas fa-search"></i>
+                    <span>Document Scanner</span>
                 </a>
                 <a class="menu-item" data-tab="stock">
-                    <i class="fas fa-landmark"></i>
-                    <span>Vehicle Stock Loans (TA)</span>
+                    <i class="fas fa-car"></i>
+                    <span>Vehicle Stock Loans</span>
+                </a>
+                <a class="menu-item" data-tab="kycvault">
+                    <i class="fas fa-id-card"></i>
+                    <span>KYC Vault</span>
                 </a>
 
                 <span class="menu-section-header">Control & Tracking</span>
                 <a class="menu-item" data-tab="portfolio">
-                    <i class="fas fa-shield-alt"></i>
-                    <span>Customer Dues & Overdues</span>
+                    <i class="fas fa-wallet"></i>
+                    <span>Customer Dues</span>
                 </a>
                 <a class="menu-item" data-tab="performance">
-                    <i class="fas fa-trophy"></i>
-                    <span>Showroom Performance Rank</span>
+                    <i class="fas fa-chart-line"></i>
+                    <span>Showroom Rank</span>
+                </a>
+                <a class="menu-item" data-tab="audit">
+                    <i class="fas fa-history"></i>
+                    <span>Audit Trail</span>
                 </a>
 
-                <span class="menu-section-header">All India & Help</span>
+                <span class="menu-section-header">Knowledge & Support</span>
                 <a class="menu-item" data-tab="executive">
-                    <i class="fas fa-satellite-dish"></i>
+                    <i class="fas fa-map-marked-alt"></i>
                     <span>National Map Center</span>
                 </a>
                 <a class="menu-item" data-tab="comms">
                     <i class="fas fa-comments"></i>
                     <span>Messages & Notes</span>
+                </a>
+                <a class="menu-item" data-tab="support">
+                    <i class="fas fa-headset"></i>
+                    <span>Support Center</span>
+                </a>
+                <a class="menu-item" data-tab="schemes">
+                    <i class="fas fa-tags"></i>
+                    <span>Schemes & Offers</span>
+                </a>
+                <a class="menu-item" data-tab="customer360">
+                    <i class="fas fa-users"></i>
+                    <span>Customer 360</span>
+                </a>
+                <a class="menu-item" data-tab="emicalc">
+                    <i class="fas fa-calculator"></i>
+                    <span>EMI Calculator</span>
+                </a>
+                <a class="menu-item" data-tab="productkb">
+                    <i class="fas fa-book-open"></i>
+                    <span>Product KB</span>
+                </a>
+                <a class="menu-item" data-tab="videotutorials">
+                    <i class="fas fa-video"></i>
+                    <span>Video Tutorials</span>
                 </a>
                 <a class="menu-item" data-tab="training">
                     <i class="fas fa-graduation-cap"></i>
@@ -271,7 +296,7 @@
                         <path d="M45 38L25 5L22 12L38 38H45Z" fill="#E31837"/>
                     </svg>
                     <div style="display: flex; flex-direction: column;">
-                        <span style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 14px; letter-spacing: 0.05em; color: #fff; line-height: 1.1; text-transform: uppercase;">mahindra</span>
+                        <span style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 14px; letter-spacing: 0.05em; color: var(--text-primary); line-height: 1.1; text-transform: uppercase;">mahindra</span>
                         <span style="font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 9px; letter-spacing: 0.22em; color: #E31837; line-height: 1; text-transform: uppercase;">FINANCE</span>
                     </div>
                 </div>
@@ -450,13 +475,16 @@
                      MODULE: BUSINESS & PIPELINE MANAGEMENT (Kanban Board)
                      ========================================================================== -->
                 <section class="module-section" id="module-enquiry">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
                         <div>
-                            <h1 style="font-size: 24px; font-weight: 800;">Customer Leads & Loan Steps</h1>
-                            <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">Track new customer bookings and dynamic loan approvals</p>
+                            <h1 style="font-size: 24px; font-weight: 800;">Lead Management</h1>
+                            <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">Track new customer showroom leads and easy loan approvals</p>
                         </div>
                         <span class="badge teal"><i class="fas fa-brain"></i> AI Lead Scoring Enabled</span>
                     </div>
+
+                    <!-- Progress Funnel Bar -->
+                    <div id="pipelineFunnelBar" style="margin-bottom: 24px;"></div>
 
                     <!-- Kanban Boards Pipeline Layout -->
                     <div class="dashboard-layout-main" style="grid-template-columns: 2.2fr 1fr; align-items: start;">
@@ -654,7 +682,7 @@
                                         <canvas id="stockFinanceChart"></canvas>
                                     </div>
                                     <div class="stock-gauge-text">
-                                        <span style="font-size: 22px; font-weight: 800; color: #fff;" id="taTotalText">₹15.0 Cr</span>
+                                        <span style="font-size: 22px; font-weight: 800; color: var(--text-primary);" id="taTotalText">₹15.0 Cr</span>
                                         <span style="font-size: 10px; color: var(--text-secondary);">MAX CEILING</span>
                                     </div>
                                 </div>
@@ -666,7 +694,7 @@
                                     <strong id="taUtilizedText">₹11.75 Cr</strong>
                                 </div>
                                 <div style="display: flex; justify-content: space-between; font-size: 12px;">
-                                    <span style="color: var(--text-secondary);">Available Cushion</span>
+                                    <span style="color: var(--text-secondary);">Funds Available</span>
                                     <strong style="color: var(--color-teal-glow);" id="taAvailableText">₹3.25 Cr</strong>
                                 </div>
                                 <div style="height: 6px; background: var(--bg-surface-elevated); border-radius: 3px; overflow: hidden;">
@@ -701,7 +729,7 @@
                                         <i class="fas fa-info-circle"></i> Funds will be auto-transferred directly to Mahindra & Mahindra factory account against dispatch orders. Interest rate: **9.25% p.a. floating.**
                                     </div>
                                     <button class="btn-primary" id="submitFundingBtn" style="padding: 14px 20px;">
-                                        <span>Request Fund Release</span>
+                                        <span>Request Funds</span>
                                         <i class="fas fa-coins"></i>
                                     </button>
                                 </div>
@@ -735,8 +763,8 @@
                      ========================================================================== -->
                 <section class="module-section" id="module-performance">
                     <div>
-                        <h1 style="font-size: 24px; font-weight: 800;">Showroom Performance & Rank</h1>
-                        <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">Compare your showroom score and rank with other regions</p>
+                        <h1 style="font-size: 24px; font-weight: 800;">Your Scorecard & How You Compare</h1>
+                        <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">Compare your showroom scores and performance with other dealers in your area</p>
                     </div>
 
                     <div class="dashboard-layout-main">
@@ -792,7 +820,7 @@
                                         <i class="fas fa-brain"></i> AI Executive Summary
                                     </div>
                                     <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.4;">
-                                        National portfolios continue robust scaling with weighted LTV parameters capped at 74.8%. The underwriting engines are clearing loans at an average TAT of 2.8 Hours. Delinquencies remain stable.
+                                        Across India, our vehicle loans are growing steadily. Most customers pay 25% downpayment on average. Our loan approval team approves new loans in less than 3 hours, and payments are arriving on time.
                                     </p>
                                 </div>
                             </div>
@@ -899,6 +927,411 @@
                 </section>
 
                 <!-- ==========================================================================
+                     MODULE: LOAN TRACKING
+                     ========================================================================== -->
+                <section class="module-section" id="module-loan">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                        <div>
+                            <h1 style="font-size: 24px; font-weight: 800;">Loan Tracking</h1>
+                            <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">Track live status and approval stages of customer loan applications</p>
+                        </div>
+                        <div class="search-filter-row" style="display: flex; gap: 12px;">
+                            <div class="input-container" style="width: 260px;">
+                                <i class="fas fa-search" style="left: 12px; color: var(--text-secondary);"></i>
+                                <input type="text" id="loanSearchInput" class="form-input" placeholder="Search customer name or ID..." style="padding-left: 36px; height: 38px;">
+                            </div>
+                            <select id="loanStatusFilter" class="form-input" style="width: 160px; height: 38px; padding-left: 12px;">
+                                <option value="all">All Statuses</option>
+                                <option value="docs">Docs Pending</option>
+                                <option value="underwriting">Underwriting</option>
+                                <option value="sanctioned">Sanctioned</option>
+                                <option value="disbursed">Disbursed</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-layout-main" style="grid-template-columns: 2fr 1fr; align-items: start; gap: 24px;">
+                        <div class="glassmorphism glow-border" style="padding: 24px;">
+                            <span class="panel-title" style="margin-bottom: 16px;"><i class="fas fa-tasks"></i> Active Applications list</span>
+                            <div id="loanTrackingList" style="display: flex; flex-direction: column; gap: 16px;">
+                                <!-- Instantiated Dynamically via App.js -->
+                            </div>
+                        </div>
+
+                        <div class="glassmorphism glow-border" id="loanTrackerDetailPanel" style="padding: 24px; position: sticky; top: var(--header-height);">
+                            <!-- Instantiated Dynamically via App.js -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================================================
+                     MODULE: SUPPORT CENTER
+                     ========================================================================== -->
+                <section class="module-section" id="module-support">
+                    <div style="margin-bottom: 24px;">
+                        <h1 style="font-size: 24px; font-weight: 800;">Support Center & RM</h1>
+                        <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">Get help directly from your Relationship Manager or raise a support ticket</p>
+                    </div>
+
+                    <div class="dashboard-layout-main" style="grid-template-columns: 1.8fr 1.2fr 1fr; align-items: start; gap: 20px;">
+                        <!-- Left Column: Open Support Tickets -->
+                        <div class="glassmorphism glow-border" style="padding: 24px;">
+                            <span class="panel-title" style="margin-bottom: 16px;"><i class="fas fa-ticket-alt"></i> Your Support Tickets</span>
+                            <div style="overflow-x: auto;">
+                                <table style="width: 100%; border-collapse: collapse; text-align: left;" class="compliance-table">
+                                    <thead>
+                                        <tr style="border-bottom: 1px solid var(--border-glass);">
+                                            <th style="padding: 8px; font-size: 10px; color: var(--text-secondary);">TICKET ID</th>
+                                            <th style="padding: 8px; font-size: 10px; color: var(--text-secondary);">SUBJECT</th>
+                                            <th style="padding: 8px; font-size: 10px; color: var(--text-secondary);">STATUS</th>
+                                            <th style="padding: 8px; font-size: 10px; color: var(--text-secondary);">DATE</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="supportTicketsList">
+                                        <!-- Populated dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Middle Column: Raise Ticket Form -->
+                        <div class="glassmorphism glow-border" style="padding: 24px;">
+                            <span class="panel-title" style="margin-bottom: 16px;"><i class="fas fa-plus-circle"></i> Ask for Help / Raise Ticket</span>
+                            <form id="raiseTicketForm" onsubmit="return false;" style="display: flex; flex-direction: column; gap: 12px; margin-top: 16px;">
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label class="form-label" style="font-size: 11px;">Problem Type</label>
+                                    <select id="ticketCategory" class="form-input" style="height: 38px;" required>
+                                        <option value="payouts">Payout / Commission Delay</option>
+                                        <option value="kyc">KYC verification failure</option>
+                                        <option value="portal">Website / Portal Technical issue</option>
+                                        <option value="dealership">Dealership limit issue</option>
+                                        <option value="other">Other issue</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label class="form-label" style="font-size: 11px;">Explain in Short</label>
+                                    <input type="text" id="ticketSubject" class="form-input" placeholder="e.g. Payout pending for Ramesh" style="height: 38px;" required>
+                                </div>
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label class="form-label" style="font-size: 11px;">Explain Details</label>
+                                    <textarea id="ticketDescription" class="form-input" placeholder="Give full details of your issue..." style="height: 80px; padding: 10px; resize: none;" required></textarea>
+                                </div>
+                                <button class="btn-primary" type="submit" style="padding: 10px; font-size: 12px; height: 38px; margin-top: 8px;">
+                                    <span>Send to Support</span>
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Right Column: RM Card -->
+                        <div class="glassmorphism glow-border" style="padding: 24px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 16px;">
+                            <span class="panel-title" style="align-self: flex-start;"><i class="fas fa-user-shield"></i> Relationship Manager</span>
+                            <div style="position: relative;">
+                                <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=256&auto=format&fit=crop" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2.5px solid var(--color-mahindra-red);">
+                                <span style="position: absolute; bottom: 4px; right: 4px; width: 14px; height: 14px; background: #00F5D4; border: 2.5px solid var(--bg-surface); border-radius: 50%;" title="RM Online"></span>
+                            </div>
+                            <div>
+                                <h3 style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 2px;">Amitesh Mishra</h3>
+                                <span style="font-size: 11px; color: var(--text-secondary); text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em;">RM - West Zone</span>
+                            </div>
+                            <div style="width: 100%; border-top: 1px solid var(--border-glass); padding-top: 14px; display: flex; flex-direction: column; gap: 8px; font-size: 12px; text-align: left;">
+                                <div style="display: flex; gap: 8px; align-items: center; color: var(--text-secondary);">
+                                    <i class="fas fa-phone-alt" style="color: var(--color-mahindra-red); width: 16px;"></i>
+                                    <span>+91 98112 23344</span>
+                                </div>
+                                <div style="display: flex; gap: 8px; align-items: center; color: var(--text-secondary);">
+                                    <i class="fas fa-envelope" style="color: var(--color-mahindra-red); width: 16px;"></i>
+                                    <span>a.mishra@mahindra.com</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 10px; width: 100%; margin-top: 6px;">
+                                <a href="tel:+919811223344" class="btn-primary" style="flex: 1; padding: 8px; font-size: 11px; height: 32px; background: var(--bg-surface-elevated); border: 1.5px solid var(--border-glass);">
+                                    <i class="fas fa-phone-alt"></i> Call Now
+                                </a>
+                                <a href="https://wa.me/919811223344" target="_blank" class="btn-primary" style="flex: 1; padding: 8px; font-size: 11px; height: 32px; background: rgba(0, 245, 212, 0.1); border-color: rgba(0, 245, 212, 0.3); color: #00F5D4;">
+                                    <i class="fab fa-whatsapp"></i> Chat
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================================================
+                     MODULE: SCHEMES & OFFERS
+                     ========================================================================== -->
+                <section class="module-section" id="module-schemes">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                        <div>
+                            <h1 style="font-size: 24px; font-weight: 800;">Schemes & Offers</h1>
+                            <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">Push current Mahindra Finance schemes to dealers to close customers faster</p>
+                        </div>
+                        <div class="search-filter-row" style="display: flex; gap: 8px;" id="schemesFilterGroup">
+                            <button class="btn-primary active" data-scheme-filter="all" style="padding: 6px 12px; height: 32px; font-size: 11px;">All</button>
+                            <button class="btn-primary" data-scheme-filter="suv" style="padding: 6px 12px; height: 32px; font-size: 11px; background: var(--bg-surface-elevated); border: 1px solid var(--border-glass);">SUVs</button>
+                            <button class="btn-primary" data-scheme-filter="ev" style="padding: 6px 12px; height: 32px; font-size: 11px; background: var(--bg-surface-elevated); border: 1px solid var(--border-glass);">EVs</button>
+                            <button class="btn-primary" data-scheme-filter="commercial" style="padding: 6px 12px; height: 32px; font-size: 11px; background: var(--bg-surface-elevated); border: 1px solid var(--border-glass);">Tractor & LCV</button>
+                        </div>
+                    </div>
+
+                    <div id="schemesGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px;">
+                        <!-- Instantiated Dynamically via App.js -->
+                    </div>
+                </section>
+
+                <!-- ==========================================================================
+                     MODULE: CUSTOMER 360 Explorer
+                     ========================================================================== -->
+                <section class="module-section" id="module-customer360">
+                    <div style="margin-bottom: 24px;">
+                        <h1 style="font-size: 24px; font-weight: 800;">Customer 360 Explorer</h1>
+                        <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">Search any customer you sourced, check loan status, repayment grid & renewal limits</p>
+                    </div>
+
+                    <div class="glassmorphism glow-border" style="padding: 24px; margin-bottom: 24px;">
+                        <div style="display: flex; gap: 16px; max-width: 600px;">
+                            <div class="input-container" style="flex: 1;">
+                                <i class="fas fa-search" style="left: 14px; color: var(--text-secondary);"></i>
+                                <input type="text" id="c360SearchInput" class="form-input" placeholder="Enter customer name (e.g. Ramesh) or phone number..." style="padding-left: 40px; height: 44px;">
+                            </div>
+                            <button class="btn-primary" id="c360SearchBtn" style="width: auto; padding: 0 24px; height: 44px;">
+                                <span>Search Profile</span>
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        <div style="font-size: 11px; color: var(--text-secondary); margin-top: 10px; font-weight: 500;">
+                            <i class="fas fa-info-circle"></i> Quick search seeded profiles: **Rohan Jagtap**, **Ramesh Patil**, **Priyanka Sharma** or **Sunil Ghadge**.
+                        </div>
+                    </div>
+
+                    <div class="glassmorphism glow-border" id="c360ResultContainer" style="padding: 28px; display: none;">
+                        <!-- Instantiated Dynamically via App.js -->
+                    </div>
+                </section>
+
+                <!-- ==========================================================================
+                     MODULE: EMI CALCULATOR
+                     ========================================================================== -->
+                <section class="module-section" id="module-emicalc">
+                    <div style="margin-bottom: 24px;">
+                        <h1 style="font-size: 24px; font-weight: 800;">EMI Calculator</h1>
+                        <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">Calculate monthly EMI payments and loan eligibility for your customer instantly</p>
+                    </div>
+
+                    <div class="dashboard-layout-main" style="grid-template-columns: 1.2fr 1fr; gap: 24px; align-items: start;">
+                        <!-- Slider Inputs Panel -->
+                        <div class="glassmorphism glow-border" style="padding: 28px; display: flex; flex-direction: column; gap: 20px;">
+                            <span class="panel-title" style="margin-bottom: 8px;"><i class="fas fa-sliders-h"></i> Adjust Loan Parameters</span>
+                            
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                    <label class="form-label" style="margin-bottom: 0;">Required Loan Amount</label>
+                                    <strong style="color: var(--text-primary); font-size: 16px;" id="emiAmtLabel">₹12.0 Lakhs</strong>
+                                </div>
+                                <input type="range" id="emiAmtSlider" min="100000" max="3000000" step="50000" value="1200000" style="width: 100%; cursor: pointer;">
+                                <div style="display: flex; justify-content: space-between; font-size: 10px; color: var(--text-secondary); margin-top: 4px;">
+                                    <span>₹1.0 Lakh</span>
+                                    <span>₹30.0 Lakhs</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                    <label class="form-label" style="margin-bottom: 0;">Repayment Period (Tenure)</label>
+                                    <strong style="color: var(--text-primary); font-size: 16px;" id="emiTenureLabel">60 Months</strong>
+                                </div>
+                                <input type="range" id="emiTenureSlider" min="12" max="84" step="6" value="60" style="width: 100%; cursor: pointer;">
+                                <div style="display: flex; justify-content: space-between; font-size: 10px; color: var(--text-secondary); margin-top: 4px;">
+                                    <span>12 Months</span>
+                                    <span>84 Months (7 Years)</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                    <label class="form-label" style="margin-bottom: 0;">Interest Rate (% p.a.)</label>
+                                    <strong style="color: var(--text-primary); font-size: 16px;" id="emiRateLabel">9.5% p.a.</strong>
+                                </div>
+                                <input type="range" id="emiRateSlider" min="7" max="16" step="0.25" value="9.5" style="width: 100%; cursor: pointer;">
+                                <div style="display: flex; justify-content: space-between; font-size: 10px; color: var(--text-secondary); margin-top: 4px;">
+                                    <span>7.0%</span>
+                                    <span>16.0%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Results Output Panel -->
+                        <div class="glassmorphism glow-border" style="padding: 28px; display: flex; flex-direction: column; gap: 20px;">
+                            <span class="panel-title"><i class="fas fa-receipt"></i> Monthly Payout Breakdown</span>
+                            
+                            <div style="background: rgba(227, 24, 55, 0.05); border: 1px solid rgba(227, 24, 55, 0.15); padding: 20px; border-radius: 10px; text-align: center; margin: 10px 0;">
+                                <span style="font-size: 11px; text-transform: uppercase; color: var(--text-secondary); font-weight: 600; letter-spacing: 0.05em; display: block; margin-bottom: 6px;">ESTIMATED MONTHLY EMI</span>
+                                <h1 style="font-size: 32px; font-weight: 800; color: var(--color-electric-red); margin: 0;" id="emiResultText">₹25,190</h1>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; border-bottom: 1px solid var(--border-glass); padding-bottom: 16px;">
+                                <div style="text-align: left;">
+                                    <span style="font-size: 10px; color: var(--text-secondary); text-transform: uppercase; display: block; margin-bottom: 4px;">Principal Amount</span>
+                                    <strong style="font-size: 14px; color: var(--text-primary);" id="emiPrincipalOut">₹12,00,000</strong>
+                                </div>
+                                <div style="text-align: left;">
+                                    <span style="font-size: 10px; color: var(--text-secondary); text-transform: uppercase; display: block; margin-bottom: 4px;">Total Interest Payable</span>
+                                    <strong style="font-size: 14px; color: var(--text-primary);" id="emiInterestOut">₹3,11,400</strong>
+                                </div>
+                            </div>
+
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div style="text-align: left;">
+                                    <span style="font-size: 10px; color: var(--text-secondary); text-transform: uppercase; display: block; margin-bottom: 2px;">Total Repayment</span>
+                                    <strong style="font-size: 16px; color: var(--color-teal-glow);" id="emiRepayOut">₹15,11,400</strong>
+                                </div>
+                                <button class="btn-primary" style="width: auto; padding: 10px 18px; font-size: 11px; height: 36px;" onclick="window.dealerOSApp.showNotification('Eligibility score: Excellent. Low risk, fast processing.', 'success')">
+                                    <span>Check Customer Eligibility</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================================================
+                     MODULE: KYC VAULT
+                     ========================================================================== -->
+                <section class="module-section" id="module-kycvault">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                        <div>
+                            <h1 style="font-size: 24px; font-weight: 800;">KYC Vault</h1>
+                            <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">Secure document vault with digital verification and OCR status matching</p>
+                        </div>
+                        <span class="badge teal"><i class="fas fa-lock"></i> AES-256 Encrypted</span>
+                    </div>
+
+                    <div class="dashboard-layout-main" style="grid-template-columns: 2fr 1fr; align-items: start; gap: 24px;">
+                        <div class="glassmorphism glow-border" style="padding: 24px;">
+                            <span class="panel-title" style="margin-bottom: 16px;"><i class="fas fa-folder"></i> Customer Documents Verification Cabinet</span>
+                            <div style="overflow-x: auto;">
+                                <table style="width: 100%; border-collapse: collapse; text-align: left;" class="compliance-table">
+                                    <thead>
+                                        <tr style="border-bottom: 1px solid var(--border-glass);">
+                                            <th style="padding: 12px; font-size: 10px; color: var(--text-secondary);">CUSTOMER</th>
+                                            <th style="padding: 12px; font-size: 10px; color: var(--text-secondary);">AADHAAR</th>
+                                            <th style="padding: 12px; font-size: 10px; color: var(--text-secondary);">PAN CHECK</th>
+                                            <th style="padding: 12px; font-size: 10px; color: var(--text-secondary);">BANK STMTS</th>
+                                            <th style="padding: 12px; font-size: 10px; color: var(--text-secondary);">LAND RECORDS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="kycListBody">
+                                        <!-- Populated dynamically via App.js -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Dropzone area -->
+                        <div class="glassmorphism glow-border" style="padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+                            <span class="panel-title"><i class="fas fa-cloud-upload-alt"></i> Upload New Customer Files</span>
+                            
+                            <div style="border: 2px dashed rgba(227, 24, 55, 0.25); border-radius: 8px; padding: 32px 16px; text-align: center; background: rgba(227, 24, 55, 0.01); display: flex; flex-direction: column; align-items: center; gap: 12px; transition: border-color 0.3s; cursor: pointer;" onmouseover="this.style.borderColor='var(--color-mahindra-red)'" onmouseout="this.style.borderColor='rgba(227, 24, 55, 0.25)'" onclick="window.dealerOSApp.triggerKycUpload()">
+                                <i class="fas fa-file-invoice" style="font-size: 36px; color: var(--text-secondary);"></i>
+                                <div>
+                                    <strong style="color: var(--text-primary); font-size: 13px; display: block; margin-bottom: 4px;">Click or Drag files here</strong>
+                                    <span style="font-size: 10px; color: var(--text-secondary);">Accepts Aadhaar, PAN Card, Income Tax Returns or Sale Deeds</span>
+                                </div>
+                            </div>
+                            <div style="font-size: 11px; color: var(--text-secondary); line-height: 1.4;">
+                                <i class="fas fa-robot" style="color: var(--color-teal-glow);"></i> **Document Scanner AI** will automatically extract details and match customer identity details.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================================================
+                     MODULE: AUDIT TRAIL
+                     ========================================================================== -->
+                <section class="module-section" id="module-audit">
+                    <div style="margin-bottom: 24px;">
+                        <h1 style="font-size: 24px; font-weight: 800;">Audit Trail</h1>
+                        <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">Immutable system trail recording risk overrides, threshold updates & banking changes</p>
+                    </div>
+
+                    <div class="glassmorphism glow-border" style="padding: 24px; overflow-x: auto;">
+                        <span class="panel-title" style="margin-bottom: 16px;"><i class="fas fa-history"></i> System Activity Logs (Past 48 Hours)</span>
+                        <table style="width: 100%; border-collapse: collapse; text-align: left;" class="compliance-table">
+                            <thead>
+                                <tr style="border-bottom: 1px solid var(--border-glass);">
+                                    <th style="padding: 12px; font-size: 10px; color: var(--text-secondary);">TIMESTAMP</th>
+                                    <th style="padding: 12px; font-size: 10px; color: var(--text-secondary);">OPERATOR USER</th>
+                                    <th style="padding: 12px; font-size: 10px; color: var(--text-secondary);">MODULE AREA</th>
+                                    <th style="padding: 12px; font-size: 10px; color: var(--text-secondary);">ADJUSTMENT ACTION</th>
+                                    <th style="padding: 12px; font-size: 10px; color: var(--text-secondary);">REASON GIVEN</th>
+                                    <th style="padding: 12px; font-size: 10px; color: var(--text-secondary);">SIGNATURE HASH</th>
+                                </tr>
+                            </thead>
+                            <tbody id="auditTrailList">
+                                <!-- Populated dynamically via App.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- ==========================================================================
+                     MODULE: PRODUCT KNOWLEDGE BASE
+                     ========================================================================== -->
+                <section class="module-section" id="module-productkb">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                        <div>
+                            <h1 style="font-size: 24px; font-weight: 800;">Product Knowledge Base</h1>
+                            <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">Search brochures, policy circulars, and interest rate cards for Mahindra vehicles</p>
+                        </div>
+                        <div class="input-container" style="width: 300px;">
+                            <i class="fas fa-search" style="left: 12px; color: var(--text-secondary);"></i>
+                            <input type="text" id="kbSearchInput" class="form-input" placeholder="Search brochures or policies..." style="padding-left: 36px; height: 38px;">
+                        </div>
+                    </div>
+
+                    <div class="dashboard-layout-main" style="grid-template-columns: 1fr 2fr; gap: 24px; align-items: start;">
+                        <!-- Category Navigation folder list -->
+                        <div class="glassmorphism glow-border" style="padding: 24px; display: flex; flex-direction: column; gap: 12px;">
+                            <span class="panel-title" style="margin-bottom: 12px;"><i class="fas fa-folder-open"></i> Policy Libraries</span>
+                            <div style="display: flex; flex-direction: column; gap: 8px;" id="kbFolderGroup">
+                                <a href="#" class="btn-primary" data-kb-folder="all" style="text-align: left; justify-content: flex-start; padding: 10px 16px; font-size: 12px; height: 40px;">
+                                    <i class="fas fa-file-alt" style="margin-right: 8px;"></i> All Documentation
+                                </a>
+                                <a href="#" class="btn-primary" data-kb-folder="suv" style="text-align: left; justify-content: flex-start; padding: 10px 16px; font-size: 12px; height: 40px; background: var(--bg-surface-elevated); border: 1px solid var(--border-glass);">
+                                    <i class="fas fa-car" style="margin-right: 8px;"></i> SUV Loan Schemes
+                                </a>
+                                <a href="#" class="btn-primary" data-kb-folder="tractor" style="text-align: left; justify-content: flex-start; padding: 10px 16px; font-size: 12px; height: 40px; background: var(--bg-surface-elevated); border: 1px solid var(--border-glass);">
+                                    <i class="fas fa-tractor" style="margin-right: 8px;"></i> Tractor Funding policies
+                                </a>
+                                <a href="#" class="btn-primary" data-kb-folder="kyc" style="text-align: left; justify-content: flex-start; padding: 10px 16px; font-size: 12px; height: 40px; background: var(--bg-surface-elevated); border: 1px solid var(--border-glass);">
+                                    <i class="fas fa-id-card" style="margin-right: 8px;"></i> KYC & Compliance Circulars
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Documents List -->
+                        <div class="glassmorphism glow-border" style="padding: 24px;">
+                            <span class="panel-title" style="margin-bottom: 16px;"><i class="fas fa-file-pdf"></i> Available Circulars & Reference Sheets</span>
+                            <div style="display: flex; flex-direction: column; gap: 12px;" id="kbDocList">
+                                <!-- Instantiated Dynamically via App.js -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================================================
+                     MODULE: VIDEO TUTORIALS
+                     ========================================================================== -->
+                <section class="module-section" id="module-videotutorials">
+                    <div style="margin-bottom: 24px;">
+                        <h1 style="font-size: 24px; font-weight: 800;">Video Tutorials</h1>
+                        <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">Learn how to operate the portal modules with simple video guides</p>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;" id="videoTutorialsGrid">
+                        <!-- Instantiated Dynamically via App.js -->
+                    </div>
+                </section>
+
+                <!-- ==========================================================================
                      CORPORATE BRAND FOOTER
                      ========================================================================== -->
                 <footer style="margin-top: 48px; border-top: 1px solid var(--border-glass); padding-top: 24px; padding-bottom: 24px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-tertiary);">
@@ -908,7 +1341,7 @@
                             <path d="M45 38L25 5L22 12L38 38H45Z" fill="#E31837"/>
                         </svg>
                         <div>
-                            <span style="font-family: 'Outfit', sans-serif; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 0.05em;">mahindra</span>
+                            <span style="font-family: 'Outfit', sans-serif; font-weight: 700; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.05em;">mahindra</span>
                             <span style="font-family: 'Outfit', sans-serif; font-weight: 700; color: #E31837; text-transform: uppercase; letter-spacing: 0.15em; margin-left: 2px;">FINANCE</span>
                         </div>
                     </div>
@@ -972,61 +1405,7 @@
         </div>
     </div>
 
-    <!-- ==========================================================================
-         GLASSMORPHIC GRADUATION CERTIFICATE VAULT OVERLAY
-         ========================================================================== -->
-    <div class="certificate-modal-overlay" id="certificateModal" style="display: none; position: fixed; inset: 0; background: rgba(6, 6, 8, 0.9); z-index: 20000; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);">
-        <div class="glassmorphism glow-border gold-certificate-card" style="width: 700px; max-width: 90vw; background: linear-gradient(135deg, #0e1217 0%, #170e10 100%); border-color: rgba(227, 24, 55, 0.4); padding: 48px; border-radius: 12px; position: relative; box-shadow: var(--shadow-cinematic); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 24px; overflow: hidden;">
-            <!-- Certificate Background Watermark Twin Peaks -->
-            <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; opacity: 0.03; z-index: 1;">
-                <svg width="400" height="400" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M5 38L25 5L28 12L12 38H5Z" fill="#FFFFFF"/>
-                    <path d="M45 38L25 5L22 12L38 38H45Z" fill="#FFFFFF"/>
-                </svg>
-            </div>
-            
-            <div style="z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 16px; width: 100%;">
-                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
-                    <svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 10px rgba(227, 24, 55, 0.5));">
-                        <path d="M5 38L25 5L28 12L12 38H5Z" fill="#E31837"/>
-                        <path d="M45 38L25 5L22 12L38 38H45Z" fill="#E31837"/>
-                    </svg>
-                </div>
-                
-                <h4 style="font-family: 'Outfit', sans-serif; font-size: 11px; letter-spacing: 0.3em; color: var(--color-teal-glow); text-transform: uppercase; font-weight: 700; margin: 0;">Mahindra Finance Academy</h4>
-                <h1 style="font-family: 'Outfit', sans-serif; font-size: 26px; font-weight: 800; color: #fff; margin: 0; background: linear-gradient(90deg, #fff 40%, #ffc5cc 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">CERTIFICATE OF OPERATIONAL COMPLIANCE</h1>
-                <p style="font-size: 11px; text-transform: uppercase; color: var(--text-tertiary); letter-spacing: 0.1em; margin-top: -6px;">Awarded under regulatory mandate</p>
-                
-                <div style="width: 80px; height: 1px; background: rgba(255, 255, 255, 0.1); margin: 8px 0;"></div>
-                
-                <p style="font-size: 14px; color: var(--text-secondary); max-width: 520px; line-height: 1.6; font-weight: 500;">
-                    This document certifies that the designated dealership executive <strong style="color: #fff; font-size:15px;" id="certUser">Vikramaditya Singh</strong> has successfully demonstrated competency in:
-                </p>
-                
-                <h3 style="font-size: 18px; font-weight: 700; color: #fff; margin: 8px 0;" id="certCourseTitle">Retail Finance Compliance Standards</h3>
-                
-                <p style="font-size: 13px; color: var(--text-secondary); max-width: 500px; line-height: 1.5; font-style: italic;">
-                    "Demonstrating verified proficiency in trade floorplan optimizations, NSDL automated audits, risk mitigation models, and KYC integrity controls."
-                </p>
-                
-                <div style="display: flex; justify-content: space-around; width: 100%; margin-top: 32px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 24px;">
-                    <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
-                        <span style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 10px; color: var(--text-tertiary);">REGISTRATION NO</span>
-                        <strong style="font-family: monospace; font-size: 12px; color: #fff;" id="certRegNo">MFL-ACAD-99082</strong>
-                    </div>
-                    
-                    <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
-                        <span style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 10px; color: var(--text-tertiary);">ACCREDITED BY</span>
-                        <strong style="font-size: 11px; color: var(--color-teal-glow);"><i class="fas fa-check-double"></i> MFL ExCo Board</strong>
-                    </div>
-                </div>
-            </div>
-            
-            <button class="btn-primary" style="padding: 12px 24px; font-size: 12px; margin-top: 12px; width: auto; z-index: 2;" onclick="window.dealerOSApp.closeCertificateModal()">
-                Dismiss Credentials
-            </button>
-        </div>
-    </div>
+
 
 </body>
 </html>
